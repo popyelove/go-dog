@@ -14,10 +14,10 @@
 ### 打赏支持
 
 <p>打赏支持作者持续开发完善</p>
-
-<p>微信<img src="img/wPpay.jpg" />支付宝<img src="img/zPay.jpg" /></p>
-
-
+微信
+<span style="float:left"><img src="img/wPay.jpg" /></span>
+支付宝
+<span style="float:left"><img src="img/zPay.jpg" /></span>
 
 
 ### 联系作者
