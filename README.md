@@ -10,6 +10,7 @@
 <p>4：./dlist 执行编译程序开始抢狗</p>
 
 ### 打码服务
+免费试用key:2bfd4ece3b8c0947674100bf2ccb6561
 快速高效的打码服务 <a href="http://www.popyelove.com">百度莱茨狗验证码识别服务</a>
 ### 打赏支持
 
