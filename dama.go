@@ -9,6 +9,7 @@ import (
 	"go-dog/st"
 	"fmt"
 	"github.com/garyburd/redigo/redis"
+	"flag"
 )
 
 func print_code(configuration st.Configuration){
@@ -64,8 +65,11 @@ func lujun_api(key string,img64 string) string {
 }
 
 func main(){
+	config := flag.String("f", "", "配置文件")
+	flag.Parse()
+	configfile:=*config
 	var  configuration st.Configuration
-	configuration.GetConf()
+	configuration.GetConf(configfile)
 	ticker := time.NewTicker(configuration.TIMECODE* time.Millisecond)
 	for _ = range ticker.C {
 		print_code(configuration)

@@ -10,14 +10,15 @@ import (
 	"fmt"
 	"time"
 	"go-dog/st"
+	"strconv"
+	"flag"
 )
-var PAGE_SIZE int =10
 //获取狗的列表
 func dog_list(configuration st.Configuration) string {
 	url := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
 	var jsonStr = []byte(`{
 		"pageNo":1,
-		"pageSize":10,
+		"pageSize":`+strconv.Itoa(configuration.PAGE_SIZE)+`,
 		"querySortType":"CREATETIME_DESC",
 		"petIds":[],
 		"lastAmount":"",
@@ -274,7 +275,7 @@ func do_always(configuration st.Configuration)  {
 		if dogs !=""{
 			js,_:= simplejson.NewJson([]byte(dogs))
 			if js !=nil{
-				for i :=0;i<PAGE_SIZE ;i++  {
+				for i :=0;i<configuration.PAGE_SIZE ;i++  {
 					s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 					if s !=nil{
 							if shenhua_dog(s,configuration)||shishi_dog(s,configuration){
@@ -299,8 +300,11 @@ func do_always(configuration st.Configuration)  {
 }
 
 func main(){
+	config := flag.String("f", "", "配置文件")
+	flag.Parse()
+	configfile:=*config
 	var  configuration st.Configuration
-	configuration.GetConf()
+	configuration.GetConf(configfile)
 	ticker := time.NewTicker(configuration.TIME* time.Millisecond)
 	for _ = range ticker.C {
 		go do_always(configuration)

@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"time"
+	"os"
 )
 type Configuration struct {
 	COOKIE string `yaml:"COOKIE"`
 	KEY string `yaml:"KEY"`
 	TIME time.Duration `yaml:"TIME"`
 	TIMECODE time.Duration `yaml:"TIMECODE"`
+	PAGE_SIZE int `yaml:"PAGE_SIZE"`
 	GOD0_6DOG_0_PRICE float32 `yaml:"GOD0_6DOG_0_PRICE"`  	//0代神话0分钟价格
 	GOD0_6DOG_24_PRICE float32 `yaml:"GOD0_6DOG_24_PRICE"` 				//0代神话24小时价格
 	GOD0_6DOG_2_PRICE float32  `yaml:"GOD0_6DOG_2_PRICE"`				//0代神话2天价格
@@ -46,15 +48,19 @@ type Configuration struct {
 	PUTONG0_1DOG_0_PRICE float32 `yaml:"PUTONG0_1DOG_0_PRICE"` 	//00 普通
 }
 
-func (configuration *Configuration) GetConf() *Configuration {
+func (configuration *Configuration) GetConf(config string) *Configuration {
 
-	yamlFile, err := ioutil.ReadFile("/Users/admin/go/src/go-dog/conf.yaml")
+	yamlFile, err := ioutil.ReadFile(config)
 	if err != nil {
-		fmt.Print("yamlFile.Get err   #%v ", err)
+		fmt.Print("配置文件路径不对请核查", err)
+		fmt.Print("\n")
+		os.Exit(0)
 	}
 	err = yaml.Unmarshal(yamlFile, configuration)
 	if err != nil {
-		fmt.Print("Unmarshal: %v", err)
+		fmt.Print("配置文件不合法，请检查配置文件内容", err,"\n")
+		fmt.Print("\n")
+		os.Exit(0)
 	}
 
 	return configuration
