@@ -5,13 +5,19 @@
 ### 使用文档
 
 <p>1：安装go语言环境</p>
-<p>2：把项目克隆到本地，修改conf.json配置文件</p>
-<p>3：go build dlist.go 文件编译</p>
-<p>4：./dlist 执行编译程序开始抢狗</p>
+<p>2：安装redis</p>
+<p>3：把项目克隆到本地</p>
+<p>3：修改conf.json配置文件，把下面的打码的免费试用key配置到配置文件conf.yaml中</p>
+<p>4：go build buy.go 编译抢狗脚本</p>
+<p>5：go build dama.go 编译打码脚本</p>
+<p>6：./dama 开启自动打码服务</p>
+<p>7：./buy 开启抢狗服务</p>
 
 ### 打码服务
 <p>免费试用key:2bfd4ece3b8c0947674100bf2ccb6561</p>
 <p>快速高效的打码服务 <a href="http://www.popyelove.com">百度莱茨狗验证码识别服务</a></p>
+<p>QQ群:747585388</p>
+<p>不定期发送免费试用key</p>
 
 ### 打赏支持
 <p>打赏支持作者持续开发完善</p>

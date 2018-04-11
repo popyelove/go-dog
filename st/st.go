@@ -4,9 +4,13 @@ import (
 	"io/ioutil"
 	"fmt"
 	"gopkg.in/yaml.v2"
+	"time"
 )
 type Configuration struct {
 	COOKIE string `yaml:"COOKIE"`
+	KEY string `yaml:"KEY"`
+	TIME time.Duration `yaml:"TIME"`
+	TIMECODE time.Duration `yaml:"TIMECODE"`
 	GOD0_6DOG_0_PRICE float32 `yaml:"GOD0_6DOG_0_PRICE"`  	//0代神话0分钟价格
 	GOD0_6DOG_24_PRICE float32 `yaml:"GOD0_6DOG_24_PRICE"` 				//0代神话24小时价格
 	GOD0_6DOG_2_PRICE float32  `yaml:"GOD0_6DOG_2_PRICE"`				//0代神话2天价格

@@ -1,5 +1,14 @@
 #百度账号的cookie
-COOKIE: 你的百度账号的cookie
+COOKIE:
+
+#免费试用打码服务key
+KEY: 16750ac90e359d940cf1b56424390c76
+
+#刷狗频率单位毫秒，建议1000
+TIME: 1000
+
+#自动打码时间间隔，单位毫秒
+TIMECODE: 2000
 
 #0代6稀神话0分钟价格
 GOD0_6DOG_0_PRICE: 450000

@@ -301,7 +301,7 @@ func do_always(configuration st.Configuration)  {
 func main(){
 	var  configuration st.Configuration
 	configuration.GetConf()
-	ticker := time.NewTicker(340* time.Millisecond)
+	ticker := time.NewTicker(configuration.TIME* time.Millisecond)
 	for _ = range ticker.C {
 		go do_always(configuration)
 	}
