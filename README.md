@@ -36,20 +36,11 @@
 
 ### 打赏排行榜
 
-<table border="1">
-  <tr>
-    <th>昵称</th>
-    <th>金额</th>
-  </tr>
-  <tr>
-    <td>单哥</td>
-    <td>8.8元</td>
-  </tr>
-  <tr>
-    <td>未知</td>
-    <td>6.66元</td>
-  </tr>
-
+<table border="1" width="100%">
+  <tr><th>昵称</th><th>金额</th></tr>
+  <tr><td>单哥</td><td>8.8元</td></tr>
+  <tr><td>未知</td><td>6.66元</td></tr>
+</table>
 
 
 ### 联系作者
