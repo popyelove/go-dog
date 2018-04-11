@@ -35,7 +35,7 @@
 </div>
 
 ### 打赏排行榜
-<table>
+<table width="350px">
         <tr>
             <th>昵称</th>
             <th>金额</th>
