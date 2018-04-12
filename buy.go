@@ -406,7 +406,7 @@ func print_code(configuration st.Configuration){
 }
 //验证码识别接口
 func lujun_api(key string,img64 string) string {
-	url := "http://api.lujun.co:8888/?key="+key+"&img="+img64
+	url := "http://www.popyelove.com:8888/?key="+key+"&img="+img64
 	resp,_ := http.Get(url)
 	if resp !=nil {
 		defer resp.Body.Close()
