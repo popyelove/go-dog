@@ -3,12 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fcb247de-e216-4def-8fc1-826e70f969f9" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/buy" afterPath="$PROJECT_DIR$/buy" />
-      <change beforePath="$PROJECT_DIR$/buy.go" afterPath="$PROJECT_DIR$/buy.go" />
-      <change beforePath="$PROJECT_DIR$/conf.yaml" afterPath="$PROJECT_DIR$/conf.yaml" />
-      <change beforePath="$PROJECT_DIR$/dama" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/dama.go" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/st/st.go" afterPath="$PROJECT_DIR$/st/st.go" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -19,7 +13,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="buy.go" pinned="false" current-in-tab="true">
+      <file leaf-file-name="buy.go" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/buy.go">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-571">
@@ -31,7 +25,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="conf.yaml" pinned="false" current-in-tab="false">
+      <file leaf-file-name="conf.yaml" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/conf.yaml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="300">
@@ -407,14 +401,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf.yaml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/st/st.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="158">
@@ -432,6 +418,14 @@
           <folding>
             <element signature="e#13#196#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/conf.yaml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
