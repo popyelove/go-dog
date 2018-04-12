@@ -6,14 +6,14 @@ import (
 	"github.com/bitly/go-simplejson"
 	"encoding/json"
 	"github.com/json-iterator/go"
-	"github.com/garyburd/redigo/redis"
 	"fmt"
 	"time"
 	"go-dog/st"
 	"strconv"
-	"flag"
+	"container/list"
 )
 //获取狗的列表
+//"filterCondition":"{\"1\":\"4\"}",
 func dog_list(configuration st.Configuration) string {
 	url := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
 	var jsonStr = []byte(`{
@@ -23,7 +23,7 @@ func dog_list(configuration st.Configuration) string {
 		"petIds":[],
 		"lastAmount":"",
 		"lastRareDegree":"",
-		"filterCondition":"{\"1\":\"4\"}",
+		"filterCondition":"{}",
 		"appId":1,
 		"tpl":"",
 		"type":null,
@@ -40,11 +40,10 @@ func dog_list(configuration st.Configuration) string {
 	if resp !=nil{
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)
-		fmt.Print("*")
+		fmt.Print("抢狗进行中...",time.Now())
+		fmt.Print("\n")
 		return string(body)
 	}
-	fmt.Println(time.Now())
-	fmt.Print("\n")
 	return ""
 }
 //下单买狗借口
@@ -70,8 +69,6 @@ func bug_dog(petId string,amount string,seed string,code string ,validCode strin
 	if resp !=nil{
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)
-		fmt.Print(string(body))
-		fmt.Print("\n")
 		return string(body)
 	}
 	return "{}"
@@ -115,13 +112,44 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 	}
 	return 0,0
 }
+//传说狗
+func chuanshuo_dog(dog map[string]interface{},configuration st.Configuration)bool {
+	rareDegree, _ := jsoniter.MarshalToString(dog["rareDegree"])               //稀有度
+	amount := jsoniter.Wrap(dog["amount"]).ToFloat32()                         //价额
+	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()               //休息时间
+	generation, _ := jsoniter.MarshalToString(dog["generation"])               //代数
+	if(rareDegree=="5"){
+		if(generation=="0"){
+			if (amount<=configuration.CHUANSHUO0_8DOG_0_PRICE&&timeLeft=="0分钟"){
+				return true
+			}
+		}
+		if(generation=="1"){
+			if (amount<=configuration.CHUANSHUO1_8DOG_0_PRICE&&timeLeft=="0分钟"){
+				return true
+			}
+		}
+		if(generation=="2"){
+			if (amount<=configuration.CHUANSHUO2_8DOG_0_PRICE&&timeLeft=="0分钟"){
+				return true
+			}
+		}
+		if(generation=="3"){
+			if (amount<=configuration.CHUANSHUO3_8DOG_0_PRICE&&timeLeft=="0分钟"){
+				return true
+			}
+		}
+	}
+	return false
+}
+//神话狗
 func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])//稀有度
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()//价额
 	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()//休息时间
 	generation,_:=jsoniter.MarshalToString(dog["generation"])//代数
 	rareDegrees,_:=get_dog_rareDegree(dog["petId"].(string),configuration) //属性稀有个数
-	if(rareDegree=="4"){
+	if(rareDegrees==6&&rareDegree=="4"){
 		//六稀神话
 		if (generation=="0")||(generation=="1")||(generation=="2")||(generation=="3"){
 			//0代神话价格
@@ -206,7 +234,7 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	rareDegrees,_:=get_dog_rareDegree(dog["petId"].(string),configuration)
 
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
-
+	//五稀史诗
 	if(rareDegrees==5&&rareDegree=="3"){
 
 		if (generation=="0"){
@@ -214,6 +242,19 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 				return true
 			}
 			if (amount<=configuration.SHISHI0_5DOG_24_PRICE&&timeLeft=="24小时"){
+				return true
+			}
+		}
+
+	}
+	//4稀有史诗
+	if(rareDegrees==4&&rareDegree=="3"){
+		if(generation=="0"){
+
+			if (amount<=configuration.SHISHI0_4DOG_0_PRICE&&timeLeft=="0分钟"){
+				return true
+			}
+			if (amount<=configuration.SHISHI0_4DOG_24_PRICE&&timeLeft=="24小时"){
 				return true
 			}
 		}
@@ -260,11 +301,9 @@ func putong_dog(dog map[string]interface{},configuration st.Configuration)bool  
 
 //获取验证吗
 func get_code()string{
-	c,_:= redis.Dial("tcp", "127.0.0.1:6379")
-	values, _ := redis.String(c.Do("rpop", "code_list"))
-	if values!=""{
-		defer c.Close()
-		return values
+	code :=code_list.Back()
+	if code!=nil{
+		return code.Value.(string)
 	}
 	return "{}"
 }
@@ -278,13 +317,30 @@ func do_always(configuration st.Configuration)  {
 				for i :=0;i<configuration.PAGE_SIZE ;i++  {
 					s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 					if s !=nil{
-							if shenhua_dog(s,configuration)||shishi_dog(s,configuration){
+							if shenhua_dog(s,configuration)||putong_dog(s,configuration)||shishi_dog(s,configuration)||zhuoyue_dog(s,configuration)||xiyou_dog(s,configuration)||chuanshuo_dog(s,configuration){
 								codes :=get_code()
 								json,_ :=simplejson.NewJson([]byte(codes))
 								if json !=nil{
 									seed :=json.Get("seed").MustString()
 									code :=json.Get("code").MustString()
-									bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+									bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+									res,_ :=simplejson.NewJson([]byte(bres))
+									if res!=nil {
+										errorNo :=json.Get("errorNo").MustString()
+										errorMsg :=json.Get("errorMsg").MustString()
+										if errorNo=="08"{
+											//交易火爆，区块链处理繁忙，请稍后再试
+											fmt.Print(errorMsg)
+										}
+										if errorNo=="10002" {
+											//有人抢先下单啦
+											fmt.Print(errorMsg)
+										}
+										if errorNo =="00"{
+											//success
+											fmt.Print("抢到狗狗啦！！！！！！")
+										}
+									}
 								}
 
 							}
@@ -299,12 +355,88 @@ func do_always(configuration st.Configuration)  {
 
 }
 
+func print_code(configuration st.Configuration){
+	url := "https://pet-chain.baidu.com/data/captcha/gen"
+	var jsonStr = []byte(`{
+							"requestId":1523433103485,
+							"appId":1,"tpl":"",
+							"timeStamp":null,
+							"nounce":null,
+							"token":null}
+						`)
+	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Cookie",configuration.COOKIE)
+	client := &http.Client{}
+	resp,_:= client.Do(req)
+	if resp !=nil{
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+		js,err:=simplejson.NewJson([]byte(string(body)))
+		if err!=nil {
+			fmt.Print(err)
+		}
+
+		seed,err:=js.Get("data").Get("seed").String()
+		if err!=nil {
+			fmt.Print(err)
+		}
+		if seed=="" {
+			fmt.Print("百度莱茨狗验证码接口出现问题","\n")
+			return
+		}
+		imgbase64,err:=js.Get("data").Get("img").String()
+		if err!=nil {
+			fmt.Print(err)
+		}
+		key:=configuration.KEY
+		code:=lujun_api(key,imgbase64)
+		fmt.Print("验证码="+code,"====>seed="+seed,"\n")
+		if code!="" {
+			jsonstr:=`{"code":"`+code+`","seed":"`+seed+`"}`
+			len :=code_list.Len()
+			if(len>=500){
+				code_list.Init()
+			}
+			code_list.PushBack(jsonstr)
+		}
+
+	}
+
+}
+//验证码识别接口
+func lujun_api(key string,img64 string) string {
+	url := "http://api.lujun.co:8888/?key="+key+"&img="+img64
+	resp,_ := http.Get(url)
+	if resp !=nil {
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+
+		js,err:=simplejson.NewJson([]byte(string(body)))
+		if err!=nil {
+			fmt.Print(err)
+		}
+		captcha,_:=js.Get("captcha").String()
+		return  captcha
+	}
+	return ""
+}
+//自动打码服务
+func Timer2(configuration st.Configuration)  {
+	ticker := time.NewTicker(5000* time.Millisecond)
+	for _ = range ticker.C {
+		print_code(configuration)
+	}
+}
+var config string
+var code_list *list.List
 func main(){
-	config := flag.String("f", "", "配置文件")
-	flag.Parse()
-	configfile:=*config
+    code_list = list.New()
+	fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
+	fmt.Scanln(&config)
 	var  configuration st.Configuration
-	configuration.GetConf(configfile)
+	configuration.GetConf(config)
+	go Timer2(configuration)
 	ticker := time.NewTicker(configuration.TIME* time.Millisecond)
 	for _ = range ticker.C {
 		go do_always(configuration)

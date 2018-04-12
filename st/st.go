@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v2"
 	"time"
-	"os"
 )
 type Configuration struct {
 	COOKIE string `yaml:"COOKIE"`
@@ -13,6 +12,12 @@ type Configuration struct {
 	TIME time.Duration `yaml:"TIME"`
 	TIMECODE time.Duration `yaml:"TIMECODE"`
 	PAGE_SIZE int `yaml:"PAGE_SIZE"`
+
+	CHUANSHUO0_8DOG_0_PRICE float32 `yaml:"CHUANSHUO0_8DOG_0_PRICE"`
+	CHUANSHUO1_8DOG_0_PRICE float32 `yaml:"CHUANSHUO1_8DOG_0_PRICE"`
+	CHUANSHUO2_8DOG_0_PRICE float32 `yaml:"CHUANSHUO2_8DOG_0_PRICE"`
+	CHUANSHUO3_8DOG_0_PRICE float32 `yaml:"CHUANSHUO3_8DOG_0_PRICE"`
+
 	GOD0_6DOG_0_PRICE float32 `yaml:"GOD0_6DOG_0_PRICE"`  	//0代神话0分钟价格
 	GOD0_6DOG_24_PRICE float32 `yaml:"GOD0_6DOG_24_PRICE"` 				//0代神话24小时价格
 	GOD0_6DOG_2_PRICE float32  `yaml:"GOD0_6DOG_2_PRICE"`				//0代神话2天价格
@@ -41,6 +46,10 @@ type Configuration struct {
 	SHISHI0_5DOG_0_PRICE float32 `yaml:"SHISHI0_5DOG_0_PRICE"`	//0代五稀史诗0天
 	SHISHI0_5DOG_24_PRICE float32 `yaml:"SHISHI0_5DOG_24_PRICE"`	//0代五稀史诗24
 
+	SHISHI0_4DOG_0_PRICE float32 `yaml:"SHISHI0_4DOG_0_PRICE"`
+
+	SHISHI0_4DOG_24_PRICE float32 `yaml:"SHISHI0_4DOG_24_PRICE"`
+
 	ZHUEYUE0_2DOG_0_PRICE float32 `yaml:"ZHUEYUE0_2DOG_0_PRICE"` 	//0,0卓越
 
 	XIYOU0_1DOG_0_PRICE float32 `yaml:"XIYOU0_1DOG_0_PRICE"` 	//00 稀有
@@ -54,13 +63,14 @@ func (configuration *Configuration) GetConf(config string) *Configuration {
 	if err != nil {
 		fmt.Print("配置文件路径不对请核查", err)
 		fmt.Print("\n")
-		os.Exit(0)
+		fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
+		fmt.Scanln(&config)
+		configuration.GetConf(config)
 	}
 	err = yaml.Unmarshal(yamlFile, configuration)
 	if err != nil {
 		fmt.Print("配置文件不合法，请检查配置文件内容", err,"\n")
 		fmt.Print("\n")
-		os.Exit(0)
 	}
 
 	return configuration
