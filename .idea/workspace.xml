@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="fcb247de-e216-4def-8fc1-826e70f969f9" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,36 +14,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="buy.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/buy.go">
+      <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-571">
-              <caret line="384" column="42" lean-forward="false" selection-start-line="384" selection-start-column="42" selection-end-line="384" selection-end-column="42" />
-              <folding>
-                <element signature="e#13#196#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="conf.yaml" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/conf.yaml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+            <state relative-caret-position="210">
+              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="st.go" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/st/st.go">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
-              <caret line="59" column="36" lean-forward="false" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
-              <folding>
-                <element signature="e#12#70#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -74,11 +51,11 @@
         <option value="$PROJECT_DIR$/conf.json" />
         <option value="$PROJECT_DIR$/st/conf.yaml" />
         <option value="$PROJECT_DIR$/dlist.go" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/st/st.go" />
         <option value="$PROJECT_DIR$/dama.go" />
         <option value="$PROJECT_DIR$/conf.yaml" />
         <option value="$PROJECT_DIR$/buy.go" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -377,14 +354,6 @@
     <entry file="file://$USER_HOME$/Downloads/golang_http_client.go" />
     <entry file="file://$PROJECT_DIR$/../github.com/bitly/go-simplejson/simplejson.go" />
     <entry file="file:///usr/local/Cellar/go/1.10/libexec/src/time/time.go" />
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="175">
-          <caret line="38" column="12" lean-forward="false" selection-start-line="38" selection-start-column="12" selection-end-line="38" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/local/Cellar/go/1.10/libexec/src/container/list/list.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="175">
@@ -401,13 +370,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/st/st.go">
+    <entry file="file://$PROJECT_DIR$/conf.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="59" column="36" lean-forward="false" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
-          <folding>
-            <element signature="e#12#70#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="300">
+          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -421,10 +388,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf.yaml">
+    <entry file="file://$PROJECT_DIR$/st/st.go">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="0" lean-forward="false" selection-start-line="20" selection-start-column="0" selection-end-line="20" selection-end-column="0" />
+        <state relative-caret-position="158">
+          <caret line="59" column="36" lean-forward="false" selection-start-line="59" selection-start-column="36" selection-end-line="59" selection-end-column="36" />
+          <folding>
+            <element signature="e#12#70#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
           <folding />
         </state>
       </provider>
