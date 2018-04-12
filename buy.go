@@ -15,6 +15,10 @@ import (
 //获取狗的列表
 //"filterCondition":"{\"1\":\"4\"}",
 func dog_list(configuration st.Configuration) string {
+
+	if(index_dog>=6){
+		index_dog=0;
+	}
 	url := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
 	var jsonStr = []byte(`{
 		"pageNo":1,
@@ -23,7 +27,7 @@ func dog_list(configuration st.Configuration) string {
 		"petIds":[],
 		"lastAmount":"",
 		"lastRareDegree":"",
-		"filterCondition":"{}",
+		"filterCondition":"{`+dog_filter[index_dog]+`}",
 		"appId":1,
 		"tpl":"",
 		"type":null,
@@ -42,6 +46,7 @@ func dog_list(configuration st.Configuration) string {
 		body, _ := ioutil.ReadAll(resp.Body)
 		fmt.Print("抢狗进行中...",time.Now())
 		fmt.Print("\n")
+		index_dog+=1
 		return string(body)
 	}
 	return ""
@@ -93,7 +98,10 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 	if resp !=nil{
 		defer resp.Body.Close()
 		body, _ := ioutil.ReadAll(resp.Body)
-		js,_:=simplejson.NewJson([]byte(string(body)))
+		js,err:=simplejson.NewJson([]byte(string(body)))
+		if err!=nil {
+			fmt.Print(err)
+		}
 		count_rareDegree :=0
 		dogtype :=0
 		for i:=0;i<8 ;i++  {
@@ -107,6 +115,8 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 			if (s["value"]=="白眉斗眼"){
 				dogtype+=2
 			}
+
+
 		}
 		return count_rareDegree,dogtype
 	}
@@ -430,6 +440,8 @@ func Timer2(configuration st.Configuration)  {
 }
 var config string
 var code_list *list.List
+var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
+var index_dog =0
 func main(){
     code_list = list.New()
 	fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
