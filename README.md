@@ -13,7 +13,6 @@
 <p>2：修改配置文件conf.yaml,填入cookie，和刷狗条件</p>
 <p>3：双击 buy_windows32.exe或者buy_windows64.exe文件 启动运行刷狗服务</p>
 
-
 ### 打码服务
 <p>~~免费试用key:6dd12ec3b40142a64122c66852a82a57~~</p>
 <p>快速高效的打码服务 <a href="http://www.popyelove.com">百度莱茨狗验证码识别服务</a></p>
