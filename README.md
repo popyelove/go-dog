@@ -14,7 +14,7 @@
 <p>3：双击 buy_windows32.exe或者buy_windows64.exe文件 启动运行刷狗服务</p>
 
 ### 打码服务
-<p style="color:red">免费试用key:</p>
+<p color="red">免费试用key:</p>
 <p>(有效期24小时)1aa4dc1f8abded085cc5057b99ca52d7</p>
 <p>(过期)<del>6dd12ec3b40142a64122c66852a82a57</del></p>
 <p>快速高效的打码服务 <a href="http://www.popyelove.com">百度莱茨狗验证码识别服务</a></p>
