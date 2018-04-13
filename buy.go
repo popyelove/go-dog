@@ -102,6 +102,9 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 		if err!=nil {
 			fmt.Print(err)
 		}
+		if js==nil {
+			return 0,0
+		}
 		count_rareDegree :=0
 		dogtype :=0
 		for i:=0;i<8 ;i++  {
