@@ -58,7 +58,7 @@ func bug_dog(petId string,amount string,seed string,code string ,validCode strin
 		Amount string `json:"amount"`
 		Seed string `json:"seed"`
 		Captcha string `json:"captcha"`
- 		ValidCode string `json:"validCode"`
+		ValidCode string `json:"validCode"`
 		RequestId string `json:"requestId"`
 		Appid string `json:"appId"`
 		Tpl string `json:"tpl"`
@@ -320,40 +320,38 @@ func get_code()string{
 
 //循环刷狗函数
 func do_always(configuration st.Configuration)  {
-		dogs :=dog_list(configuration)
-		if dogs !=""{
-			js,_:= simplejson.NewJson([]byte(dogs))
-			if js !=nil{
-				for i :=0;i<configuration.PAGE_SIZE ;i++  {
-					s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
-					if s !=nil{
-							if shenhua_dog(s,configuration)||putong_dog(s,configuration)||shishi_dog(s,configuration)||zhuoyue_dog(s,configuration)||xiyou_dog(s,configuration)||chuanshuo_dog(s,configuration){
-								codes :=get_code()
-								json,_ :=simplejson.NewJson([]byte(codes))
-								if json !=nil{
-									seed :=json.Get("seed").MustString()
-									code :=json.Get("code").MustString()
-									bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-									res,_ :=simplejson.NewJson([]byte(bres))
-									if res!=nil {
-										errorNo :=json.Get("errorNo").MustString()
-										errorMsg :=json.Get("errorMsg").MustString()
-										if errorNo=="08"{
-											//交易火爆，区块链处理繁忙，请稍后再试
-											fmt.Print(errorMsg)
-										}
-										if errorNo=="10002" {
-											//有人抢先下单啦
-											fmt.Print(errorMsg)
-										}
-										if errorNo =="00"{
-											//success
-											fmt.Print("抢到狗狗啦！！！！！！")
-										}
-									}
+	dogs :=dog_list(configuration)
+	if dogs !=""{
+		js,_:= simplejson.NewJson([]byte(dogs))
+		if js !=nil{
+			for i :=0;i<configuration.PAGE_SIZE ;i++  {
+				s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
+				if s !=nil{
+					if shenhua_dog(s,configuration)||putong_dog(s,configuration)||shishi_dog(s,configuration)||zhuoyue_dog(s,configuration)||xiyou_dog(s,configuration)||chuanshuo_dog(s,configuration){
+						codes :=get_code()
+						json,_ :=simplejson.NewJson([]byte(codes))
+						if json !=nil{
+							seed :=json.Get("seed").MustString()
+							code :=json.Get("code").MustString()
+							bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+							res,_ :=simplejson.NewJson([]byte(bres))
+							if res!=nil {
+								errorNo :=json.Get("errorNo").MustString()
+								errorMsg :=json.Get("errorMsg").MustString()
+								if errorNo=="08"{
+									//交易火爆，区块链处理繁忙，请稍后再试
+									fmt.Print(errorMsg)
 								}
-
+								if errorNo=="10002" {
+									//有人抢先下单啦
+									fmt.Print(errorMsg)
+								}
+								if errorNo =="00"{
+									//success
+									fmt.Print("抢到狗狗啦！！！！！！")
+								}
 							}
+						}
 
 					}
 
@@ -362,6 +360,8 @@ func do_always(configuration st.Configuration)  {
 			}
 
 		}
+
+	}
 
 }
 
@@ -392,7 +392,7 @@ func print_code(configuration st.Configuration){
 			fmt.Print(err)
 		}
 		if seed=="" {
-			fmt.Print("百度莱茨狗验证码接口出现问题","\n")
+			fmt.Print("百度服务器繁忙。。。。。","\n")
 			return
 		}
 		imgbase64,err:=js.Get("data").Get("img").String()
@@ -443,7 +443,7 @@ var code_list *list.List
 var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
 var index_dog =0
 func main(){
-    code_list = list.New()
+	code_list = list.New()
 	fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
 	fmt.Scanln(&config)
 	var  configuration st.Configuration
