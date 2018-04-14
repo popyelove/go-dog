@@ -1,103 +1,160 @@
+
+
+#---------------公共配置———————————————————————————————————————————————
 #百度账号的cookie
-COOKIE: BAIDUID=02409264C0B97A4946D332AADFF14F18:FG=1; PSTM=1518430628; BIDUPSID=057A224D7883A2DF02ED478E0EF7BFDC; H_WISE_SIDS=102572_106303_106371_120399_120213_118886_118869_118850_118826_118805_120549_122188_107317_122341_121937_121214_117327_121861_117435_121666_121562_122295_122289_121041_121363_122170_122138_120851_110085_122028_122302; G_WPT_TO=zh-CN; SL_GWPT_Show_Hide_tmp=1; SL_wptGlobTipTmp=1; H_PS_PSSID=1424_19033_21115_18560_20929; BDORZ=B490B5EBF6F3CD402E515D22BCDA1598; Hm_lvt_7885d5e68d877966f4abc55d4c798a0c=1523482503,1523482961,1523491859,1523493480; BDUSS=3E4UDVDTTQzanRxeGZIcHN4eXFlVmVPOGc0eGozbW9xYUtCTVU3NlFCREw2ZlphQUFBQUFBJCQAAAAAAAAAAAEAAAD7n8yycG9weWVsb3ZlAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMtcz1rLXM9ad; BDSFRCVID=VF_sJeC62GgRD1RAznDBM4zIIIqM20jTH6aowbdBhXNf4mi9kXl7EG0PDU8g0Kubbj_iogKK3gOTH4nP; H_BDCLCKID_SF=tJ-foI-bfIvVHJukhtQSbJJLDG0X2tQJfaQms4OF5l8-hRCme53Byx_1XaJOW63EQgn-Kp3vWfbxOKQphT5C25oW3x_8LjbebGTWoqvN3KJmsMK9bT3v5Duq5p792-biWb7M2MbdJnrmbCDxe5LWD6c3epb3K46E2ITXsJ3H5PK_DPoTepoc0btpbt-qJfb7W57qWhjsLtIh8D-lMT5nK40-3MTnBT5KaaTQXUbJWhcH8J04XJQ_MfAkQN3T0PKO5bRi566jtfL5Dn3oyTbJXp0njMTTqjDttRut_C85f-3bfTruM-rDhIC35GRf3f3eWDTm_Don2-5BoC3q5R5Y5b0Yjl3rKMnuyJTI-pPKKlTPqJ5w5jOcyjOXMJ63a-RX3mkjbpbGfn02OP5Pqq560P4syP4eKMRnWnnXbIFKtCLhMCIlePQj5-FBMqO8etvtK6v-BROsa-5fKROvhjR0-U0yyxomtjjftg3JBCOpMJrrbhCm2xrzbUPJh462LUkqKCOpbMO5QMcEOqvDefRDDq8ZQttjQnoOfIkja-KEBn3YKJ7TyU45bU47yaOXQTIDtb-DoC_bfbOSDP5gq45HMt00qxby26ntMRbeaJ5nJDoAshOSMJ5N24C9bPFJhfcAWRvZKqR8QpP-HJ7_D4OzejK0jfrbKIrRfm52Kl0MLPjlbb0xyn_V0TjbQxnMBMPe52OnaIb8LIFKMKLGD5K-DjPW5ptXKPcb265tWjrJabC3JlL9KU6qLT5XQUJN0ToN06QXLpjzJPczOqTlXjK2Ml0njxQy--jb0Dbv2JL2aRIBjUn1jUonDh8v3H7MJUntKDrBMbTO5hvvhn3O3MAMhlOhDG8qt68HJJCsL-35HJbEebTw5tI_-P4DenjlybJZ5mAqoq3jLq-aVljuhxOIXj0hytrAbxuHtIQnaIQqa-3DehodWMTtj-utefRv2Tb43bRTKUKy5KJvfJoPMlnEhP-UyNbMWh37JIoTVJO-KKC5bDI6jf5; STOKEN=2476234f6ea188b756ba9ef53ed912316e174150f99f1cf0a1b15dd489035530; BDRCVFR[feWj1Vr5u3D]=I67x6TjHwwYf0; PSINO=6; Hm_lpvt_7885d5e68d877966f4abc55d4c798a0c=1523548451
-
+COOKIE:
 #免费试用打码服务key
-KEY: 1aa4dc1f8abded085cc5057b99ca52d7
-
+KEY: a33ea900dfdc01478f2b436d6b695082
 #刷狗频率单位毫秒，建议1000
 TIME: 335
-
 #自动打码时间间隔，单位毫秒
 TIMECODE: 5000
-
+#获取狗的列表规则 推荐配置这两种 AMOUNT_ASC（价格最小的）和 CREATETIME_DESC（最新发布的狗）
+SORT_TYPE: AMOUNT_ASC
 #每页刷狗数
 PAGE_SIZE: 10
+#---------------公共配置———————————————————————————————————————————————
 
+
+
+
+#---------------传说配置----------------------------------------------
+#0代传说开关，是否刷传说狗 打开=1 关闭=0
+CHUANSHUO_SWITCH: 0
 #0代传说0分钟价格
 CHUANSHUO0_8DOG_0_PRICE: 5000000
 
+#1代传说开关，是否刷传说狗 打开=1 关闭=0
+CHUANSHU1_SWITCH: 0
 #1代传说0分钟价格
 CHUANSHUO1_8DOG_0_PRICE: 5000000
 
+#2代传说开关，是否刷传说狗 打开=1 关闭=0
+CHUANSHU2_SWITCH: 0
 #2代传说0分钟价格
 CHUANSHUO2_8DOG_0_PRICE: 5000000
 
+#3代传说开关，是否刷传说狗 打开=1 关闭=0
+CHUANSHU3_SWITCH: 0
 #3代传说0分钟价格
 CHUANSHUO3_8DOG_0_PRICE: 5000000
+#---------------传说配置----------------------------------------------
 
+
+
+
+#---------------6稀神话配置----------------------------------------------
+#0代6稀神话开关 打开=1 关闭=0
+GOD0_6_SWITCH: 1
 #0代6稀神话0分钟价格
 GOD0_6DOG_0_PRICE: 420000
-
 #0代6稀神话24小时价格
 GOD0_6DOG_24_PRICE: 300000
-
 #0代6稀神话2天价格
 GOD0_6DOG_2_PRICE: 250000
 
+
+#1代6稀神话开关 打开=1 关闭=0
+GOD1_6_SWITCH: 1
 #1代6稀神话0分钟价格
 GOD1_6DOG_0_PRICE: 300000
-
 #1代6稀神话2天价格
 GOD1_6DOG_2_PRICE: 250000
-
 #1代6稀神话4天价格
 GOD1_6DOG_4_PRICE: 200000
 
+
+#2代6稀神话开关 打开=1 关闭=0
+GOD2_6_SWITCH: 1
 #2代6稀神话0分钟价格
 GOD2_6DOG_0_PRICE: 250000
-
 #2代6稀神话4天价格
 GOD2_6DOG_4_PRICE: 200000
-
 #2代6稀神话6天价格
 GOD2_6DOG_6_PRICE: 150000
 
+
+
+#3代6稀神话开关 打开=1 关闭=0
+GOD3_6_SWITCH: 1
 #3代6稀神话0分钟价格
 GOD3_6DOG_0_PRICE: 150000
-
 #3代6稀神话6天价格
 GOD3_6DOG_6_PRICE: 150000
-
 #3代6稀神话8天价格
 GOD3_6DOG_8_PRICE: 150000
+#---------------6稀神话配置----------------------------------------------
 
 
+
+
+#---------------7稀神话配置----------------------------------------------
+#0代7稀神话开关 打开=1 关闭=0
+GOD0_7_SWITCH: 1
 #0代7稀神话0分钟价格
 GOD0_7DOG_0_PRICE: 2000000
-
 #0代7稀神话24小时价格
 GOD0_7DOG_24_PRICE: 2000000
-
 #0代7稀神话2天价格
 GOD0_7DOG_2_PRICE: 1000000
 
+#1代7稀神话开关 打开=1 关闭=0
+GOD1_7_SWITCH: 1
 #1代7稀神话0分钟价格
 GOD1_7DOG_0_PRICE: 1000000
-
 #1代7稀神话2天价格
 GOD1_7DOG_2_PRICE: 500000
-
 #1代7稀神话4天价格
 GOD1_7DOG_4_PRICE: 500000
+#---------------7稀神话配置----------------------------------------------
 
 
+
+
+#---------------5稀史诗配置----------------------------------------------
+#0代5稀史诗开关 打开=1 关闭=0
+SHISHI0_5_SWITCH: 1
 #0代5稀史诗0分钟价格
 SHISHI0_5DOG_0_PRICE: 10000
-
 #0代5稀史诗24价格
 SHISHI0_5DOG_24_PRICE: 5000
+#---------------5稀史诗配置----------------------------------------------
 
+
+
+#---------------4稀史诗配置----------------------------------------------
+#0代4稀史诗开关 打开=1 关闭=0
+SHISHI0_4_SWITCH: 1
 #0代4稀史诗0分钟价格
 SHISHI0_4DOG_0_PRICE: 1000
-
 #0代4稀史诗24小时价格
 SHISHI0_4DOG_24_PRICE: 1000
+#---------------4稀史诗配置----------------------------------------------
 
-#0代卓越诗0分钟价格
+
+
+#---------------卓越配置----------------------------------------------
+#0代卓越开关 打开=1 关闭=0
+ZHUEYUE0_2_SWITCH: 0
+#0代卓越0分钟价格
 ZHUEYUE0_2DOG_0_PRICE: 10
+#---------------卓越配置----------------------------------------------
 
+
+
+
+#---------------稀有配置----------------------------------------------
+#0代稀有开关 打开=1 关闭=0
+XIYOU0_1_SWITCH: 0
 #0代稀有0分钟价格
-XIYOU0_1DOG_0_PRICE: 10
+XIYOU0_1DOG_0_PRICE: 100
+#---------------稀有配置----------------------------------------------
 
+
+
+#---------------普通配置----------------------------------------------
+#0代普通开关 打开=1 关闭=0
+PUTONG0_0_SWITCH: 0
 #0代普通0分钟价格
-PUTONG0_1DOG_0_PRICE: 10
+PUTONG0_0DOG_0_PRICE: 100
+#---------------普通配置----------------------------------------------
