@@ -38,10 +38,14 @@
 </div>
 
 ### 打赏排行榜
-<table width="350px">
+<table width="500px">
         <tr>
             <th>昵称</th>
             <th>金额</th>
+        </tr>
+        <tr>
+            <th>月色溶液</th>
+            <th>88元</th>
         </tr>
         <tr>
             <th>沧海一粟</th>
