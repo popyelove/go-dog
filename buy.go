@@ -13,10 +13,27 @@ import (
 	"container/list"
 	"os"
 )
-//获取狗的列表
-//"filterCondition":"{\"1\":\"4\"}",
-func dog_list(configuration st.Configuration) string {
 
+func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan string	)  {
+	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Cookie",configuration.COOKIE)
+	client := &http.Client{}
+	resp,err:= client.Do(req)
+	if err!=nil{
+		return
+	}
+	if resp !=nil{
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+		ch <- string(body)
+	}else {
+		ch <- ""
+	}
+	return
+}
+//获取狗的列表
+func dog_list(configuration st.Configuration) string {
 	if(index_dog>=6){
 		index_dog=0;
 	}
@@ -24,7 +41,7 @@ func dog_list(configuration st.Configuration) string {
 	var jsonStr = []byte(`{
 		"pageNo":1,
 		"pageSize":`+strconv.Itoa(configuration.PAGE_SIZE)+`,
-		"querySortType":`+configuration.SORT_TYPE+`,
+		"querySortType":"`+configuration.SORT_TYPE+`",
 		"petIds":[],
 		"lastAmount":"",
 		"lastRareDegree":"",
@@ -37,18 +54,19 @@ func dog_list(configuration st.Configuration) string {
 		"nounce":null,
 		"token":null
 		}`)
-	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Cookie",configuration.COOKIE)
-	client := &http.Client{}
-	resp,_:= client.Do(req)
-	if resp !=nil{
-		defer resp.Body.Close()
-		body, _ := ioutil.ReadAll(resp.Body)
-		fmt.Print("抢狗进行中...",time.Now())
-		fmt.Print("\n")
-		index_dog+=1
-		return string(body)
+	ch_run := make(chan string)
+	go http_post(url,jsonStr,configuration,ch_run)
+	select {
+	case res := <-ch_run:
+		if(res!=""){
+			fmt.Print("抢狗进行中...",time.Now())
+			fmt.Print("\n")
+			index_dog+=1
+		}
+		return res
+	case <-time.After(dog_list_timeout * time.Second):
+		fmt.Println("拉取狗狗列表接口超时,请检查刷狗频率参数是否过小。。。。\n")
+		return ""
 	}
 	return ""
 }
@@ -67,17 +85,16 @@ func bug_dog(petId string,amount string,seed string,code string ,validCode strin
 	json_tiaojian :=tiaojian{Petid:petId,Amount:amount,Seed:seed,Captcha:code,ValidCode:validCode,RequestId:"1520241678619",Appid:"1",Tpl:""}
 	url := "https://pet-chain.baidu.com/data/txn/create"
 	jsonStr,_:=json.Marshal(json_tiaojian)
-	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Cookie",configuration.COOKIE)
-	client := &http.Client{}
-	resp,_:= client.Do(req)
-	if resp !=nil{
-		defer resp.Body.Close()
-		body, _ := ioutil.ReadAll(resp.Body)
-		return string(body)
+	ch_run := make(chan string)
+	go http_post(url,jsonStr,configuration,ch_run)
+	select {
+	case res := <-ch_run:
+		return res
+	case <-time.After(buy_dog_timeout * time.Second):
+		fmt.Println("交易火爆中，请稍后再试。。。！")
+		return ""
 	}
-	return "{}"
+	return ""
 }
 //获取狗的稀有属性
 func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
@@ -91,15 +108,12 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
         "nounce":"",
         "token":""
     }`)
-	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Cookie",configuration.COOKIE)
-	client := &http.Client{}
-	resp,_:= client.Do(req)
-	if resp !=nil{
-		defer resp.Body.Close()
-		body, _ := ioutil.ReadAll(resp.Body)
-		js,err:=simplejson.NewJson([]byte(string(body)))
+
+	ch_run := make(chan string)
+	go http_post(url,jsonStr,configuration,ch_run)
+	select {
+	case res := <-ch_run:
+		js,err:=simplejson.NewJson([]byte(res))
 		if err!=nil {
 			fmt.Print(err)
 		}
@@ -117,12 +131,13 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 				dogtype+=1
 			}
 			if (s["value"]=="白眉斗眼"){
-				dogtype+=2
+				dogtype+=1
 			}
-
-
 		}
 		return count_rareDegree,dogtype
+	case <-time.After(get_dog_rare_timeout * time.Second):
+		fmt.Println("获取狗的稀有属性超时。。。。。\n")
+		return 0,0
 	}
 	return 0,0
 }
@@ -250,13 +265,10 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()
-
 	rareDegrees,_:=get_dog_rareDegree(dog["petId"].(string),configuration)
-
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	//五稀史诗
 	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
-
 		if (generation=="0"){
 			if (amount<=configuration.SHISHI0_5DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
@@ -268,7 +280,7 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 
 	}
 	//4稀有史诗
-	if(rareDegrees==4&&rareDegree=="3"&&configuration.SHISHI0_4_SWITCH==0){
+	if(rareDegrees==4&&rareDegree=="3"&&configuration.SHISHI0_4_SWITCH==1){
 		if(generation=="0"){
 
 			if (amount<=configuration.SHISHI0_4DOG_0_PRICE&&timeLeft=="0分钟"){
@@ -352,6 +364,7 @@ func do_always(configuration st.Configuration)  {
 							seed :=json.Get("seed").MustString()
 							code :=json.Get("code").MustString()
 							bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+							fmt.Println(bres)
 							res,_ :=simplejson.NewJson([]byte(bres))
 							if res!=nil {
 								errorNo :=res.Get("errorNo").MustString()
@@ -366,10 +379,7 @@ func do_always(configuration st.Configuration)  {
 								}
 								if errorNo =="00"{
 									//success
-									fmt.Print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
-									fmt.Print("抢到狗狗啦！！！！！！","\n")
-									fmt.Print(s)
-									fmt.Print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+									fmt.Print("抢到狗狗啦！！！！！！","\n",s)
 								}
 							}
 						}
@@ -395,33 +405,33 @@ func print_code(configuration st.Configuration){
 							"nounce":null,
 							"token":null}
 						`)
-	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
-	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Cookie",configuration.COOKIE)
-	client := &http.Client{}
-	resp,_:= client.Do(req)
-	if resp !=nil{
-		defer resp.Body.Close()
-		body, _ := ioutil.ReadAll(resp.Body)
-		js,err:=simplejson.NewJson([]byte(string(body)))
-		if err!=nil {
-			fmt.Print(err)
-		}
 
-		seed :=js.Get("data").Get("seed").MustString()
-		if seed=="" {
-			fmt.Print("百度服务器繁忙。。。。。","\n")
+	ch_run := make(chan string)
+	go http_post(url,jsonStr,configuration,ch_run)
+	select {
+	case res := <-ch_run:
+		js,err:=simplejson.NewJson([]byte(res))
+		if err!=nil {
+			fmt.Print("百度服务器繁忙！！！","\n")
+			return
+		}
+		var seed string
+		seed,err=js.Get("data").Get("seed").String()
+		if err!=nil {
+			fmt.Print("百度服务器繁忙。。。。。。。。。。","\n")
 			return
 		}
 		imgbase64,err:=js.Get("data").Get("img").String()
 		if err!=nil {
 			fmt.Print(err)
+			return
 		}
 		key:=configuration.KEY
-		res:=lujun_api(key,imgbase64)
-		js_code,err:=simplejson.NewJson([]byte(res))
+		code_res:=lujun_api(key,imgbase64)
+		js_code,err:=simplejson.NewJson([]byte(code_res))
 		if err!=nil {
 			fmt.Print(err)
+			return
 		}
 		status :=js_code.Get("status").MustString()
 		msg :=js_code.Get("msg").MustString()
@@ -439,7 +449,9 @@ func print_code(configuration st.Configuration){
 			}
 			code_list.PushBack(jsonstr)
 		}
-
+	case <-time.After(dama_timeout * time.Second):
+		fmt.Println("百度验证码接口超时......")
+		return
 	}
 
 }
@@ -462,7 +474,7 @@ func lujun_api(key string,img64 string) string {
 }
 //自动打码服务
 func Timer2(configuration st.Configuration)  {
-	ticker := time.NewTicker(5000* time.Millisecond)
+	ticker := time.NewTicker(dama_time* time.Millisecond)
 	for _ = range ticker.C {
 		print_code(configuration)
 	}
@@ -471,6 +483,16 @@ var config string
 var code_list *list.List
 var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
 var index_dog =0
+//打码间隔 毫秒
+var dama_time time.Duration=2000
+//拉取狗列表超时时间秒
+var dog_list_timeout time.Duration=15
+//下单超时时间
+var buy_dog_timeout time.Duration=15
+//获取狗狗属性超时
+var get_dog_rare_timeout time.Duration=15
+//打码超时时间
+var dama_timeout time.Duration=15
 func main(){
 	code_list = list.New()
 	fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
@@ -478,7 +500,6 @@ func main(){
 	var  configuration st.Configuration
 	configuration.GetConf(config)
 	go Timer2(configuration)
-
 	ticker := time.NewTicker(configuration.TIME* time.Millisecond)
 	for _ = range ticker.C {
 		go do_always(configuration)
