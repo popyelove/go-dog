@@ -34,9 +34,6 @@ func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan 
 }
 //获取狗的列表
 func dog_list(configuration st.Configuration) string {
-	if(index_dog>=6){
-		index_dog=0;
-	}
 	url := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
 	var jsonStr = []byte(`{
 		"pageNo":1,
@@ -61,7 +58,6 @@ func dog_list(configuration st.Configuration) string {
 		if(res!=""){
 			fmt.Print("抢狗进行中...",time.Now())
 			fmt.Print("\n")
-			index_dog+=1
 		}
 		return res
 	case <-time.After(dog_list_timeout * time.Second):
@@ -140,36 +136,6 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 		return 0,0
 	}
 	return 0,0
-}
-//传说狗
-func chuanshuo_dog(dog map[string]interface{},configuration st.Configuration)bool {
-	rareDegree, _ := jsoniter.MarshalToString(dog["rareDegree"])               //稀有度
-	amount := jsoniter.Wrap(dog["amount"]).ToFloat32()                         //价额
-	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()               //休息时间
-	generation, _ := jsoniter.MarshalToString(dog["generation"])               //代数
-	if(rareDegree=="5"){
-		if(generation=="0"&&configuration.CHUANSHUO_SWITCH==1){
-			if (amount<=configuration.CHUANSHUO0_8DOG_0_PRICE&&timeLeft=="0分钟"){
-				return true
-			}
-		}
-		if(generation=="1"&&configuration.CHUANSHU1_SWITCH==1){
-			if (amount<=configuration.CHUANSHUO1_8DOG_0_PRICE&&timeLeft=="0分钟"){
-				return true
-			}
-		}
-		if(generation=="2"&&configuration.CHUANSHU2_SWITCH==1){
-			if (amount<=configuration.CHUANSHUO2_8DOG_0_PRICE&&timeLeft=="0分钟"){
-				return true
-			}
-		}
-		if(generation=="3"&&configuration.CHUANSHU3_SWITCH==1){
-			if (amount<=configuration.CHUANSHUO3_8DOG_0_PRICE&&timeLeft=="0分钟"){
-				return true
-			}
-		}
-	}
-	return false
 }
 //神话狗
 func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool  {
@@ -260,85 +226,6 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 
 	return false
 }
-//史诗狗
-func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
-	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
-	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
-	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()
-	rareDegrees,_:=get_dog_rareDegree(dog["petId"].(string),configuration)
-	generation,_:=jsoniter.MarshalToString(dog["generation"])
-	//五稀史诗
-	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
-		if (generation=="0"){
-			if (amount<=configuration.SHISHI0_5DOG_0_PRICE&&timeLeft=="0分钟"){
-				return true
-			}
-			if (amount<=configuration.SHISHI0_5DOG_24_PRICE&&timeLeft=="24小时"){
-				return true
-			}
-		}
-
-	}
-	//4稀有史诗
-	if(rareDegrees==4&&rareDegree=="3"&&configuration.SHISHI0_4_SWITCH==1){
-		if(generation=="0"){
-
-			if (amount<=configuration.SHISHI0_4DOG_0_PRICE&&timeLeft=="0分钟"){
-				return true
-			}
-			if (amount<=configuration.SHISHI0_4DOG_24_PRICE&&timeLeft=="24小时"){
-				return true
-			}
-		}
-
-	}
-	return false
-}
-//卓越狗
-func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool  {
-	if configuration.ZHUEYUE0_2_SWITCH==0 {
-		return false
-	}
-	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
-	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
-	generation,_:=jsoniter.MarshalToString(dog["generation"])
-	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE0_2DOG_0_PRICE{
-
-		return true
-	}
-	return false
-}
-//稀有狗
-func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
-	//判断开关
-	if configuration.XIYOU0_1_SWITCH==0 {
-		return false
-	}
-	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
-	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
-	generation,_:=jsoniter.MarshalToString(dog["generation"])
-	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU0_1DOG_0_PRICE{
-
-		return true
-	}
-	return false
-}
-//普通狗
-func putong_dog(dog map[string]interface{},configuration st.Configuration)bool  {
-	//判断开关
-	if(configuration.PUTONG0_0_SWITCH==0){
-		return false
-	}
-	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
-	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
-	generation,_:=jsoniter.MarshalToString(dog["generation"])
-	if rareDegree=="0"&&generation=="0"&&amount<=configuration.PUTONG0_0DOG_0_PRICE{
-
-		return true
-	}
-	return false
-}
-
 //获取验证吗
 func get_code()string{
 	code :=code_list.Back()
@@ -357,7 +244,7 @@ func do_always(configuration st.Configuration)  {
 			for i :=0;i<configuration.PAGE_SIZE ;i++  {
 				s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 				if s !=nil{
-					if shenhua_dog(s,configuration)||shishi_dog(s,configuration)||zhuoyue_dog(s,configuration)||xiyou_dog(s,configuration)||putong_dog(s,configuration)||chuanshuo_dog(s,configuration){
+					if shenhua_dog(s,configuration){
 						codes :=get_code()
 						json,_ :=simplejson.NewJson([]byte(codes))
 						if json !=nil{
@@ -481,10 +368,10 @@ func Timer2(configuration st.Configuration)  {
 }
 var config string
 var code_list *list.List
-var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
+var dog_filter = [1]string{"1:4"}
 var index_dog =0
 //打码间隔 毫秒
-var dama_time time.Duration=2000
+var dama_time time.Duration=10000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
