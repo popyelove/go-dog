@@ -484,7 +484,7 @@ var code_list *list.List
 var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
 var index_dog =0
 //打码间隔 毫秒
-var dama_time time.Duration=2000
+var dama_time time.Duration=5000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
