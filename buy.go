@@ -34,7 +34,7 @@ func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan 
 }
 //获取狗的列表
 func dog_list(configuration st.Configuration) string {
-	if(index_dog>=6){
+	if(index_dog>=4){
 		index_dog=0;
 	}
 	url := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
@@ -357,7 +357,7 @@ func do_always(configuration st.Configuration)  {
 			for i :=0;i<configuration.PAGE_SIZE ;i++  {
 				s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 				if s !=nil{
-					if shenhua_dog(s,configuration)||shishi_dog(s,configuration)||zhuoyue_dog(s,configuration)||xiyou_dog(s,configuration)||putong_dog(s,configuration)||chuanshuo_dog(s,configuration){
+					if shishi_dog(s,configuration)||zhuoyue_dog(s,configuration)||xiyou_dog(s,configuration)||putong_dog(s,configuration){
 						codes :=get_code()
 						json,_ :=simplejson.NewJson([]byte(codes))
 						if json !=nil{
@@ -481,10 +481,10 @@ func Timer2(configuration st.Configuration)  {
 }
 var config string
 var code_list *list.List
-var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
+var dog_filter = [4]string{"1:3","1:2","1:1","1:0"}
 var index_dog =0
 //打码间隔 毫秒
-var dama_time time.Duration=2000
+var dama_time time.Duration=10000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
