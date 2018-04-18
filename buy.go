@@ -324,7 +324,6 @@ func print_code(configuration st.Configuration){
 		msg :=js_code.Get("msg").MustString()
 		if status=="error" {
 			fmt.Print(msg,"\n")
-			os.Exit(0)
 		}
 		code :=js_code.Get("captcha").MustString()
 		fmt.Print("验证码="+code,"====>seed="+seed,"\n")
