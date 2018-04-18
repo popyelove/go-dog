@@ -12,6 +12,7 @@ import (
 	"strconv"
 	"container/list"
 	"os"
+	"regexp"
 )
 
 func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan string	)  {
@@ -302,7 +303,12 @@ func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
+	id,_:=jsoniter.MarshalToString(dog["id"])
 	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE0_2DOG_0_PRICE{
+
+		return true
+	}
+	if rareDegree=="2"&&generation=="0"&&amount<=5000&&validate(id){
 
 		return true
 	}
@@ -317,7 +323,12 @@ func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
+	id,_:=jsoniter.MarshalToString(dog["id"])
 	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU0_1DOG_0_PRICE{
+
+		return true
+	}
+	if rareDegree=="1"&&generation=="0"&&amount<=5000&&validate(id){
 
 		return true
 	}
@@ -330,9 +341,14 @@ func putong_dog(dog map[string]interface{},configuration st.Configuration)bool  
 		return false
 	}
 	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
+	id,_:=jsoniter.MarshalToString(dog["id"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	if rareDegree=="0"&&generation=="0"&&amount<=configuration.PUTONG0_0DOG_0_PRICE{
+
+		return true
+	}
+	if rareDegree=="0"&&generation=="0"&&amount<=5000&&validate(id){
 
 		return true
 	}
@@ -479,6 +495,14 @@ func Timer2(configuration st.Configuration)  {
 		print_code(configuration)
 	}
 }
+
+func validate(no string) bool {
+	reg := regexp.MustCompile(regular)
+	return reg.MatchString(no)
+}
+const (
+	regular = "^(19[7-9]{1}[0-9]{1}|20[0-1]{1}[0-9]{1})(1[0-2]|0[1-9])(0[1-9]|[1-2][0-9]|3[0-1])$"
+)
 var config string
 var code_list *list.List
 var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
@@ -493,6 +517,7 @@ var buy_dog_timeout time.Duration=15
 var get_dog_rare_timeout time.Duration=15
 //打码超时时间
 var dama_timeout time.Duration=15
+
 func main(){
 	code_list = list.New()
 	fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
