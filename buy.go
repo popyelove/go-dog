@@ -268,6 +268,7 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()
 	rareDegrees,_:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
+	id,_:=jsoniter.MarshalToString(dog["id"])
 	//五稀史诗
 	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
 		if (generation=="0"){
@@ -275,6 +276,9 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 				return true
 			}
 			if (amount<=configuration.SHISHI0_5DOG_24_PRICE&&timeLeft=="24小时"){
+				return true
+			}
+			if(amount<=configuration.SHISHI_5BIRTHDAY_PRICE&&validate(id)){
 				return true
 			}
 		}
@@ -288,6 +292,9 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 				return true
 			}
 			if (amount<=configuration.SHISHI0_4DOG_24_PRICE&&timeLeft=="24小时"){
+				return true
+			}
+			if(amount<=configuration.SHISHI_4BIRTHDAY_PRICE&&validate(id)){
 				return true
 			}
 		}
@@ -308,7 +315,7 @@ func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool 
 
 		return true
 	}
-	if rareDegree=="2"&&generation=="0"&&amount<=5000&&validate(id){
+	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE_BIRTHDAY_PRICE&&validate(id){
 
 		return true
 	}
@@ -328,7 +335,7 @@ func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 
 		return true
 	}
-	if rareDegree=="1"&&generation=="0"&&amount<=5000&&validate(id){
+	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU_BIRTHDAY_PRICE&&validate(id){
 
 		return true
 	}
@@ -348,7 +355,7 @@ func putong_dog(dog map[string]interface{},configuration st.Configuration)bool  
 
 		return true
 	}
-	if rareDegree=="0"&&generation=="0"&&amount<=5000&&validate(id){
+	if rareDegree=="0"&&generation=="0"&&amount<=configuration.PUTONG_BIRTHDAY_PRICE&&validate(id){
 
 		return true
 	}
@@ -453,14 +460,13 @@ func print_code(configuration st.Configuration){
 		msg :=js_code.Get("msg").MustString()
 		if status=="error" {
 			fmt.Print(msg,"\n")
-			os.Exit(0)
 		}
 		code :=js_code.Get("captcha").MustString()
 		fmt.Print("验证码="+code,"====>seed="+seed,"\n")
 		if code!="" {
 			jsonstr:=`{"code":"`+code+`","seed":"`+seed+`"}`
 			len :=code_list.Len()
-			if(len>=500){
+			if(len>=25){
 				code_list.Init()
 			}
 			code_list.PushBack(jsonstr)
