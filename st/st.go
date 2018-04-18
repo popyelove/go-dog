@@ -10,6 +10,7 @@ type Configuration struct {
 	KEY string `yaml:"KEY"`
 	TIME time.Duration `yaml:"TIME"`
 	TIMECODE time.Duration `yaml:"TIMECODE"`
+	PAGE int `yaml:"PAGE"`
 	PAGE_SIZE int `yaml:"PAGE_SIZE"`
 	SORT_TYPE string `yaml:"SORT_TYPE"`
 

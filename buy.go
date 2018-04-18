@@ -40,7 +40,7 @@ func dog_list(configuration st.Configuration) string {
 	}
 	url := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
 	var jsonStr = []byte(`{
-		"pageNo":1,
+		"pageNo":`+strconv.Itoa(index_page)+`,
 		"pageSize":`+strconv.Itoa(configuration.PAGE_SIZE)+`,
 		"querySortType":"`+configuration.SORT_TYPE+`",
 		"petIds":[],
@@ -129,6 +129,9 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 			}
 			if (s["value"]=="鹿角"){
 				dogtype+=1
+			}
+			if (s["value"]=="天使"){
+				dogtype+=2
 			}
 		}
 		return count_rareDegree,dogtype
@@ -278,7 +281,7 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	//五稀史诗
 	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
 		if (generation=="0"){
-			if (amount<=configuration.SHISHI0_5DOG_0_PRICE&&timeLeft=="0分钟"){
+			if (amount<=configuration.SHISHI0_5DOG_0_PRICE&&timeLeft=="0分钟"&&dogtype==2){
 				return true
 			}
 			if (amount<=configuration.SHISHI0_5DOG_24_PRICE&&timeLeft=="24小时"){
@@ -645,7 +648,12 @@ func do_always(configuration st.Configuration)  {
 	dogs :=dog_list(configuration)
 	if dogs !=""{
 		flag :=index_dog
-		index_dog+=1
+		if(index_page>configuration.PAGE){
+			index_page=1
+			index_dog+=1
+		}
+		fmt.Println(index_page,index_dog)
+		index_page+=1
 		switch flag {
 			case 0:
 				dog0(dogs,configuration)
@@ -777,6 +785,7 @@ var config string
 var code_list *list.List
 var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
 var index_dog =0
+var index_page = 1
 //打码间隔 毫秒
 var dama_time time.Duration=10000
 //拉取狗列表超时时间秒
