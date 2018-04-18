@@ -127,10 +127,7 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 			if s["rareDegree"]=="稀有" {
 				count_rareDegree=count_rareDegree+1
 			}
-			if (s["value"]=="天使"){
-				dogtype+=1
-			}
-			if (s["value"]=="白眉斗眼"){
+			if (s["value"]=="鹿角"){
 				dogtype+=1
 			}
 		}
@@ -147,6 +144,10 @@ func chuanshuo_dog(dog map[string]interface{},configuration st.Configuration)boo
 	amount := jsoniter.Wrap(dog["amount"]).ToFloat32()                         //价额
 	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()               //休息时间
 	generation, _ := jsoniter.MarshalToString(dog["generation"])               //代数
+	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration) //属性稀有个数
+	if(dogtype==1&&amount<1000000){
+		return true
+	}
 	if(rareDegree=="5"){
 		if(generation=="0"&&configuration.CHUANSHUO_SWITCH==1){
 			if (amount<=configuration.CHUANSHUO0_8DOG_0_PRICE&&timeLeft=="0分钟"){
@@ -177,7 +178,10 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()//价额
 	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()//休息时间
 	generation,_:=jsoniter.MarshalToString(dog["generation"])//代数
-	rareDegrees,_:=get_dog_rareDegree(dog["petId"].(string),configuration) //属性稀有个数
+	rareDegrees,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration) //属性稀有个数
+	if(dogtype==1&&amount<1000000){
+		return true
+	}
 	if(rareDegrees==6&&rareDegree=="4"){
 		//六稀神话
 		if(generation=="0"&&configuration.GOD0_6_SWITCH==1){
@@ -265,9 +269,12 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()
-	rareDegrees,_:=get_dog_rareDegree(dog["petId"].(string),configuration)
+	rareDegrees,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
+	if(dogtype==1&&amount<100000){
+		return true
+	}
 	//五稀史诗
 	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
 		if (generation=="0"){
@@ -310,12 +317,16 @@ func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
+	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE0_2DOG_0_PRICE{
 
 		return true
 	}
 	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE_BIRTHDAY_PRICE&&validate(id){
 
+		return true
+	}
+	if(dogtype==1&&amount<=10000){
 		return true
 	}
 	return false
@@ -330,12 +341,16 @@ func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
+	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU0_1DOG_0_PRICE{
 
 		return true
 	}
 	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU_BIRTHDAY_PRICE&&validate(id){
 
+		return true
+	}
+	if(dogtype==1&&amount<=10000){
 		return true
 	}
 	return false
@@ -350,12 +365,16 @@ func putong_dog(dog map[string]interface{},configuration st.Configuration)bool  
 	id,_:=jsoniter.MarshalToString(dog["id"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
+	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	if rareDegree=="0"&&generation=="0"&&amount<=configuration.PUTONG0_0DOG_0_PRICE{
 
 		return true
 	}
 	if rareDegree=="0"&&generation=="0"&&amount<=configuration.PUTONG_BIRTHDAY_PRICE&&validate(id){
 
+		return true
+	}
+	if(dogtype==1&&amount<=10000){
 		return true
 	}
 	return false
