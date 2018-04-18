@@ -3,20 +3,12 @@
 <p>百度莱茨狗脚本</p>
 
 ### 使用文档
-<h3>Mac电脑上试用方法</h3>
-<p>1：下载脚本解压</p>
-<p>2：修改配置文件conf.yaml,填入cookie，和刷狗条件</p>
-<p>3：双击 buy文件 启动运行刷狗服务</p>
-<h3>Windows电脑上试用方法</h3>
-<p>根据自己电脑系统版本选择windows32位（buy_windows32.exe）windows64位（buy_windows64.exe）</p>
-<p>1：下载脚本解压</p>
-<p>2：修改配置文件conf.yaml,填入cookie，和刷狗条件</p>
-<p>3：双击 buy_windows32.exe或者buy_windows64.exe文件 启动运行刷狗服务</p>
-
+<h3>使用教程</h3>
+官网：<a href="http://www.popyelove.com/">使用教程</a>
 ### 打码服务
 
 <font color="red">免费试用key:</font>
-<p>(有效期24小时)42617435ae306a1fc2a3cb5e54681131</p>
+<p>(过期)<del>42617435ae306a1fc2a3cb5e54681131</del></p>
 <p>(过期)<del>h35ea940dfdg014752b436d6rghf50jh</del></p>
 <p>(过期)<del>a33ea90jdfdc01478f2b436d6b695082</del></p>
 <p>(过期)<del>6dd12ec3b40142a64122c66852a82a57</del></p>
