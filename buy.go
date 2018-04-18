@@ -11,8 +11,8 @@ import (
 	"go-dog/st"
 	"strconv"
 	"container/list"
-	"os"
 	"regexp"
+	"github.com/garyburd/redigo/redis"
 )
 
 func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan string	)  {
@@ -501,7 +501,7 @@ func Timer2(configuration st.Configuration)  {
 		print_code(configuration)
 	}
 }
-
+//是否是生日号
 func validate(no string) bool {
 	reg := regexp.MustCompile(regular)
 	return reg.MatchString(no)
@@ -509,6 +509,25 @@ func validate(no string) bool {
 const (
 	regular = "^(19[7-9]{1}[0-9]{1}|20[0-1]{1}[0-9]{1})(1[0-2]|0[1-9])(0[1-9]|[1-2][0-9]|3[0-1])$"
 )
+
+func get_version() float64 {
+	c,err:= redis.Dial("tcp",redis_host)
+	if(err!=nil){
+		fmt.Print(err)
+	}
+	c.Do("AUTH", redis_pwd)
+	version,err:= redis.String(c.Do("GET", "version"))
+	if(err!=nil){
+		return 0
+	}
+
+	if version!=""{
+		defer c.Close()
+		version,_:= strconv.ParseFloat(version,64)
+		return version
+	}
+	return 0
+}
 var config string
 var code_list *list.List
 var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
@@ -523,8 +542,15 @@ var buy_dog_timeout time.Duration=15
 var get_dog_rare_timeout time.Duration=15
 //打码超时时间
 var dama_timeout time.Duration=15
-
+//当前版本
+var version float64=1.2
+var redis_host string="127.0.0.1:6379"
+var redis_pwd string=""
 func main(){
+	new_version :=get_version()
+	if(version<=new_version){
+		fmt.Print("当前版本",version,"有新版本更新",new_version,"请去官网下载：http://www/popyelove.com","\n")
+	}
 	code_list = list.New()
 	fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
 	fmt.Scanln(&config)
