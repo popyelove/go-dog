@@ -652,7 +652,6 @@ func do_always(configuration st.Configuration)  {
 			index_page=1
 			index_dog+=1
 		}
-		fmt.Println(index_page,index_dog)
 		index_page+=1
 		switch flag {
 			case 0:
@@ -738,7 +737,7 @@ func print_code(configuration st.Configuration){
 }
 //验证码识别接口
 func lujun_api(key string,img64 string) string {
-	url := "http://www.popyelove.com:8888/?key="+key+"&img="+img64
+	url := dama_host+"?key="+key+"&img="+img64
 	resp,_ := http.Get(url)
 	if resp !=nil {
 		defer resp.Body.Close()
@@ -787,7 +786,7 @@ var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
 var index_dog =0
 var index_page = 1
 //打码间隔 毫秒
-var dama_time time.Duration=10000
+var dama_time time.Duration=2000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
@@ -800,6 +799,7 @@ var dama_timeout time.Duration=15
 var version float64=1.2
 var redis_host string="127.0.0.1:6379"
 var redis_pwd string=""
+var dama_host string="http://www.popyelove.com:8888/"
 func main(){
 	new_version :=get_version()
 	if(version<=new_version){
