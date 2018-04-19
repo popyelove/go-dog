@@ -11,7 +11,6 @@ import (
 	"go-dog/st"
 	"strconv"
 	"container/list"
-	"os"
 )
 
 func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan string	)  {
@@ -343,7 +342,7 @@ func print_code(configuration st.Configuration){
 }
 //验证码识别接口
 func lujun_api(key string,img64 string) string {
-	url := "http://www.popyelove.com:8888/?key="+key+"&img="+img64
+	url := dama_host+"?key="+key+"&img="+img64
 	resp,_ := http.Get(url)
 	if resp !=nil {
 		defer resp.Body.Close()
@@ -370,7 +369,7 @@ var code_list *list.List
 var dog_filter = [1]string{"1:4"}
 var index_dog =0
 //打码间隔 毫秒
-var dama_time time.Duration=10000
+var dama_time time.Duration=2000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
@@ -379,6 +378,7 @@ var buy_dog_timeout time.Duration=15
 var get_dog_rare_timeout time.Duration=15
 //打码超时时间
 var dama_timeout time.Duration=15
+var dama_host string="http://127.0.0.1:8888/"
 func main(){
 	code_list = list.New()
 	fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
