@@ -35,8 +35,8 @@ func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan 
 }
 //获取狗的列表
 func dog_list(configuration st.Configuration) string {
-	if(index_dog>=6){
-		index_dog=0;
+	if(index_dog>=len(dog_filter)){
+		index_dog=1;
 	}
 	url := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
 	var jsonStr = []byte(`{
@@ -127,12 +127,13 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 			if s["rareDegree"]=="稀有" {
 				count_rareDegree=count_rareDegree+1
 			}
-			if (s["value"]=="鹿角"){
+			if (s["value"]=="角鲸"){
 				dogtype+=1
 			}
-			if (s["value"]=="天使"){
+			if (s["value"]=="白眉斗眼"){
 				dogtype+=2
 			}
+
 		}
 		return count_rareDegree,dogtype
 	case <-time.After(get_dog_rare_timeout * time.Second):
@@ -147,10 +148,6 @@ func chuanshuo_dog(dog map[string]interface{},configuration st.Configuration)boo
 	amount := jsoniter.Wrap(dog["amount"]).ToFloat32()                         //价额
 	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()               //休息时间
 	generation, _ := jsoniter.MarshalToString(dog["generation"])               //代数
-	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration) //属性稀有个数
-	if(dogtype==1&&amount<1000000){
-		return true
-	}
 	if(rareDegree=="5"){
 		if(generation=="0"&&configuration.CHUANSHUO_SWITCH==1){
 			if (amount<=configuration.CHUANSHUO0_8DOG_0_PRICE&&timeLeft=="0分钟"){
@@ -182,12 +179,13 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()//休息时间
 	generation,_:=jsoniter.MarshalToString(dog["generation"])//代数
 	rareDegrees,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration) //属性稀有个数
-	if(dogtype==1&&amount<1000000){
-		return true
-	}
 	if(rareDegrees==6&&rareDegree=="4"){
 		//六稀神话
 		if(generation=="0"&&configuration.GOD0_6_SWITCH==1){
+			//0代神话价格
+			if (amount<=600000&&timeLeft=="0分钟"&&dogtype==3){
+				return true
+			}
 			//0代神话价格
 			if (amount<=configuration.GOD0_6DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
@@ -275,13 +273,13 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	rareDegrees,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
-	if(dogtype==1&&amount<100000){
-		return true
-	}
 	//五稀史诗
 	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
 		if (generation=="0"){
-			if (amount<=configuration.SHISHI0_5DOG_0_PRICE&&timeLeft=="0分钟"&&dogtype==2){
+			if (amount<=55555&&timeLeft=="0分钟"&&dogtype==3){
+				return true
+			}
+			if (amount<=configuration.SHISHI0_5DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
 			}
 			if (amount<=configuration.SHISHI0_5DOG_24_PRICE&&timeLeft=="24小时"){
@@ -296,7 +294,9 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	//4稀有史诗
 	if(rareDegrees==4&&rareDegree=="3"&&configuration.SHISHI0_4_SWITCH==1){
 		if(generation=="0"){
-
+			if (amount<=6666&&timeLeft=="0分钟"&&dogtype==3){
+				return true
+			}
 			if (amount<=configuration.SHISHI0_4DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
 			}
@@ -320,16 +320,12 @@ func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
-	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE0_2DOG_0_PRICE{
 
 		return true
 	}
 	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE_BIRTHDAY_PRICE&&validate(id){
 
-		return true
-	}
-	if(dogtype==1&&amount<=10000){
 		return true
 	}
 	return false
@@ -344,16 +340,12 @@ func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
-	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU0_1DOG_0_PRICE{
 
 		return true
 	}
 	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU_BIRTHDAY_PRICE&&validate(id){
 
-		return true
-	}
-	if(dogtype==1&&amount<=10000){
 		return true
 	}
 	return false
@@ -368,16 +360,12 @@ func putong_dog(dog map[string]interface{},configuration st.Configuration)bool  
 	id,_:=jsoniter.MarshalToString(dog["id"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
-	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	if rareDegree=="0"&&generation=="0"&&amount<=configuration.PUTONG0_0DOG_0_PRICE{
 
 		return true
 	}
 	if rareDegree=="0"&&generation=="0"&&amount<=configuration.PUTONG_BIRTHDAY_PRICE&&validate(id){
 
-		return true
-	}
-	if(dogtype==1&&amount<=10000){
 		return true
 	}
 	return false
@@ -648,7 +636,7 @@ func do_always(configuration st.Configuration)  {
 	dogs :=dog_list(configuration)
 	if dogs !=""{
 		flag :=index_dog
-		if(index_page>configuration.PAGE){
+		if(index_page>=configuration.PAGE){
 			index_page=1
 			index_dog+=1
 		}
@@ -759,7 +747,7 @@ func validate(no string) bool {
 	return reg.MatchString(no)
 }
 const (
-	regular = "^(19[7-9]{1}[0-9]{1}|20[0-1]{1}[0-9]{1})(1[0-2]|0[1-9])(0[1-9]|[1-2][0-9]|3[0-1])$"
+	regular = "^(19[6-9]{1}[0-9]{1}|20[0-4]{1}[0-9]{1})(1[0-2]|0[1-9])(0[1-9]|[1-2][0-9]|3[0-1])$"
 )
 
 func get_version() float64 {
@@ -782,11 +770,13 @@ func get_version() float64 {
 }
 var config string
 var code_list *list.List
-var dog_filter = [6]string{"1:5","1:4","1:3","1:2","1:1","1:0"}
-var index_dog =0
+var dog_filter = []string{"1:5","1:4","1:3","1:2","1:1","1:0"}
+//从索引为0的狗扫描
+var index_dog =1
+//初始索引
 var index_page = 1
 //打码间隔 毫秒
-var dama_time time.Duration=2000
+var dama_time time.Duration=5000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
@@ -799,7 +789,7 @@ var dama_timeout time.Duration=15
 var version float64=1.2
 var redis_host string="127.0.0.1:6379"
 var redis_pwd string=""
-var dama_host string="http://www.popyelove.com:8888/"
+var dama_host string="http://127.0.0.1:8888/"
 func main(){
 	new_version :=get_version()
 	if(version<=new_version){
