@@ -12,7 +12,7 @@ TIMECODE: 5000
 #获取狗的列表规则 推荐配置这两种 AMOUNT_ASC（价格最小的）和 CREATETIME_DESC（最新发布的狗）
 SORT_TYPE: CREATETIME_DESC
 #刷新页数，扫描页数
-PAGE: 3
+PAGE: 20
 #每页刷狗数,最大为10，超过百度接口失败
 PAGE_SIZE: 10
 #---------------公共配置———————————————————————————————————————————————
@@ -117,11 +117,11 @@ GOD1_7DOG_4_PRICE: 100
 #0代5稀史诗开关 打开=1 关闭=0
 SHISHI0_5_SWITCH: 1
 #0代5稀史诗0分钟价格
-SHISHI0_5DOG_0_PRICE: 10000
+SHISHI0_5DOG_0_PRICE: 15000
 #0代5稀史诗24价格
 SHISHI0_5DOG_24_PRICE: 5000
 #史诗5狗生日号
-SHISHI_5BIRTHDAY_PRICE: 30000
+SHISHI_5BIRTHDAY_PRICE: 50000
 #---------------5稀史诗配置----------------------------------------------
 
 
@@ -134,7 +134,7 @@ SHISHI0_4DOG_0_PRICE: 1000
 #0代4稀史诗24小时价格
 SHISHI0_4DOG_24_PRICE: 500
 #史诗4狗生日号
-SHISHI_4BIRTHDAY_PRICE: 20000
+SHISHI_4BIRTHDAY_PRICE: 30000
 #---------------4稀史诗配置----------------------------------------------
 
 
@@ -145,7 +145,8 @@ ZHUEYUE0_2_SWITCH: 1
 #0代卓越0分钟价格
 ZHUEYUE0_2DOG_0_PRICE: 10
 #卓越狗生日号
-ZHUEYUE_BIRTHDAY_PRICE: 1000
+ZHUEYUE_BIRTHDAY_PRICE: 5000
+ZHUEYUE_GOOD_NUMBER_PRICE: 5000
 #---------------卓越配置----------------------------------------------
 
 
@@ -158,6 +159,7 @@ XIYOU0_1_SWITCH: 1
 XIYOU0_1DOG_0_PRICE: 10
 #稀有狗生日号
 XIYOU_BIRTHDAY_PRICE: 5000
+XIYOU_GOOD_NUMBER_PRICE: 5000
 #---------------稀有配置----------------------------------------------
 
 
@@ -169,4 +171,5 @@ PUTONG0_0_SWITCH: 1
 PUTONG0_0DOG_0_PRICE: 10
 #普通狗生日号
 PUTONG_BIRTHDAY_PRICE: 5000
+PUTONG_GOOD_NUMBER_PRICE: 5000
 #---------------普通配置----------------------------------------------

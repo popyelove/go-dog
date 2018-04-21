@@ -324,7 +324,11 @@ func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool 
 
 		return true
 	}
-	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE_BIRTHDAY_PRICE&&validate(id){
+	if rareDegree=="2"&&amount<=configuration.ZHUEYUE_BIRTHDAY_PRICE&&validate(id){
+
+		return true
+	}
+	if rareDegree=="2"&&amount<=configuration.ZHUEYUE_GOOD_NUMBER_PRICE&&good_num(id){
 
 		return true
 	}
@@ -344,7 +348,11 @@ func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 
 		return true
 	}
-	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU_BIRTHDAY_PRICE&&validate(id){
+	if rareDegree=="1"&&amount<=configuration.XIYOU_BIRTHDAY_PRICE&&validate(id){
+
+		return true
+	}
+	if rareDegree=="1"&&amount<=configuration.XIYOU_GOOD_NUMBER_PRICE&&good_num(id){
 
 		return true
 	}
@@ -364,7 +372,11 @@ func putong_dog(dog map[string]interface{},configuration st.Configuration)bool  
 
 		return true
 	}
-	if rareDegree=="0"&&generation=="0"&&amount<=configuration.PUTONG_BIRTHDAY_PRICE&&validate(id){
+	if rareDegree=="0"&&amount<=configuration.PUTONG_BIRTHDAY_PRICE&&validate(id){
+
+		return true
+	}
+	if rareDegree=="0"&&amount<=configuration.PUTONG_GOOD_NUMBER_PRICE&&good_num(id){
 
 		return true
 	}
@@ -712,7 +724,7 @@ func print_code(configuration st.Configuration){
 		if code!="" {
 			jsonstr:=`{"code":"`+code+`","seed":"`+seed+`"}`
 			len :=code_list.Len()
-			if(len>=25){
+			if(len>=code_num){
 				code_list.Init()
 			}
 			code_list.PushBack(jsonstr)
@@ -743,11 +755,16 @@ func Timer2(configuration st.Configuration)  {
 }
 //是否是生日号
 func validate(no string) bool {
-	reg := regexp.MustCompile(regular)
+	reg := regexp.MustCompile(regular1)
+	return reg.MatchString(no)
+}
+func good_num(no string)bool  {
+	reg := regexp.MustCompile(regular2)
 	return reg.MatchString(no)
 }
 const (
-	regular = "^(19[6-9]{1}[0-9]{1}|20[0-4]{1}[0-9]{1})(1[0-2]|0[1-9])(0[1-9]|[1-2][0-9]|3[0-1])$"
+	regular1 = "^(19[6-9]{1}[0-9]{1}|20[0-4]{1}[0-9]{1})(1[0-2]|0[1-9])(0[1-9]|[1-2][0-9]|3[0-1])$"
+	regular2 = `1{5}|2{5}|3{5}|4{5}|5{5}|6{5}|7{5}|8{5}|9{5}|0{5}`
 )
 
 func get_version() float64 {
@@ -776,7 +793,7 @@ var index_dog =1
 //初始索引
 var index_page = 1
 //打码间隔 毫秒
-var dama_time time.Duration=5000
+var dama_time time.Duration=2000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
@@ -790,6 +807,7 @@ var version float64=1.2
 var redis_host string="127.0.0.1:6379"
 var redis_pwd string=""
 var dama_host string="http://127.0.0.1:8888/"
+var code_num int = 50
 func main(){
 	new_version :=get_version()
 	if(version<=new_version){
