@@ -758,6 +758,7 @@ func validate(no string) bool {
 	reg := regexp.MustCompile(regular1)
 	return reg.MatchString(no)
 }
+//靓号
 func good_num(no string)bool  {
 	reg := regexp.MustCompile(regular2)
 	return reg.MatchString(no)
