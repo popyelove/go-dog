@@ -13,6 +13,8 @@ import (
 	"container/list"
 	"regexp"
 	"github.com/garyburd/redigo/redis"
+	"flag"
+	"reflect"
 )
 
 func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan string	)  {
@@ -127,13 +129,15 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 			if s["rareDegree"]=="稀有" {
 				count_rareDegree=count_rareDegree+1
 			}
-			if (s["value"]=="角鲸"){
+			if (contain(s["value"],configuration.BODY_TYPE)){
 				dogtype+=1
 			}
-			if (s["value"]=="白眉斗眼"){
-				dogtype+=2
+			if (contain(s["value"],configuration.EYES_TYPE)){
+				dogtype+=1
 			}
-
+			if (contain(s["value"],configuration.MOUTH_TYPE)){
+				dogtype+=1
+			}
 		}
 		return count_rareDegree,dogtype
 	case <-time.After(get_dog_rare_timeout * time.Second):
@@ -183,7 +187,7 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 		//六稀神话
 		if(generation=="0"&&configuration.GOD0_6_SWITCH==1){
 			//0代神话价格
-			if (amount<=600000&&timeLeft=="0分钟"&&dogtype==3){
+			if (amount<=configuration.GOD0_6_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
 				return true
 			}
 			//0代神话价格
@@ -276,7 +280,7 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	//五稀史诗
 	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
 		if (generation=="0"){
-			if (amount<=55555&&timeLeft=="0分钟"&&dogtype==3){
+			if (amount<=configuration.SHISHI0_5_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
 				return true
 			}
 			if (amount<=configuration.SHISHI0_5DOG_0_PRICE&&timeLeft=="0分钟"){
@@ -294,7 +298,7 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	//4稀有史诗
 	if(rareDegrees==4&&rareDegree=="3"&&configuration.SHISHI0_4_SWITCH==1){
 		if(generation=="0"){
-			if (amount<=6666&&timeLeft=="0分钟"&&dogtype==3){
+			if (amount<=configuration.SHISHI0_4_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
 				return true
 			}
 			if (amount<=configuration.SHISHI0_4DOG_0_PRICE&&timeLeft=="0分钟"){
@@ -320,6 +324,13 @@ func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
+	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
+	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()
+
+	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUOYUE0_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3{
+
+		return true
+	}
 	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE0_2DOG_0_PRICE{
 
 		return true
@@ -344,6 +355,8 @@ func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
+	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
+	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()
 	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU0_1DOG_0_PRICE{
 
 		return true
@@ -353,6 +366,10 @@ func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 		return true
 	}
 	if rareDegree=="1"&&amount<=configuration.XIYOU_GOOD_NUMBER_PRICE&&good_num(id){
+
+		return true
+	}
+	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU0_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3{
 
 		return true
 	}
@@ -786,6 +803,24 @@ func get_version() float64 {
 	}
 	return 0
 }
+// 判断obj是否在target中，target支持的类型arrary,slice,map
+func contain(obj interface{}, target interface{}) bool {
+	targetValue := reflect.ValueOf(target)
+	switch reflect.TypeOf(target).Kind() {
+	case reflect.Slice, reflect.Array:
+		for i := 0; i < targetValue.Len(); i++ {
+			if targetValue.Index(i).Interface() == obj {
+				return true
+			}
+		}
+	case reflect.Map:
+		if targetValue.MapIndex(reflect.ValueOf(obj)).IsValid() {
+			return true
+		}
+	}
+
+	return false
+}
 var config string
 var code_list *list.List
 var dog_filter = []string{"1:5","1:4","1:3","1:2","1:1","1:0"}
@@ -815,8 +850,14 @@ func main(){
 		fmt.Print("当前版本",version,"有新版本更新",new_version,"请去官网下载：http://www/popyelove.com","\n")
 	}
 	code_list = list.New()
-	fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
-	fmt.Scanln(&config)
+	f := flag.String("f", "", "配置文件路径")
+	flag.Parse() //解析输入的参数
+	if(*f==""){
+		fmt.Printf("请输入你的配置文件的绝对路径(例如：D:/file/conf.yaml)：")
+		fmt.Scanln(&config)
+	}else{
+		config=*f
+	}
 	var  configuration st.Configuration
 	configuration.GetConf(config)
 	go Timer2(configuration)
