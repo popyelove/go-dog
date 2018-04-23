@@ -186,8 +186,16 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	if(rareDegrees==6&&rareDegree=="4"){
 		//六稀神话
 		if(generation=="0"&&configuration.GOD0_6_SWITCH==1){
-			//0代神话价格
+			//0代神话0分钟满足特殊属性价格
 			if (amount<=configuration.GOD0_6_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
+				return true
+			}
+			//0代神话24满足特殊属性价格
+			if (amount<=configuration.GOD0_6_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==3){
+				return true
+			}
+			//0代神话2天满足特殊属性价格
+			if (amount<=configuration.GOD0_6_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==3){
 				return true
 			}
 			//0代神话价格
@@ -241,6 +249,18 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	if(rareDegrees==7&&rareDegree=="4"){
 		//七夕神话
 		if(generation=="0"&&configuration.GOD0_7_SWITCH==1){
+			//0代7神话0分钟满足特殊属性价格
+			if (amount<=configuration.GOD0_7_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
+				return true
+			}
+			//0代7神话24小时满足特殊属性价格
+			if (amount<=configuration.GOD0_7_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==3){
+				return true
+			}
+			//0代7神话2天满足特殊属性价格
+			if (amount<=configuration.GOD0_7_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==3){
+				return true
+			}
 			//0代神话价格
 			if (amount<=configuration.GOD0_7DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
@@ -280,7 +300,16 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	//五稀史诗
 	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
 		if (generation=="0"){
+			//0代0分钟满足特殊属性
 			if (amount<=configuration.SHISHI0_5_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
+				return true
+			}
+			//0代24满足特殊属性
+			if (amount<=configuration.SHISHI0_5_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==3){
+				return true
+			}
+			//0代2满足特殊属性
+			if (amount<=configuration.SHISHI0_5_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==3){
 				return true
 			}
 			if (amount<=configuration.SHISHI0_5DOG_0_PRICE&&timeLeft=="0分钟"){
@@ -298,7 +327,16 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	//4稀有史诗
 	if(rareDegrees==4&&rareDegree=="3"&&configuration.SHISHI0_4_SWITCH==1){
 		if(generation=="0"){
+			//0代0分钟满足特殊属性
 			if (amount<=configuration.SHISHI0_4_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
+				return true
+			}
+			//0代24满足特殊属性
+			if (amount<=configuration.SHISHI0_4_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==3){
+				return true
+			}
+			//0代2天满足特殊属性
+			if (amount<=configuration.SHISHI0_4_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==3){
 				return true
 			}
 			if (amount<=configuration.SHISHI0_4DOG_0_PRICE&&timeLeft=="0分钟"){
@@ -653,6 +691,9 @@ func dog5(dogs string,configuration st.Configuration)  {
 func do_always(configuration st.Configuration)  {
 	dogs :=dog_list(configuration)
 	if dogs !=""{
+		if(index_dog>=len(dog_filter)){
+			index_dog=0
+		}
 		flag :=index_dog
 		if(index_page>=configuration.PAGE){
 			index_page=1
@@ -660,18 +701,19 @@ func do_always(configuration st.Configuration)  {
 		}else{
 			index_page+=1
 		}
-		switch flag {
-			case 0:
+
+		switch dog_filter[flag] {
+			case "1:5":
 				dog0(dogs,configuration)
-			case 1:
+			case "1:4":
 				dog1(dogs,configuration)
-			case 2:
+			case "1:3":
 				dog2(dogs,configuration)
-			case 3:
+			case "1:2":
 				dog3(dogs,configuration)
-			case 4:
+			case "1:1":
 				dog4(dogs,configuration)
-			case 5:
+			case "1:0":
 				dog5(dogs,configuration)
 
 		}
