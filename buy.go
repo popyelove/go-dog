@@ -652,14 +652,14 @@ func dog5(dogs string,configuration st.Configuration)  {
 //循环刷狗函数
 func do_always(configuration st.Configuration)  {
 	dogs :=dog_list(configuration)
-	fmt.Print(dogs)
 	if dogs !=""{
 		flag :=index_dog
 		if(index_page>=configuration.PAGE){
 			index_page=1
 			index_dog+=1
+		}else{
+			index_page+=1
 		}
-		index_page+=1
 		switch flag {
 			case 0:
 				dog0(dogs,configuration)
