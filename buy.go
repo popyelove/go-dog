@@ -38,7 +38,7 @@ func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan 
 //获取狗的列表
 func dog_list(configuration st.Configuration) string {
 	if(index_dog>=len(dog_filter)){
-		index_dog=1;
+		index_dog=0;
 	}
 	url := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
 	var jsonStr = []byte(`{
@@ -153,22 +153,22 @@ func chuanshuo_dog(dog map[string]interface{},configuration st.Configuration)boo
 	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()               //休息时间
 	generation, _ := jsoniter.MarshalToString(dog["generation"])               //代数
 	if(rareDegree=="5"){
-		if(generation=="0"&&configuration.CHUANSHUO_SWITCH==1){
+		if(generation=="0"&&configuration.CHUANSHUO0_SWITCH==1){
 			if (amount<=configuration.CHUANSHUO0_8DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
 			}
 		}
-		if(generation=="1"&&configuration.CHUANSHU1_SWITCH==1){
+		if(generation=="1"&&configuration.CHUANSHU01_SWITCH==1){
 			if (amount<=configuration.CHUANSHUO1_8DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
 			}
 		}
-		if(generation=="2"&&configuration.CHUANSHU2_SWITCH==1){
+		if(generation=="2"&&configuration.CHUANSHUO2_SWITCH==1){
 			if (amount<=configuration.CHUANSHUO2_8DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
 			}
 		}
-		if(generation=="3"&&configuration.CHUANSHU3_SWITCH==1){
+		if(generation=="3"&&configuration.CHUANSHUO3_SWITCH==1){
 			if (amount<=configuration.CHUANSHUO3_8DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
 			}
@@ -317,9 +317,6 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 }
 //卓越狗
 func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool  {
-	if configuration.ZHUEYUE0_2_SWITCH==0 {
-		return false
-	}
 	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
@@ -331,7 +328,7 @@ func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool 
 
 		return true
 	}
-	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE0_2DOG_0_PRICE{
+	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUEYUE0_2DOG_0_PRICE&&timeLeft=="0分钟"{
 
 		return true
 	}
@@ -347,10 +344,6 @@ func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool 
 }
 //稀有狗
 func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
-	//判断开关
-	if configuration.XIYOU0_1_SWITCH==0 {
-		return false
-	}
 	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
@@ -377,10 +370,6 @@ func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 }
 //普通狗
 func putong_dog(dog map[string]interface{},configuration st.Configuration)bool  {
-	//判断开关
-	if(configuration.PUTONG0_0_SWITCH==0){
-		return false
-	}
 	rareDegree,_:=jsoniter.MarshalToString(dog["rareDegree"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
 	amount:=jsoniter.Wrap(dog["amount"]).ToFloat32()
@@ -663,6 +652,7 @@ func dog5(dogs string,configuration st.Configuration)  {
 //循环刷狗函数
 func do_always(configuration st.Configuration)  {
 	dogs :=dog_list(configuration)
+	fmt.Print(dogs)
 	if dogs !=""{
 		flag :=index_dog
 		if(index_page>=configuration.PAGE){
@@ -821,11 +811,32 @@ func contain(obj interface{}, target interface{}) bool {
 
 	return false
 }
+func dogfilter(chuanshuo_switch int,god_switch int,shishi_switch int,zhuoyue_switch int,xiyou_switch int,putong_switch int,dog_filter []string ) []string{
+	if(chuanshuo_switch==1){
+		dog_filter=append(dog_filter,"1:5")
+	}
+	if (god_switch==1) {
+		dog_filter=append(dog_filter,"1:4")
+	}
+	if(shishi_switch==1){
+		dog_filter=append(dog_filter,"1:3")
+	}
+	if(zhuoyue_switch==1){
+		dog_filter=append(dog_filter,"1:2")
+	}
+	if(xiyou_switch==1){
+		dog_filter=append(dog_filter,"1:1")
+	}
+	if(putong_switch==1){
+		dog_filter=append(dog_filter,"1:0")
+	}
+	return dog_filter
+}
 var config string
 var code_list *list.List
-var dog_filter = []string{"1:5","1:4","1:3","1:2","1:1","1:0"}
+var dog_filter = []string{}
 //从索引为0的狗扫描
-var index_dog =1
+var index_dog =0
 //初始索引
 var index_page = 1
 //打码间隔 毫秒
@@ -860,6 +871,7 @@ func main(){
 	}
 	var  configuration st.Configuration
 	configuration.GetConf(config)
+	dog_filter=dogfilter(configuration.CHUANSHUO_SWITCH,configuration.GOD_SWITCH,configuration.SHISHI_SWITCH,configuration.ZHUOYUE_SWITCH,configuration.XIYOU_SWITCH,configuration.PUTONG_SWITCH,dog_filter)
 	go Timer2(configuration)
 	ticker := time.NewTicker(configuration.TIME* time.Millisecond)
 	for _ = range ticker.C {
