@@ -9,7 +9,7 @@ import (
 	"flag"
 )
 var petids = map[string]string{
-
+	"82374827347283472847823":"2000000",
 }
 func auto_do_big(configuration st.Configuration)  {
 	for petid :=range petids{
