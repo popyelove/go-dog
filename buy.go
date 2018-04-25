@@ -901,7 +901,7 @@ var index_dog =0
 //初始索引
 var index_page = 1
 //打码间隔 毫秒
-var dama_time time.Duration=2000
+var dama_time time.Duration=5000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
@@ -914,15 +914,15 @@ var dama_timeout time.Duration=15
 var version float64=1.2
 var redis_host string="127.0.0.1:6379"
 var redis_pwd string=""
-var dama_host string="http://127.0.0.1:8888/"
+var dama_host string="http://39.106.168.122:8888/"
 var code_num int = 50
 //满足稀有属性的个数
 var count_raredegree int =0
 func main(){
-	new_version :=get_version()
-	if(version<=new_version){
-		fmt.Print("当前版本",version,"有新版本更新",new_version,"请去官网下载：http://www/popyelove.com","\n")
-	}
+	//new_version :=get_version()
+	//if(version<=new_version){
+	//	fmt.Print("当前版本",version,"有新版本更新",new_version,"请去官网下载：http://www/popyelove.com","\n")
+	//}
 	code_list = list.New()
 	f := flag.String("f", "", "配置文件路径")
 	flag.Parse() //解析输入的参数

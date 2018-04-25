@@ -4,13 +4,12 @@ import (
 	"go-dog/tool"
 	"go-dog/st"
 	"fmt"
-	"time"
+
 	"github.com/bitly/go-simplejson"
 	"flag"
+	"time"
 )
-var petids = map[string]string{
-	"82374827347283472847823":"2000000",
-}
+
 func auto_do_big(configuration st.Configuration)  {
 	for petid :=range petids{
 		res := tool.Sale(petid, petids[petid],configuration)
@@ -23,10 +22,12 @@ func auto_do_big(configuration st.Configuration)  {
 				delete(petids,petid);
 			}
 			fmt.Println(res)
+		}else{
+			fmt.Println("请到配置文件中配置你的需要卖出的狗狗")
 		}
 	}
 }
-
+var petids = map[string]string{}
 func main() {
 	var config string
 	f := flag.String("f", "", "配置文件路径")
@@ -39,7 +40,8 @@ func main() {
 	}
 	var  configuration st.Configuration
 	configuration.GetConf(config)
-	ticker := time.NewTicker(30 * time.Second)
+	petids=configuration.SALE_LIST
+	ticker := time.NewTicker(5 * time.Second)
 	for _ = range ticker.C {
 		go auto_do_big(configuration)
 	}
