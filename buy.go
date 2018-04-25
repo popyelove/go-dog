@@ -187,15 +187,15 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 		//六稀神话
 		if(generation=="0"&&configuration.GOD0_6_SWITCH==1){
 			//0代神话0分钟满足特殊属性价格
-			if (amount<=configuration.GOD0_6_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
+			if (amount<=configuration.GOD0_6_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代神话24满足特殊属性价格
-			if (amount<=configuration.GOD0_6_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==3){
+			if (amount<=configuration.GOD0_6_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代神话2天满足特殊属性价格
-			if (amount<=configuration.GOD0_6_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==3){
+			if (amount<=configuration.GOD0_6_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代神话价格
@@ -250,15 +250,15 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 		//七夕神话
 		if(generation=="0"&&configuration.GOD0_7_SWITCH==1){
 			//0代7神话0分钟满足特殊属性价格
-			if (amount<=configuration.GOD0_7_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
+			if (amount<=configuration.GOD0_7_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代7神话24小时满足特殊属性价格
-			if (amount<=configuration.GOD0_7_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==3){
+			if (amount<=configuration.GOD0_7_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代7神话2天满足特殊属性价格
-			if (amount<=configuration.GOD0_7_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==3){
+			if (amount<=configuration.GOD0_7_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代神话价格
@@ -301,15 +301,15 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
 		if (generation=="0"){
 			//0代0分钟满足特殊属性
-			if (amount<=configuration.SHISHI0_5_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
+			if (amount<=configuration.SHISHI0_5_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代24满足特殊属性
-			if (amount<=configuration.SHISHI0_5_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==3){
+			if (amount<=configuration.SHISHI0_5_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代2满足特殊属性
-			if (amount<=configuration.SHISHI0_5_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==3){
+			if (amount<=configuration.SHISHI0_5_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==count_raredegree){
 				return true
 			}
 			if (amount<=configuration.SHISHI0_5DOG_0_PRICE&&timeLeft=="0分钟"){
@@ -328,15 +328,15 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	if(rareDegrees==4&&rareDegree=="3"&&configuration.SHISHI0_4_SWITCH==1){
 		if(generation=="0"){
 			//0代0分钟满足特殊属性
-			if (amount<=configuration.SHISHI0_4_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3){
+			if (amount<=configuration.SHISHI0_4_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代24满足特殊属性
-			if (amount<=configuration.SHISHI0_4_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==3){
+			if (amount<=configuration.SHISHI0_4_24SPECIAL_PRICE&&timeLeft=="24小时"&&dogtype==count_raredegree){
 				return true
 			}
 			//0代2天满足特殊属性
-			if (amount<=configuration.SHISHI0_4_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==3){
+			if (amount<=configuration.SHISHI0_4_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==count_raredegree){
 				return true
 			}
 			if (amount<=configuration.SHISHI0_4DOG_0_PRICE&&timeLeft=="0分钟"){
@@ -362,7 +362,7 @@ func zhuoyue_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	_,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration)
 	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()
 
-	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUOYUE0_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3{
+	if rareDegree=="2"&&generation=="0"&&amount<=configuration.ZHUOYUE0_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree{
 
 		return true
 	}
@@ -400,7 +400,7 @@ func xiyou_dog(dog map[string]interface{},configuration st.Configuration)bool  {
 
 		return true
 	}
-	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU0_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==3{
+	if rareDegree=="1"&&generation=="0"&&amount<=configuration.XIYOU0_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree{
 
 		return true
 	}
@@ -796,7 +796,7 @@ func lujun_api(key string,img64 string) string {
 	return ""
 }
 //自动打码服务
-func Timer2(configuration st.Configuration)  {
+func dama(configuration st.Configuration)  {
 	ticker := time.NewTicker(dama_time* time.Millisecond)
 	for _ = range ticker.C {
 		print_code(configuration)
@@ -874,6 +874,19 @@ func dogfilter(chuanshuo_switch int,god_switch int,shishi_switch int,zhuoyue_swi
 	}
 	return dog_filter
 }
+func get_raredegree_count(body_type []string,eyes_type []string,mouth_type []string) int {
+	count :=0
+	if(len(body_type)>0){
+		count+=1
+	}
+	if(len(eyes_type)>0){
+		count+=1
+	}
+	if(len(mouth_type)>0){
+		count+=1
+	}
+	return count
+}
 var config string
 var code_list *list.List
 var dog_filter = []string{}
@@ -897,6 +910,8 @@ var redis_host string="127.0.0.1:6379"
 var redis_pwd string=""
 var dama_host string="http://127.0.0.1:8888/"
 var code_num int = 50
+//满足稀有属性的个数
+var count_raredegree int =0
 func main(){
 	new_version :=get_version()
 	if(version<=new_version){
@@ -913,8 +928,13 @@ func main(){
 	}
 	var  configuration st.Configuration
 	configuration.GetConf(config)
+	//初始化刷狗类型
 	dog_filter=dogfilter(configuration.CHUANSHUO_SWITCH,configuration.GOD_SWITCH,configuration.SHISHI_SWITCH,configuration.ZHUOYUE_SWITCH,configuration.XIYOU_SWITCH,configuration.PUTONG_SWITCH,dog_filter)
-	go Timer2(configuration)
+	//初始化属性条件
+	count_raredegree=get_raredegree_count(configuration.BODY_TYPE,configuration.EYES_TYPE,configuration.MOUTH_TYPE)
+	//打码服务
+	go dama(configuration)
+	//自动刷狗
 	ticker := time.NewTicker(configuration.TIME* time.Millisecond)
 	for _ = range ticker.C {
 		go do_always(configuration)
