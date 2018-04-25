@@ -901,7 +901,7 @@ var index_dog =0
 //初始索引
 var index_page = 1
 //打码间隔 毫秒
-var dama_time time.Duration=5000
+var dama_time time.Duration=2000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
@@ -914,7 +914,7 @@ var dama_timeout time.Duration=15
 var version float64=1.2
 var redis_host string="127.0.0.1:6379"
 var redis_pwd string=""
-var dama_host string="http://39.106.168.122:8888/"
+var dama_host string="http://127.0.0.1:8888/"
 var code_num int = 50
 //满足稀有属性的个数
 var count_raredegree int =0
