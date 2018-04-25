@@ -704,16 +704,22 @@ func do_always(configuration st.Configuration)  {
 
 		switch dog_filter[flag] {
 			case "1:5":
+				fmt.Print(dog_filter[flag])
 				dog0(dogs,configuration)
 			case "1:4":
+				fmt.Print(dog_filter[flag])
 				dog1(dogs,configuration)
 			case "1:3":
+				fmt.Print(dog_filter[flag])
 				dog2(dogs,configuration)
 			case "1:2":
+				fmt.Print(dog_filter[flag])
 				dog3(dogs,configuration)
 			case "1:1":
+				fmt.Print(dog_filter[flag])
 				dog4(dogs,configuration)
 			case "1:0":
+				fmt.Print(dog_filter[flag])
 				dog5(dogs,configuration)
 
 		}
