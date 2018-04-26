@@ -1021,7 +1021,7 @@ func switch_account(json string,configuration st.Configuration){
 	res,_ :=simplejson.NewJson([]byte(json))
 	if res!=nil {
 		errorNo := res.Get("errorNo").MustString()
-		if(errorNo=="00"||errorNo=="10001"){
+		if(errorNo=="00"||errorNo=="10001"||errorNo=="10003"){
 			account_index+=1
 			if(account_index>=len(configuration.COOKIE)){
 				account_index=0

@@ -3,7 +3,8 @@
 
 #百度账号的cookie,支持多帐号，默认第一个为主账号
 COOKIE: [
-      ""
+      "cookie1",
+      "cookie2",
 ]
 #免费试用打码
 KEY:
