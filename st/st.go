@@ -16,6 +16,7 @@ type Configuration struct {
 	BODY_TYPE []string `yaml:"BODY_TYPE"`
 	EYES_TYPE []string `yaml:"EYES_TYPE"`
 	MOUTH_TYPE []string `yaml:"MOUTH_TYPE"`
+	SALE_LIST map[string]string `yaml:"SALE_LIST"`
 
 	CHUANSHUO_SWITCH int `yaml:"CHUANSHUO_SWITCH"`
 	CHUANSHUO0_SWITCH int `yaml:"CHUANSHUO0_SWITCH"`
