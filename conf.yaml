@@ -11,7 +11,7 @@ TIMECODE: 5000
 #获取狗的列表规则 推荐配置这两种 AMOUNT_ASC（价格最小的）和 CREATETIME_DESC（最新发布的狗）
 SORT_TYPE: CREATETIME_DESC
 #刷新页数，扫描页数
-PAGE: 3
+PAGE: 2
 #每页刷狗数,最大为10，超过百度接口失败
 PAGE_SIZE: 10
 #---------------系统公共配置———————————————————————————————————————————————
@@ -21,7 +21,7 @@ PAGE_SIZE: 10
 
 #---------------狗狗公共配置———————————————————————————————————————————————
 #狗狗体型 可添加
-BODY_TYPE: ["天使","角鲸","中分"]
+BODY_TYPE: ["天使","角鲸"]
 #狗狗眼镜类型 可添加
 EYES_TYPE: ["白眉斗眼","小对眼"]
 #嘴巴类型 可添加
@@ -121,11 +121,11 @@ GOD0_7DOG_24_PRICE: 1000000
 #0代7稀神话2天价格
 GOD0_7DOG_2_PRICE: 1000000
 #0代7稀神话0分钟满足特有属性价格
-GOD0_7_0SPECIAL_PRICE: 100000
+GOD0_7_0SPECIAL_PRICE: 800000
 #0代7稀神话24小时满足特有属性价格
-GOD0_7_24SPECIAL_PRICE: 100000
+GOD0_7_24SPECIAL_PRICE: 800000
 #0代7稀神话2天满足特有属性价格
-GOD0_7_2SPECIAL_PRICE: 100000
+GOD0_7_2SPECIAL_PRICE: 800000
 
 
 #1代7稀神话开关 打开=1 关闭=0
@@ -148,17 +148,17 @@ SHISHI_SWITCH: 1
 #0代5稀史诗开关 打开=1 关闭=0
 SHISHI0_5_SWITCH: 1
 #0代5稀史诗0分钟价格
-SHISHI0_5DOG_0_PRICE: 20000
+SHISHI0_5DOG_0_PRICE: 10000
 #0代5稀史诗24价格
-SHISHI0_5DOG_24_PRICE: 5000
+SHISHI0_5DOG_24_PRICE: 10000
 #史诗5狗生日号
 SHISHI_5BIRTHDAY_PRICE: 50000
 #0代5稀史诗0分钟满足特殊属性价格
-SHISHI0_5_0SPECIAL_PRICE: 50000
+SHISHI0_5_0SPECIAL_PRICE: 100000
 #0代5稀史诗24小时满足特殊属性价格
 SHISHI0_5_24SPECIAL_PRICE: 20000
 #0代5稀史诗2天满足特殊属性价格
-SHISHI0_5_2SPECIAL_PRICE: 20000
+SHISHI0_5_2SPECIAL_PRICE: 10000
 #---------------5稀史诗配置----------------------------------------------
 
 
@@ -167,7 +167,7 @@ SHISHI0_5_2SPECIAL_PRICE: 20000
 #0代4稀史诗开关 打开=1 关闭=0
 SHISHI0_4_SWITCH: 1
 #0代4稀史诗0分钟价格
-SHISHI0_4DOG_0_PRICE: 1000
+SHISHI0_4DOG_0_PRICE: 500
 #0代4稀史诗24小时价格
 SHISHI0_4DOG_24_PRICE: 500
 #史诗4狗生日号
@@ -175,7 +175,7 @@ SHISHI_4BIRTHDAY_PRICE: 30000
 #0代0分钟满足特殊属性价格
 SHISHI0_4_0SPECIAL_PRICE: 30000
 #0代24小时满足特殊属性价格
-SHISHI0_4_24SPECIAL_PRICE: 20000
+SHISHI0_4_24SPECIAL_PRICE: 15000
 #0代2天满足特殊属性价格
 SHISHI0_4_2SPECIAL_PRICE: 10000
 #---------------4稀史诗配置----------------------------------------------
@@ -186,13 +186,13 @@ SHISHI0_4_2SPECIAL_PRICE: 10000
 #卓越总开关打开=1，关闭=0
 ZHUOYUE_SWITCH: 1
 #0代卓越0分钟价格
-ZHUEYUE0_2DOG_0_PRICE: 10
+ZHUEYUE0_2DOG_0_PRICE: 1
 #卓越狗生日号
-ZHUEYUE_BIRTHDAY_PRICE: 5000
+ZHUEYUE_BIRTHDAY_PRICE: 10000
 #卓越靓号
 ZHUEYUE_GOOD_NUMBER_PRICE: 5000
 #卓越满足设置特有属性狗价格
-ZHUOYUE0_0SPECIAL_PRICE: 1000
+ZHUOYUE0_0SPECIAL_PRICE: 3500
 #---------------卓越配置----------------------------------------------
 
 
@@ -204,11 +204,11 @@ XIYOU_SWITCH: 1
 #0代稀有0分钟价格
 XIYOU0_1DOG_0_PRICE: 1
 #稀有狗生日号
-XIYOU_BIRTHDAY_PRICE: 5000
+XIYOU_BIRTHDAY_PRICE: 8000
 #稀有靓号价格
-XIYOU_GOOD_NUMBER_PRICE: 5000
+XIYOU_GOOD_NUMBER_PRICE: 3000
 #满足设置特有属性狗价格
-XIYOU0_0SPECIAL_PRICE: 800
+XIYOU0_0SPECIAL_PRICE: 200
 #---------------稀有配置----------------------------------------------
 
 
@@ -219,6 +219,14 @@ PUTONG_SWITCH: 1
 #0代普通0分钟价格
 PUTONG0_0DOG_0_PRICE: 0.01
 #普通狗生日号
-PUTONG_BIRTHDAY_PRICE: 5000
-PUTONG_GOOD_NUMBER_PRICE: 5000
+PUTONG_BIRTHDAY_PRICE: 8000
+#普通狗靓号价格
+PUTONG_GOOD_NUMBER_PRICE: 1000
 #---------------普通配置----------------------------------------------
+
+#---------------自动上下架配置-----------------------------------------
+#在售狗狗列表
+SALE_LIST: {
+	"狗狗的长petid":"价格",
+}
+#---------------自动上下架配置-----------------------------------------

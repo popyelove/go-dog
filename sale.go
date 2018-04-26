@@ -40,7 +40,7 @@ func main() {
 	var  configuration st.Configuration
 	configuration.GetConf(config)
 	petids=configuration.SALE_LIST
-	ticker := time.NewTicker(5 * time.Second)
+	ticker := time.NewTicker(30 * time.Second)
 	for _ = range ticker.C {
 		go auto_do_big(configuration)
 	}
