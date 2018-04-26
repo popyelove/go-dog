@@ -20,7 +20,7 @@ import (
 func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan string	)  {
 	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Cookie",configuration.COOKIE)
+	req.Header.Set("Cookie",configuration.COOKIE[account_index])
 	client := &http.Client{}
 	resp,err:= client.Do(req)
 	if err!=nil{
@@ -91,6 +91,7 @@ func bug_dog(petId string,amount string,seed string,code string ,validCode strin
 	go http_post(url,jsonStr,configuration,ch_run)
 	select {
 	case res := <-ch_run:
+		go switch_account(res,configuration)
 		return res
 	case <-time.After(buy_dog_timeout * time.Second):
 		fmt.Println("交易火爆中，请稍后再试。。。！")
@@ -942,7 +943,7 @@ const (
 	regular1 = "^(19[6-9]{1}[0-9]{1}|20[0-4]{1}[0-9]{1})(1[0-2]|0[1-9])(0[1-9]|[1-2][0-9]|3[0-1])$"
 	regular2 = `1{5}|2{5}|3{5}|4{5}|5{5}|6{5}|7{5}|8{5}|9{5}|0{5}`
 )
-
+//获得当前软件版本
 func get_version() float64 {
 	c,err:= redis.Dial("tcp",redis_host)
 	if(err!=nil){
@@ -979,6 +980,7 @@ func contain(obj interface{}, target interface{}) bool {
 
 	return false
 }
+//筛选刷狗条件
 func dogfilter(chuanshuo_switch int,god_switch int,shishi_switch int,zhuoyue_switch int,xiyou_switch int,putong_switch int,dog_filter []string ) []string{
 	if(chuanshuo_switch==1){
 		dog_filter=append(dog_filter,"1:5")
@@ -1000,6 +1002,7 @@ func dogfilter(chuanshuo_switch int,god_switch int,shishi_switch int,zhuoyue_swi
 	}
 	return dog_filter
 }
+//获取设置特有属性的条件
 func get_raredegree_count(body_type []string,eyes_type []string,mouth_type []string) int {
 	count :=0
 	if(len(body_type)>0){
@@ -1012,6 +1015,20 @@ func get_raredegree_count(body_type []string,eyes_type []string,mouth_type []str
 		count+=1
 	}
 	return count
+}
+//是否切换账号
+func switch_account(json string,configuration st.Configuration){
+	res,_ :=simplejson.NewJson([]byte(json))
+	if res!=nil {
+		errorNo := res.Get("errorNo").MustString()
+		if(errorNo=="00"||errorNo=="10001"){
+			account_index+=1
+			if(account_index>=len(configuration.COOKIE)){
+				account_index=0
+			}
+		}
+
+	}
 }
 var config string
 var code_list *list.List
@@ -1038,6 +1055,8 @@ var dama_host string="http://127.0.0.1:8888/"
 var code_num int = 50
 //满足稀有属性的个数
 var count_raredegree int =0
+//设置初始账号
+var account_index int=0
 func main(){
 	//new_version :=get_version()
 	//if(version<=new_version){

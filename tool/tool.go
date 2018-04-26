@@ -21,7 +21,7 @@ func Sale(petid string,amount string,configuration st.Configuration) string {
 	}`)
 	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Cookie",configuration.COOKIE)
+	req.Header.Set("Cookie",configuration.COOKIE[0])
 
 	client := &http.Client{}
 	resp,_:= client.Do(req)
@@ -50,7 +50,7 @@ func Unsale(petid string,configuration st.Configuration) string {
 `)
 	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Cookie",configuration.COOKIE)
+	req.Header.Set("Cookie",configuration.COOKIE[0])
 
 	client := &http.Client{}
 	resp,_:= client.Do(req)

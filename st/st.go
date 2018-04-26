@@ -6,7 +6,7 @@ import (
 	"time"
 )
 type Configuration struct {
-	COOKIE string `yaml:"COOKIE"`
+	COOKIE []string `yaml:"COOKIE"`
 	KEY string `yaml:"KEY"`
 	TIME time.Duration `yaml:"TIME"`
 	TIMECODE time.Duration `yaml:"TIMECODE"`
