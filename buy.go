@@ -436,7 +436,7 @@ func get_code()string{
 	return "{}"
 }
 //传说
-func dog0(dogs string,configuration st.Configuration)  {
+func dog_chuanshuo(dogs string,configuration st.Configuration)  {
 	js,_:= simplejson.NewJson([]byte(dogs))
 	if js !=nil{
 		for i :=0;i<configuration.PAGE_SIZE ;i++  {
@@ -449,11 +449,19 @@ func dog0(dogs string,configuration st.Configuration)  {
 						seed :=json.Get("seed").MustString()
 						code :=json.Get("code").MustString()
 						bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-						fmt.Println(bres)
 						res,_ :=simplejson.NewJson([]byte(bres))
 						if res!=nil {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
+							if(errorNo=="100"){
+								for i:=1;i<=3;i++{
+									codes :=get_code()
+									json,_ :=simplejson.NewJson([]byte(codes))
+									seed :=json.Get("seed").MustString()
+									code :=json.Get("code").MustString()
+									bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+								}
+							}
 							if errorNo=="08"{
 								//交易火爆，区块链处理繁忙，请稍后再试
 								fmt.Print(errorMsg)
@@ -478,7 +486,7 @@ func dog0(dogs string,configuration st.Configuration)  {
 	}
 }
 //神话
-func dog1(dogs string,configuration st.Configuration)  {
+func dog_shenhua(dogs string,configuration st.Configuration)  {
 	js,_:= simplejson.NewJson([]byte(dogs))
 	if js !=nil{
 		for i :=0;i<configuration.PAGE_SIZE ;i++  {
@@ -491,11 +499,20 @@ func dog1(dogs string,configuration st.Configuration)  {
 						seed :=json.Get("seed").MustString()
 						code :=json.Get("code").MustString()
 						bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-						fmt.Println(bres)
+						
 						res,_ :=simplejson.NewJson([]byte(bres))
 						if res!=nil {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
+							if(errorNo=="100"){
+								for i:=1;i<=3;i++{
+									codes :=get_code()
+									json,_ :=simplejson.NewJson([]byte(codes))
+									seed :=json.Get("seed").MustString()
+									code :=json.Get("code").MustString()
+									bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+								}
+							}
 							if errorNo=="08"{
 								//交易火爆，区块链处理繁忙，请稍后再试
 								fmt.Print(errorMsg)
@@ -520,7 +537,7 @@ func dog1(dogs string,configuration st.Configuration)  {
 	}
 }
 //史诗
-func dog2(dogs string,configuration st.Configuration)  {
+func dog_shishi(dogs string,configuration st.Configuration)  {
 	js,_:= simplejson.NewJson([]byte(dogs))
 	if js !=nil{
 		for i :=0;i<configuration.PAGE_SIZE ;i++  {
@@ -533,11 +550,20 @@ func dog2(dogs string,configuration st.Configuration)  {
 						seed :=json.Get("seed").MustString()
 						code :=json.Get("code").MustString()
 						bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-						fmt.Println(bres)
+						
 						res,_ :=simplejson.NewJson([]byte(bres))
 						if res!=nil {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
+							if(errorNo=="100"){
+								for i:=1;i<=3;i++{
+									codes :=get_code()
+									json,_ :=simplejson.NewJson([]byte(codes))
+									seed :=json.Get("seed").MustString()
+									code :=json.Get("code").MustString()
+									bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+								}
+							}
 							if errorNo=="08"{
 								//交易火爆，区块链处理繁忙，请稍后再试
 								fmt.Print(errorMsg)
@@ -562,7 +588,7 @@ func dog2(dogs string,configuration st.Configuration)  {
 	}
 }
 //卓越
-func dog3(dogs string,configuration st.Configuration)  {
+func dog_zhuoyue(dogs string,configuration st.Configuration)  {
 	js,_:= simplejson.NewJson([]byte(dogs))
 	if js !=nil{
 		for i :=0;i<configuration.PAGE_SIZE ;i++  {
@@ -575,11 +601,20 @@ func dog3(dogs string,configuration st.Configuration)  {
 						seed :=json.Get("seed").MustString()
 						code :=json.Get("code").MustString()
 						bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-						fmt.Println(bres)
+						
 						res,_ :=simplejson.NewJson([]byte(bres))
 						if res!=nil {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
+							if(errorNo=="100"){
+								for i:=1;i<=3;i++{
+									codes :=get_code()
+									json,_ :=simplejson.NewJson([]byte(codes))
+									seed :=json.Get("seed").MustString()
+									code :=json.Get("code").MustString()
+									bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+								}
+							}
 							if errorNo=="08"{
 								//交易火爆，区块链处理繁忙，请稍后再试
 								fmt.Print(errorMsg)
@@ -604,7 +639,7 @@ func dog3(dogs string,configuration st.Configuration)  {
 	}
 }
 //稀有
-func dog4(dogs string,configuration st.Configuration)  {
+func dog_xiyou(dogs string,configuration st.Configuration)  {
 	js,_:= simplejson.NewJson([]byte(dogs))
 	if js !=nil{
 		for i :=0;i<configuration.PAGE_SIZE ;i++  {
@@ -617,11 +652,20 @@ func dog4(dogs string,configuration st.Configuration)  {
 						seed :=json.Get("seed").MustString()
 						code :=json.Get("code").MustString()
 						bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-						fmt.Println(bres)
+						
 						res,_ :=simplejson.NewJson([]byte(bres))
 						if res!=nil {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
+							if(errorNo=="100"){
+								for i:=1;i<=3;i++{
+									codes :=get_code()
+									json,_ :=simplejson.NewJson([]byte(codes))
+									seed :=json.Get("seed").MustString()
+									code :=json.Get("code").MustString()
+									bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+								}
+							}
 							if errorNo=="08"{
 								//交易火爆，区块链处理繁忙，请稍后再试
 								fmt.Print(errorMsg)
@@ -646,7 +690,7 @@ func dog4(dogs string,configuration st.Configuration)  {
 	}
 }
 //普通
-func dog5(dogs string,configuration st.Configuration)  {
+func dog_putong(dogs string,configuration st.Configuration)  {
 	js,_:= simplejson.NewJson([]byte(dogs))
 	if js !=nil{
 		for i :=0;i<configuration.PAGE_SIZE ;i++  {
@@ -659,11 +703,20 @@ func dog5(dogs string,configuration st.Configuration)  {
 						seed :=json.Get("seed").MustString()
 						code :=json.Get("code").MustString()
 						bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-						fmt.Println(bres)
+						
 						res,_ :=simplejson.NewJson([]byte(bres))
 						if res!=nil {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
+							if(errorNo=="100"){
+								for i:=1;i<=3;i++{
+									codes :=get_code()
+									json,_ :=simplejson.NewJson([]byte(codes))
+									seed :=json.Get("seed").MustString()
+									code :=json.Get("code").MustString()
+									bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+								}
+							}
 							if errorNo=="08"{
 								//交易火爆，区块链处理繁忙，请稍后再试
 								fmt.Print(errorMsg)
@@ -705,22 +758,22 @@ func do_always(configuration st.Configuration)  {
 		switch dog_filter[flag] {
 			case "1:5":
 				fmt.Print(dog_filter[flag])
-				dog0(dogs,configuration)
+				dog_chuanshuo(dogs,configuration)
 			case "1:4":
 				fmt.Print(dog_filter[flag])
-				dog1(dogs,configuration)
+				dog_shenhua(dogs,configuration)
 			case "1:3":
 				fmt.Print(dog_filter[flag])
-				dog2(dogs,configuration)
+				dog_shishi(dogs,configuration)
 			case "1:2":
 				fmt.Print(dog_filter[flag])
-				dog3(dogs,configuration)
+				dog_zhuoyue(dogs,configuration)
 			case "1:1":
 				fmt.Print(dog_filter[flag])
-				dog4(dogs,configuration)
+				dog_xiyou(dogs,configuration)
 			case "1:0":
 				fmt.Print(dog_filter[flag])
-				dog5(dogs,configuration)
+				dog_putong(dogs,configuration)
 
 		}
 
