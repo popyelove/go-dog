@@ -3,11 +3,41 @@ import (
 	"bytes"
 	"io/ioutil"
 	"net/http"
-	"go-dog/st"
+	"fmt"
+	"time"
 )
+//查询列表 获取已上架的狗狗id amount
+func GetList(cookie string,pageNo string) string {
+	url := "https://pet-chain.baidu.com/data/user/pet/list"
+	var jsonStr = []byte(`{
+		"pageNo":`+pageNo+`,
+		"pageSize":10,
+		"pageTotal":-1,
+		"totalCount":0,
+		"requestId":1524651063100,
+		"appId":1,
+		"tpl":"",
+		"timeStamp":null,
+		"nounce":null,
+		"token":null
+		}`)
+	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Cookie",cookie)
+	client := &http.Client{}
+	resp,_:= client.Do(req)
+	if resp !=nil{
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+		return string(body)
+	}
+	fmt.Println(time.Now())
+	fmt.Print("\n")
+	return ""
+}
 //上架
-func Sale(petid string,amount string,configuration st.Configuration) string {
-	url := "https://pet-chain.baidu.com/data/market/salePet"
+func Sale(petid string,amount string,cookie string) string {
+	url := "https://pet-chain.baidu.com/data/market/sale/shelf/create"
 	var jsonStr = []byte(`
 	{
 		"petId":`+petid+`,
@@ -21,7 +51,7 @@ func Sale(petid string,amount string,configuration st.Configuration) string {
 	}`)
 	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Cookie",configuration.COOKIE[0])
+	req.Header.Set("Cookie",cookie)
 
 	client := &http.Client{}
 	resp,_:= client.Do(req)
@@ -35,7 +65,7 @@ func Sale(petid string,amount string,configuration st.Configuration) string {
 
 
 //下架狗狗
-func Unsale(petid string,configuration st.Configuration) string {
+func Unsale(petid string,cookie string) string {
 	url := "https://pet-chain.baidu.com/data/market/unsalePet"
 	var jsonStr = []byte(`
 	{
@@ -50,7 +80,7 @@ func Unsale(petid string,configuration st.Configuration) string {
 `)
 	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Cookie",configuration.COOKIE[0])
+	req.Header.Set("Cookie",cookie)
 
 	client := &http.Client{}
 	resp,_:= client.Do(req)

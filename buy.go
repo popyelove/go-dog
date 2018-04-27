@@ -85,7 +85,7 @@ func bug_dog(petId string,amount string,seed string,code string ,validCode strin
 		Tpl string `json:"tpl"`
 	}
 	json_tiaojian :=tiaojian{Petid:petId,Amount:amount,Seed:seed,Captcha:code,ValidCode:validCode,RequestId:"1520241678619",Appid:"1",Tpl:""}
-	url := "https://pet-chain.baidu.com/data/txn/create"
+	url := "https://pet-chain.baidu.com/data/txn/sale/create"
 	jsonStr,_:=json.Marshal(json_tiaojian)
 	ch_run := make(chan string)
 	go http_post(url,jsonStr,configuration,ch_run)
