@@ -16,7 +16,8 @@ type Configuration struct {
 	BODY_TYPE []string `yaml:"BODY_TYPE"`
 	EYES_TYPE []string `yaml:"EYES_TYPE"`
 	MOUTH_TYPE []string `yaml:"MOUTH_TYPE"`
-	SALE_LIST map[string]string `yaml:"SALE_LIST"`
+	QQ_EMAIL string `yaml:"QQ_EMAIL"`
+	QQ_AUTH_PWD string `yaml:"QQ_AUTH_PWD"`
 
 	CHUANSHUO_SWITCH int `yaml:"CHUANSHUO_SWITCH"`
 	CHUANSHUO0_SWITCH int `yaml:"CHUANSHUO0_SWITCH"`

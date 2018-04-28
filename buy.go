@@ -15,6 +15,7 @@ import (
 	"github.com/garyburd/redigo/redis"
 	"flag"
 	"reflect"
+	"gopkg.in/gomail.v2"
 )
 
 func http_post(url string,jsonStr []byte,configuration st.Configuration,ch chan string	)  {
@@ -91,7 +92,7 @@ func bug_dog(petId string,amount string,seed string,code string ,validCode strin
 	go http_post(url,jsonStr,configuration,ch_run)
 	select {
 	case res := <-ch_run:
-		go switch_account(res,configuration)
+		go switch_account(res,petId,amount,configuration)
 		return res
 	case <-time.After(buy_dog_timeout * time.Second):
 		fmt.Println("交易火爆中，请稍后再试。。。！")
@@ -1017,7 +1018,7 @@ func get_raredegree_count(body_type []string,eyes_type []string,mouth_type []str
 	return count
 }
 //是否切换账号
-func switch_account(json string,configuration st.Configuration){
+func switch_account(json string,petid string,amount string,configuration st.Configuration){
 	res,_ :=simplejson.NewJson([]byte(json))
 	if res!=nil {
 		errorNo := res.Get("errorNo").MustString()
@@ -1026,6 +1027,17 @@ func switch_account(json string,configuration st.Configuration){
 			if(account_index>=len(configuration.COOKIE)){
 				account_index=0
 			}
+		}
+		if(errorNo=="00"){
+			m := gomail.NewMessage()
+			m.SetHeader("From",configuration.QQ_EMAIL)
+			m.SetHeader("To",configuration.QQ_EMAIL)
+			m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
+			m.SetHeader("Subject", "莱茨狗订单通知")
+			html:=`<a href=https://pet-chain.baidu.com/chain/detail?channel=market&petId=`+petid+`>详情地址</a><br>狗狗价格：`+amount+"微"
+			m.SetBody("text/html", html)
+			d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
+			d.DialAndSend(m);
 		}
 
 	}
@@ -1058,10 +1070,7 @@ var count_raredegree int =0
 //设置初始账号
 var account_index int=0
 func main(){
-	//new_version :=get_version()
-	//if(version<=new_version){
-	//	fmt.Print("当前版本",version,"有新版本更新",new_version,"请去官网下载：http://www/popyelove.com","\n")
-	//}
+	//初始化一个用来装验证码的容器
 	code_list = list.New()
 	f := flag.String("f", "", "配置文件路径")
 	flag.Parse() //解析输入的参数
@@ -1084,5 +1093,7 @@ func main(){
 	for _ = range ticker.C {
 		go do_always(configuration)
 	}
+
+
 
 }
