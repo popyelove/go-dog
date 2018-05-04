@@ -323,6 +323,10 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 			if(amount<=configuration.SHISHI_5BIRTHDAY_PRICE&&validate(id)){
 				return true
 			}
+		}else {
+			if(amount<=configuration.SHISHI_5DOG_old_PRICE){
+				return true
+			}
 		}
 
 	}
@@ -348,6 +352,10 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 				return true
 			}
 			if(amount<=configuration.SHISHI_4BIRTHDAY_PRICE&&validate(id)){
+				return true
+			}
+		}else {
+			if(amount<=configuration.SHISHI_4DOG_old_PRICE){
 				return true
 			}
 		}
@@ -941,7 +949,7 @@ func good_num(no string)bool  {
 	return reg.MatchString(no)
 }
 const (
-	regular1 = "^(19[6-9]{1}[0-9]{1}|20[0-4]{1}[0-9]{1})(1[0-2]|0[1-9])(0[1-9]|[1-2][0-9]|3[0-1])$"
+	regular1 = "^(19[8-9]{1}[0-9]{1}|20[0-2]{1}[0-9]{1})(1[0-2]|0[1-9])(0[1-9]|[1-2][0-9]|3[0-1])$"
 	regular2 = `1{5}|2{5}|3{5}|4{5}|5{5}|6{5}|7{5}|8{5}|9{5}|0{5}`
 )
 //获得当前软件版本
