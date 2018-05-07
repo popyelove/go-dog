@@ -155,23 +155,18 @@ func chuanshuo_dog(dog map[string]interface{},configuration st.Configuration)boo
 	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()               //休息时间
 	generation, _ := jsoniter.MarshalToString(dog["generation"])               //代数
 	if(rareDegree=="5"){
-		if(generation=="0"&&configuration.CHUANSHUO0_SWITCH==1){
+		if(generation=="0"){
 			if (amount<=configuration.CHUANSHUO0_8DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
 			}
-		}
-		if(generation=="1"&&configuration.CHUANSHU01_SWITCH==1){
-			if (amount<=configuration.CHUANSHUO1_8DOG_0_PRICE&&timeLeft=="0分钟"){
+			if (amount<=configuration.CHUANSHUO0_8DOG_24_PRICE&&timeLeft=="24小时"){
 				return true
 			}
-		}
-		if(generation=="2"&&configuration.CHUANSHUO2_SWITCH==1){
-			if (amount<=configuration.CHUANSHUO2_8DOG_0_PRICE&&timeLeft=="0分钟"){
+			if (amount<=configuration.CHUANSHUO0_8DOG_2_PRICE&&timeLeft=="2天"){
 				return true
 			}
-		}
-		if(generation=="3"&&configuration.CHUANSHUO3_SWITCH==1){
-			if (amount<=configuration.CHUANSHUO3_8DOG_0_PRICE&&timeLeft=="0分钟"){
+		}else{
+			if (amount<=configuration.CHUANSHUO_8DOG_OLD_PRICE){
 				return true
 			}
 		}
@@ -185,9 +180,9 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 	timeLeft :=jsoniter.Wrap(dog["coolingInterval"]).ToString()//休息时间
 	generation,_:=jsoniter.MarshalToString(dog["generation"])//代数
 	rareDegrees,dogtype:=get_dog_rareDegree(dog["petId"].(string),configuration) //属性稀有个数
-	if(rareDegrees==6&&rareDegree=="4"){
+	if(rareDegrees==6&&rareDegree=="4"&&configuration.GOD_6DOG_SWITCH==1){
 		//六稀神话
-		if(generation=="0"&&configuration.GOD0_6_SWITCH==1){
+		if(generation=="0"){
 			//0代神话0分钟满足特殊属性价格
 			if (amount<=configuration.GOD0_6_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree){
 				return true
@@ -211,7 +206,19 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 				return true
 			}
 		}
-		if(generation=="1"&&configuration.GOD1_6_SWITCH==1){
+		if(generation=="1"){
+			//1代神话0分钟满足特殊属性价格
+			if (amount<=configuration.GOD1_6_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree){
+				return true
+			}
+			//1代神话2满足特殊属性价格
+			if (amount<=configuration.GOD1_6_2SPECIAL_PRICE&&timeLeft=="2天"&&dogtype==count_raredegree){
+				return true
+			}
+			//1代神话4天满足特殊属性价格
+			if (amount<=configuration.GOD1_6_4SPECIAL_PRICE&&timeLeft=="4天"&&dogtype==count_raredegree){
+				return true
+			}
 			//一代神话价格配置
 			if (amount<=configuration.GOD1_6DOG_0_PRICE&&timeLeft=="0分钟"){
 				return true
@@ -223,34 +230,21 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 				return true
 			}
 		}
-		if(generation=="2"&&configuration.GOD2_6_SWITCH==1){
-			//二代神话价格配置
-			if (amount<=configuration.GOD2_6DOG_0_PRICE&&timeLeft=="0分钟"){
+		//大于一代6神话
+		if(generation!="0"&&generation!="1"){
+			///大于一代6神话满足特殊属性的
+			if (amount<=configuration.GOD_6DOG_OLD1_SPECIAL_PRICE&&dogtype==count_raredegree){
 				return true
 			}
-			if (amount<=configuration.GOD2_6DOG_4_PRICE&&timeLeft=="4天"){
-				return true
-			}
-			if (amount<=configuration.GOD2_6DOG_6_PRICE&&timeLeft=="6天"){
-				return true
-			}
-		}
-		if(generation=="3"&&configuration.GOD3_6_SWITCH==1){
-			//三代神话价格配置
-			if (amount<=configuration.GOD3_6DOG_0_PRICE&&timeLeft=="0分钟"){
-				return true
-			}
-			if (amount<=configuration.GOD3_6DOG_6_PRICE&&timeLeft=="6天"){
-				return true
-			}
-			if (amount<=configuration.GOD3_6DOG_8_PRICE&&timeLeft=="8天"){
+			//大于一代6神话价格
+			if (amount<=configuration.GOD_6DOG_OLD1_PRICE){
 				return true
 			}
 		}
 	}
-	if(rareDegrees==7&&rareDegree=="4"){
+	if(rareDegrees==7&&rareDegree=="4"&&configuration.GOD_7DOG_SWITCH==1){
 		//七夕神话
-		if(generation=="0"&&configuration.GOD0_7_SWITCH==1){
+		if(generation=="0"){
 			//0代7神话0分钟满足特殊属性价格
 			if (amount<=configuration.GOD0_7_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree){
 				return true
@@ -273,19 +267,15 @@ func shenhua_dog(dog map[string]interface{},configuration st.Configuration)bool 
 			if (amount<=configuration.GOD0_7DOG_2_PRICE&&timeLeft=="2天"){
 				return true
 			}
-		}
-		if(generation=="1"&&configuration.GOD1_7_SWITCH==1){
-			//1代神话价格
-			if (amount<=configuration.GOD1_7DOG_0_PRICE&&timeLeft=="0分钟"){
+		}else{
+			if (amount<=configuration.GOD_7DOG_OLD_SPECIAL_PRICE&&dogtype==count_raredegree){
 				return true
 			}
-			if (amount<=configuration.GOD1_7DOG_2_PRICE&&timeLeft=="2天"){
-				return true
-			}
-			if (amount<=configuration.GOD1_7DOG_4_PRICE&&timeLeft=="4天"){
+			if (amount<=configuration.GOD_7DOG_OLD_PRICE){
 				return true
 			}
 		}
+
 
 	}
 
@@ -300,7 +290,7 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 	generation,_:=jsoniter.MarshalToString(dog["generation"])
 	id,_:=jsoniter.MarshalToString(dog["id"])
 	//五稀史诗
-	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI0_5_SWITCH==1){
+	if(rareDegrees==5&&rareDegree=="3"&&configuration.SHISHI_5_SWITCH==1){
 		if (generation=="0"){
 			//0代0分钟满足特殊属性
 			if (amount<=configuration.SHISHI0_5_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree){
@@ -324,14 +314,18 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 				return true
 			}
 		}else {
-			if(amount<=configuration.SHISHI_5DOG_old_PRICE){
+
+			if (amount<=configuration.SHISHI_5DOG_OLD_SPECIAL_PRICE&&dogtype==count_raredegree){
+				return true
+			}
+			if(amount<=configuration.SHISHI_5DOG_OLD_PRICE){
 				return true
 			}
 		}
 
 	}
 	//4稀有史诗
-	if(rareDegrees==4&&rareDegree=="3"&&configuration.SHISHI0_4_SWITCH==1){
+	if(rareDegrees==4&&rareDegree=="3"&&configuration.SHISHI_4_SWITCH==1){
 		if(generation=="0"){
 			//0代0分钟满足特殊属性
 			if (amount<=configuration.SHISHI0_4_0SPECIAL_PRICE&&timeLeft=="0分钟"&&dogtype==count_raredegree){
@@ -355,7 +349,10 @@ func shishi_dog(dog map[string]interface{},configuration st.Configuration)bool{
 				return true
 			}
 		}else {
-			if(amount<=configuration.SHISHI_4DOG_old_PRICE){
+			if (amount<=configuration.SHISHI_4DOG_OLD_SPECIAL_PRICE&&dogtype==count_raredegree){
+				return true
+			}
+			if(amount<=configuration.SHISHI_4DOG_OLD_PRICE){
 				return true
 			}
 		}

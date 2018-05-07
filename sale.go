@@ -103,6 +103,6 @@ func main() {
 		for i:=0;i<len(cookies);i++{
 			go auto_do_sale(cookies[i],i)
 		}
-		time.Sleep(time.Minute*10)
+		time.Sleep(time.Minute*configuration.SELL_TIME)
 	}
 }
