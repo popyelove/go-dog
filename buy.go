@@ -1055,7 +1055,7 @@ var index_dog =0
 //初始索引
 var index_page = 1
 //打码间隔 毫秒
-var dama_time time.Duration=2000
+var dama_time time.Duration=3000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
