@@ -17,6 +17,7 @@ type Configuration struct {
 	BODY_TYPE []string `yaml:"BODY_TYPE"`
 	EYES_TYPE []string `yaml:"EYES_TYPE"`
 	MOUTH_TYPE []string `yaml:"MOUTH_TYPE"`
+	BODY_COLOR []string `yaml:"BODY_COLOR"`
 	QQ_EMAIL string `yaml:"QQ_EMAIL"`
 	QQ_AUTH_PWD string `yaml:"QQ_AUTH_PWD"`
 

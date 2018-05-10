@@ -140,6 +140,9 @@ func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
 			if (contain(s["value"],configuration.MOUTH_TYPE)){
 				dogtype+=1
 			}
+			if (contain(s["value"],configuration.BODY_COLOR)){
+				dogtype+=1
+			}
 		}
 		return count_rareDegree,dogtype
 	case <-time.After(get_dog_rare_timeout * time.Second):
@@ -1009,7 +1012,7 @@ func dogfilter(chuanshuo_switch int,god_switch int,shishi_switch int,zhuoyue_swi
 	return dog_filter
 }
 //获取设置特有属性的条件
-func get_raredegree_count(body_type []string,eyes_type []string,mouth_type []string) int {
+func get_raredegree_count(body_type []string,eyes_type []string,mouth_type []string,body_color []string) int {
 	count :=0
 	if(len(body_type)>0){
 		count+=1
@@ -1018,6 +1021,9 @@ func get_raredegree_count(body_type []string,eyes_type []string,mouth_type []str
 		count+=1
 	}
 	if(len(mouth_type)>0){
+		count+=1
+	}
+	if(len(body_color)>0){
 		count+=1
 	}
 	return count
@@ -1090,7 +1096,7 @@ func main(){
 	//初始化刷狗类型
 	dog_filter=dogfilter(configuration.CHUANSHUO_SWITCH,configuration.GOD_SWITCH,configuration.SHISHI_SWITCH,configuration.ZHUOYUE_SWITCH,configuration.XIYOU_SWITCH,configuration.PUTONG_SWITCH,dog_filter)
 	//初始化属性条件
-	count_raredegree=get_raredegree_count(configuration.BODY_TYPE,configuration.EYES_TYPE,configuration.MOUTH_TYPE)
+	count_raredegree=get_raredegree_count(configuration.BODY_TYPE,configuration.EYES_TYPE,configuration.MOUTH_TYPE,configuration.BODY_COLOR)
 	//打码服务
 	go dama(configuration)
 	//自动刷狗
