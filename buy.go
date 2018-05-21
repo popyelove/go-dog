@@ -465,7 +465,7 @@ func dog_chuanshuo(dogs string,configuration st.Configuration)  {
 							errorMsg :=res.Get("errorMsg").MustString()
 							if(errorNo=="100"||errorNo=="101"){
 								//验证码错误或者过期
-								for i:=1;i<=3;i++{
+								for i:=1;i<=5;i++{
 									codes :=get_code()
 									json,_ :=simplejson.NewJson([]byte(codes))
 									seed :=json.Get("seed").MustString()
@@ -530,7 +530,7 @@ func dog_shenhua(dogs string,configuration st.Configuration)  {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
 							if(errorNo=="100"||errorNo=="101"){
-								for i:=1;i<=3;i++{
+								for i:=1;i<=5;i++{
 									codes :=get_code()
 									json,_ :=simplejson.NewJson([]byte(codes))
 									seed :=json.Get("seed").MustString()
@@ -594,7 +594,7 @@ func dog_shishi(dogs string,configuration st.Configuration)  {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
 							if(errorNo=="100"||errorNo=="101"){
-								for i:=1;i<=3;i++{
+								for i:=1;i<=5;i++{
 									codes :=get_code()
 									json,_ :=simplejson.NewJson([]byte(codes))
 									seed :=json.Get("seed").MustString()
@@ -658,7 +658,7 @@ func dog_zhuoyue(dogs string,configuration st.Configuration)  {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
 							if(errorNo=="100"||errorNo=="101"){
-								for i:=1;i<=3;i++{
+								for i:=1;i<=5;i++{
 									codes :=get_code()
 									json,_ :=simplejson.NewJson([]byte(codes))
 									seed :=json.Get("seed").MustString()
@@ -722,7 +722,7 @@ func dog_xiyou(dogs string,configuration st.Configuration)  {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
 							if(errorNo=="100"||errorNo=="101"){
-								for i:=1;i<=3;i++{
+								for i:=1;i<=5;i++{
 									codes :=get_code()
 									json,_ :=simplejson.NewJson([]byte(codes))
 									seed :=json.Get("seed").MustString()
@@ -786,7 +786,7 @@ func dog_putong(dogs string,configuration st.Configuration)  {
 							errorNo :=res.Get("errorNo").MustString()
 							errorMsg :=res.Get("errorMsg").MustString()
 							if(errorNo=="100"||errorNo=="101"){
-								for i:=1;i<=3;i++{
+								for i:=1;i<=5;i++{
 									codes :=get_code()
 									json,_ :=simplejson.NewJson([]byte(codes))
 									seed :=json.Get("seed").MustString()
