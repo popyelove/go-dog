@@ -41,7 +41,8 @@ func dog_list(configuration st.Configuration) string {
 	if(index_dog>=len(dog_filter)){
 		index_dog=0;
 	}
-	url := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
+	//Durl := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
+	url := "https://pet-chain.duxiaoman.com/data/market/queryPetsOnSale"
 	var jsonStr = []byte(`{
 		"pageNo":`+strconv.Itoa(index_page)+`,
 		"pageSize":`+strconv.Itoa(configuration.PAGE_SIZE)+`,
@@ -102,7 +103,7 @@ func bug_dog(petId string,amount string,seed string,code string ,validCode strin
 }
 //获取狗的稀有属性
 func get_dog_rareDegree(petid string,configuration st.Configuration)(int,int){
-	url := "https://pet-chain.baidu.com/data/pet/queryPetById"
+	url := "https://pet-chain.duxiaoman.com/data/pet/queryPetById"
 	var jsonStr = []byte(`{
         "petId":`+petid+`,
         "requestId":1520241678619,
@@ -540,6 +541,7 @@ func dog_shenhua(dogs string,configuration st.Configuration)  {
 			s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 			if s !=nil{
 				if shenhua_dog(s,configuration){
+					fmt.Print(s)
 					//先下五次单，防止有错误验证码和过期验证码
 					for i:=1;i<=5;i++{
 						codes :=get_code()
@@ -856,6 +858,7 @@ func dog_putong(dogs string,configuration st.Configuration)  {
 			s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 			if s !=nil{
 				if putong_dog(s,configuration){
+					fmt.Print(s)
 					//先下五次单，防止有错误验证码和过期验证码
 					for i:=1;i<=5;i++{
 						codes :=get_code()
@@ -1255,7 +1258,7 @@ var index_dog =0
 //初始索引
 var index_page = 1
 //打码间隔 毫秒
-var dama_time time.Duration=5000
+var dama_time time.Duration=3000
 //拉取狗列表超时时间秒
 var dog_list_timeout time.Duration=15
 //下单超时时间
@@ -1268,7 +1271,7 @@ var dama_timeout time.Duration=15
 var version float64=1.2
 var redis_host string="127.0.0.1:6379"
 var redis_pwd string=""
-var dama_host string="http://127.0.0.1:8889/"
+var dama_host string="http://127.0.0.1:8888/"
 var code_num int = 50
 //满足稀有属性的个数
 var count_raredegree int =0

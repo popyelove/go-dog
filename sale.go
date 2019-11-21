@@ -74,7 +74,7 @@ func auto_do_sale(cookie string,account int)  {
 				fmt.Print("\n")
 			}
 		}
-		fmt.Print("间隔休息中...(10*Minute) ",time.Now())
+		fmt.Print("间隔休息中... ",time.Now())
 		fmt.Print("\n\n")
 	} else {
 		fmt.Print("List==>null",time.Now())
