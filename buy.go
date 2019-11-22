@@ -41,7 +41,7 @@ func dog_list(configuration st.Configuration) string {
 	if(index_dog>=len(dog_filter)){
 		index_dog=0;
 	}
-	//Durl := "https://pet-chain.baidu.com/data/market/queryPetsOnSale"
+	//Durl := "https://pet-chain.duxiaoman.com/data/market/queryPetsOnSale"
 	url := "https://pet-chain.duxiaoman.com/data/market/queryPetsOnSale"
 	var jsonStr = []byte(`{
 		"pageNo":`+strconv.Itoa(index_page)+`,
@@ -87,7 +87,7 @@ func bug_dog(petId string,amount string,seed string,code string ,validCode strin
 		Tpl string `json:"tpl"`
 	}
 	json_tiaojian :=tiaojian{Petid:petId,Amount:amount,Seed:seed,Captcha:code,ValidCode:validCode,RequestId:"1520241678619",Appid:"1",Tpl:""}
-	url := "https://pet-chain.baidu.com/data/txn/sale/create"
+	url := "https://pet-chain.duxiaoman.com/data/txn/sale/create"
 	jsonStr,_:=json.Marshal(json_tiaojian)
 	ch_run := make(chan string)
 	go http_post(url,jsonStr,configuration,ch_run)
@@ -547,7 +547,7 @@ func dog_shenhua(dogs string,configuration st.Configuration)  {
 					m.SetHeader("To",configuration.QQ_EMAIL)
 					m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
 					m.SetHeader("Subject", "莱茨狗订单通知")
-					html:=`<a href=https://pet-chain.baidu.com/chain/detail?channel=market&petId=`+s["petId"].(string)+`>详情地址</a><br>狗狗价格：`+s["amount"].(string)+"微"
+					html:=`<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=`+s["petId"].(string)+`>详情地址</a><br>狗狗价格：`+s["amount"].(string)+"微"
 					m.SetBody("text/html", html)
 					d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
 					d.DialAndSend(m);
@@ -635,7 +635,7 @@ func dog_shishi(dogs string,configuration st.Configuration)  {
 					m.SetHeader("To",configuration.QQ_EMAIL)
 					m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
 					m.SetHeader("Subject", "莱茨狗订单通知")
-					html:=`<a href=https://pet-chain.baidu.com/chain/detail?channel=market&petId=`+s["petId"].(string)+`>详情地址</a><br>狗狗价格：`+s["amount"].(string)+"微"
+					html:=`<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=`+s["petId"].(string)+`>详情地址</a><br>狗狗价格：`+s["amount"].(string)+"微"
 					m.SetBody("text/html", html)
 					d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
 					d.DialAndSend(m);
@@ -723,7 +723,7 @@ func dog_zhuoyue(dogs string,configuration st.Configuration)  {
 					m.SetHeader("To",configuration.QQ_EMAIL)
 					m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
 					m.SetHeader("Subject", "莱茨狗订单通知")
-					html:=`<a href=https://pet-chain.baidu.com/chain/detail?channel=market&petId=`+s["petId"].(string)+`>详情地址</a><br>狗狗价格：`+s["amount"].(string)+"微"
+					html:=`<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=`+s["petId"].(string)+`>详情地址</a><br>狗狗价格：`+s["amount"].(string)+"微"
 					m.SetBody("text/html", html)
 					d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
 					d.DialAndSend(m);
@@ -999,7 +999,7 @@ func do_always(configuration st.Configuration)  {
 }
 
 func print_code(configuration st.Configuration){
-	url := "https://pet-chain.baidu.com/data/captcha/gen"
+	url := "https://pet-chain.duxiaoman.com/data/captcha/gen"
 	var jsonStr = []byte(`{
 							"requestId":1523433103485,
 							"appId":1,"tpl":"",
@@ -1062,7 +1062,7 @@ func print_code(configuration st.Configuration){
 }
 
 func print_huobao_code(configuration st.Configuration){
-	url := "https://pet-chain.baidu.com/data/captcha/gen"
+	url := "https://pet-chain.duxiaoman.com/data/captcha/gen"
 	var jsonStr = []byte(`{
 							"requestId":1523433103485,
 							"appId":1,"tpl":"",
@@ -1256,7 +1256,7 @@ func switch_account(json string,petid string,amount string,configuration st.Conf
 			m.SetHeader("To",configuration.QQ_EMAIL)
 			m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
 			m.SetHeader("Subject", "莱茨狗订单通知")
-			html:=`<a href=https://pet-chain.baidu.com/chain/detail?channel=market&petId=`+petid+`>详情地址</a><br>狗狗价格：`+amount+"微"
+			html:=`<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=`+petid+`>详情地址</a><br>狗狗价格：`+amount+"微"
 			m.SetBody("text/html", html)
 			d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
 			d.DialAndSend(m);
@@ -1268,7 +1268,7 @@ func switch_account(json string,petid string,amount string,configuration st.Conf
 		//	m.SetHeader("To",configuration.QQ_EMAIL)
 		//	m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
 		//	m.SetHeader("Subject", "被别人抢购成功")
-		//	html:=`<a href=https://pet-chain.baidu.com/chain/detail?channel=market&petId=`+petid+`>详情地址</a><br>狗狗价格：`+amount+"微"
+		//	html:=`<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=`+petid+`>详情地址</a><br>狗狗价格：`+amount+"微"
 		//	m.SetBody("text/html", html)
 		//	d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
 		//	d.DialAndSend(m);
