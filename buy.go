@@ -542,68 +542,77 @@ func dog_shenhua(dogs string,configuration st.Configuration)  {
 			if s !=nil{
 				if shenhua_dog(s,configuration){
 					fmt.Print(s)
+					m := gomail.NewMessage()
+					m.SetHeader("From",configuration.QQ_EMAIL)
+					m.SetHeader("To",configuration.QQ_EMAIL)
+					m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
+					m.SetHeader("Subject", "莱茨狗订单通知")
+					html:=`<a href=https://pet-chain.baidu.com/chain/detail?channel=market&petId=`+s["petId"].(string)+`>详情地址</a><br>狗狗价格：`+s["amount"].(string)+"微"
+					m.SetBody("text/html", html)
+					d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
+					d.DialAndSend(m);
 					//先下五次单，防止有错误验证码和过期验证码
-					for i:=1;i<=5;i++{
-						codes :=get_code()
-						json,_ :=simplejson.NewJson([]byte(codes))
-						if json!=nil{
-							seed :=json.Get("seed").MustString()
-							code :=json.Get("code").MustString()
-							bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-						}
-
-					}
+					//for i:=1;i<=5;i++{
+					//	codes :=get_code()
+					//	json,_ :=simplejson.NewJson([]byte(codes))
+					//	if json!=nil{
+					//		seed :=json.Get("seed").MustString()
+					//		code :=json.Get("code").MustString()
+					//		bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//	}
+					//
+					//}
 					//在下一次单
-					codes :=get_code()
-					json,_ :=simplejson.NewJson([]byte(codes))
-					if json !=nil{
-						seed :=json.Get("seed").MustString()
-						code :=json.Get("code").MustString()
-						bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-
-						res,_ :=simplejson.NewJson([]byte(bres))
-						if res!=nil {
-							errorNo :=res.Get("errorNo").MustString()
-							errorMsg :=res.Get("errorMsg").MustString()
-							if(errorNo=="100"||errorNo=="101"){
-								for i:=1;i<=3;i++{
-									codes :=get_code()
-									json,_ :=simplejson.NewJson([]byte(codes))
-									if json!=nil{
-										seed :=json.Get("seed").MustString()
-										code :=json.Get("code").MustString()
-										bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-									}
-
-								}
-							}
-							if errorNo=="08"{
-								//交易火爆，区块链处理繁忙，请稍后再试
-								for{
-									codes :=get_huobao_code()
-									json,_ :=simplejson.NewJson([]byte(codes))
-									seed :=json.Get("seed").MustString()
-									code :=json.Get("code").MustString()
-									bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-									res,_ :=simplejson.NewJson([]byte(bres))
-									if(res!=nil){
-										errorNo :=res.Get("errorNo").MustString()
-										if(errorNo=="10002"){
-											break
-										}
-									}
-								}
-							}
-							if errorNo=="10002" {
-								//有人抢先下单啦
-								fmt.Print(errorMsg)
-							}
-							if errorNo =="00"{
-								//success
-								fmt.Print("抢到狗狗啦！！！！！！","\n",s)
-							}
-						}
-					}
+					//codes :=get_code()
+					//json,_ :=simplejson.NewJson([]byte(codes))
+					//if json !=nil{
+					//	seed :=json.Get("seed").MustString()
+					//	code :=json.Get("code").MustString()
+					//	bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//
+					//	res,_ :=simplejson.NewJson([]byte(bres))
+					//	if res!=nil {
+					//		errorNo :=res.Get("errorNo").MustString()
+					//		errorMsg :=res.Get("errorMsg").MustString()
+					//		if(errorNo=="100"||errorNo=="101"){
+					//			for i:=1;i<=3;i++{
+					//				codes :=get_code()
+					//				json,_ :=simplejson.NewJson([]byte(codes))
+					//				if json!=nil{
+					//					seed :=json.Get("seed").MustString()
+					//					code :=json.Get("code").MustString()
+					//					bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//				}
+					//
+					//			}
+					//		}
+					//		if errorNo=="08"{
+					//			//交易火爆，区块链处理繁忙，请稍后再试
+					//			for{
+					//				codes :=get_huobao_code()
+					//				json,_ :=simplejson.NewJson([]byte(codes))
+					//				seed :=json.Get("seed").MustString()
+					//				code :=json.Get("code").MustString()
+					//				bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//				res,_ :=simplejson.NewJson([]byte(bres))
+					//				if(res!=nil){
+					//					errorNo :=res.Get("errorNo").MustString()
+					//					if(errorNo=="10002"){
+					//						break
+					//					}
+					//				}
+					//			}
+					//		}
+					//		if errorNo=="10002" {
+					//			//有人抢先下单啦
+					//			fmt.Print(errorMsg)
+					//		}
+					//		if errorNo =="00"{
+					//			//success
+					//			fmt.Print("抢到狗狗啦！！！！！！","\n",s)
+					//		}
+					//	}
+					//}
 
 				}
 
@@ -621,68 +630,77 @@ func dog_shishi(dogs string,configuration st.Configuration)  {
 			s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 			if s !=nil{
 				if shishi_dog(s,configuration){
+					m := gomail.NewMessage()
+					m.SetHeader("From",configuration.QQ_EMAIL)
+					m.SetHeader("To",configuration.QQ_EMAIL)
+					m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
+					m.SetHeader("Subject", "莱茨狗订单通知")
+					html:=`<a href=https://pet-chain.baidu.com/chain/detail?channel=market&petId=`+s["petId"].(string)+`>详情地址</a><br>狗狗价格：`+s["amount"].(string)+"微"
+					m.SetBody("text/html", html)
+					d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
+					d.DialAndSend(m);
 					//先下五次单，防止有错误验证码和过期验证码
-					for i:=1;i<=5;i++{
-						codes :=get_code()
-						json,_ :=simplejson.NewJson([]byte(codes))
-						if json!=nil{
-							seed :=json.Get("seed").MustString()
-							code :=json.Get("code").MustString()
-							bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-						}
-
-					}
-					//在下一次单
-					codes :=get_code()
-					json,_ :=simplejson.NewJson([]byte(codes))
-					if json !=nil{
-						seed :=json.Get("seed").MustString()
-						code :=json.Get("code").MustString()
-						bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-
-						res,_ :=simplejson.NewJson([]byte(bres))
-						if res!=nil {
-							errorNo :=res.Get("errorNo").MustString()
-							errorMsg :=res.Get("errorMsg").MustString()
-							if(errorNo=="100"||errorNo=="101"){
-								for i:=1;i<=3;i++{
-									codes :=get_code()
-									json,_ :=simplejson.NewJson([]byte(codes))
-									if json!=nil{
-										seed :=json.Get("seed").MustString()
-										code :=json.Get("code").MustString()
-										bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-									}
-
-								}
-							}
-							if errorNo=="08"{
-								//交易火爆，区块链处理繁忙，请稍后再试
-								for{
-									codes :=get_huobao_code()
-									json,_ :=simplejson.NewJson([]byte(codes))
-									seed :=json.Get("seed").MustString()
-									code :=json.Get("code").MustString()
-									bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-									res,_ :=simplejson.NewJson([]byte(bres))
-									if(res!=nil){
-										errorNo :=res.Get("errorNo").MustString()
-										if(errorNo=="10002"){
-											break
-										}
-									}
-								}
-							}
-							if errorNo=="10002" {
-								//有人抢先下单啦
-								fmt.Print(errorMsg)
-							}
-							if errorNo =="00"{
-								//success
-								fmt.Print("抢到狗狗啦！！！！！！","\n",s)
-							}
-						}
-					}
+					//for i:=1;i<=5;i++{
+					//	codes :=get_code()
+					//	json,_ :=simplejson.NewJson([]byte(codes))
+					//	if json!=nil{
+					//		seed :=json.Get("seed").MustString()
+					//		code :=json.Get("code").MustString()
+					//		bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//	}
+					//
+					//}
+					////在下一次单
+					//codes :=get_code()
+					//json,_ :=simplejson.NewJson([]byte(codes))
+					//if json !=nil{
+					//	seed :=json.Get("seed").MustString()
+					//	code :=json.Get("code").MustString()
+					//	bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//
+					//	res,_ :=simplejson.NewJson([]byte(bres))
+					//	if res!=nil {
+					//		errorNo :=res.Get("errorNo").MustString()
+					//		errorMsg :=res.Get("errorMsg").MustString()
+					//		if(errorNo=="100"||errorNo=="101"){
+					//			for i:=1;i<=3;i++{
+					//				codes :=get_code()
+					//				json,_ :=simplejson.NewJson([]byte(codes))
+					//				if json!=nil{
+					//					seed :=json.Get("seed").MustString()
+					//					code :=json.Get("code").MustString()
+					//					bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//				}
+					//
+					//			}
+					//		}
+					//		if errorNo=="08"{
+					//			//交易火爆，区块链处理繁忙，请稍后再试
+					//			for{
+					//				codes :=get_huobao_code()
+					//				json,_ :=simplejson.NewJson([]byte(codes))
+					//				seed :=json.Get("seed").MustString()
+					//				code :=json.Get("code").MustString()
+					//				bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//				res,_ :=simplejson.NewJson([]byte(bres))
+					//				if(res!=nil){
+					//					errorNo :=res.Get("errorNo").MustString()
+					//					if(errorNo=="10002"){
+					//						break
+					//					}
+					//				}
+					//			}
+					//		}
+					//		if errorNo=="10002" {
+					//			//有人抢先下单啦
+					//			fmt.Print(errorMsg)
+					//		}
+					//		if errorNo =="00"{
+					//			//success
+					//			fmt.Print("抢到狗狗啦！！！！！！","\n",s)
+					//		}
+					//	}
+					//}
 
 				}
 
@@ -700,68 +718,77 @@ func dog_zhuoyue(dogs string,configuration st.Configuration)  {
 			s:= js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 			if s !=nil{
 				if zhuoyue_dog(s,configuration){
+					m := gomail.NewMessage()
+					m.SetHeader("From",configuration.QQ_EMAIL)
+					m.SetHeader("To",configuration.QQ_EMAIL)
+					m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
+					m.SetHeader("Subject", "莱茨狗订单通知")
+					html:=`<a href=https://pet-chain.baidu.com/chain/detail?channel=market&petId=`+s["petId"].(string)+`>详情地址</a><br>狗狗价格：`+s["amount"].(string)+"微"
+					m.SetBody("text/html", html)
+					d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
+					d.DialAndSend(m);
 					//先下五次单，防止有错误验证码和过期验证码
-					for i:=1;i<=5;i++{
-						codes :=get_code()
-						json,_ :=simplejson.NewJson([]byte(codes))
-						if json!=nil{
-							seed :=json.Get("seed").MustString()
-							code :=json.Get("code").MustString()
-							bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-						}
-
-					}
-					//在下一次单
-					codes :=get_code()
-					json,_ :=simplejson.NewJson([]byte(codes))
-					if json !=nil{
-						seed :=json.Get("seed").MustString()
-						code :=json.Get("code").MustString()
-						bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-
-						res,_ :=simplejson.NewJson([]byte(bres))
-						if res!=nil {
-							errorNo :=res.Get("errorNo").MustString()
-							errorMsg :=res.Get("errorMsg").MustString()
-							if(errorNo=="100"||errorNo=="101"){
-								for i:=1;i<=3;i++{
-									codes :=get_code()
-									json,_ :=simplejson.NewJson([]byte(codes))
-									if json!=nil{
-										seed :=json.Get("seed").MustString()
-										code :=json.Get("code").MustString()
-										bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-									}
-
-								}
-							}
-							if errorNo=="08"{
-								//交易火爆，区块链处理繁忙，请稍后再试
-								for{
-									codes :=get_huobao_code()
-									json,_ :=simplejson.NewJson([]byte(codes))
-									seed :=json.Get("seed").MustString()
-									code :=json.Get("code").MustString()
-									bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
-									res,_ :=simplejson.NewJson([]byte(bres))
-									if(res!=nil){
-										errorNo :=res.Get("errorNo").MustString()
-										if(errorNo=="10002"){
-											break
-										}
-									}
-								}
-							}
-							if errorNo=="10002" {
-								//有人抢先下单啦
-								fmt.Print(errorMsg)
-							}
-							if errorNo =="00"{
-								//success
-								fmt.Print("抢到狗狗啦！！！！！！","\n",s)
-							}
-						}
-					}
+					//for i:=1;i<=5;i++{
+					//	codes :=get_code()
+					//	json,_ :=simplejson.NewJson([]byte(codes))
+					//	if json!=nil{
+					//		seed :=json.Get("seed").MustString()
+					//		code :=json.Get("code").MustString()
+					//		bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//	}
+					//
+					//}
+					////在下一次单
+					//codes :=get_code()
+					//json,_ :=simplejson.NewJson([]byte(codes))
+					//if json !=nil{
+					//	seed :=json.Get("seed").MustString()
+					//	code :=json.Get("code").MustString()
+					//	bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//
+					//	res,_ :=simplejson.NewJson([]byte(bres))
+					//	if res!=nil {
+					//		errorNo :=res.Get("errorNo").MustString()
+					//		errorMsg :=res.Get("errorMsg").MustString()
+					//		if(errorNo=="100"||errorNo=="101"){
+					//			for i:=1;i<=3;i++{
+					//				codes :=get_code()
+					//				json,_ :=simplejson.NewJson([]byte(codes))
+					//				if json!=nil{
+					//					seed :=json.Get("seed").MustString()
+					//					code :=json.Get("code").MustString()
+					//					bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//				}
+					//
+					//			}
+					//		}
+					//		if errorNo=="08"{
+					//			//交易火爆，区块链处理繁忙，请稍后再试
+					//			for{
+					//				codes :=get_huobao_code()
+					//				json,_ :=simplejson.NewJson([]byte(codes))
+					//				seed :=json.Get("seed").MustString()
+					//				code :=json.Get("code").MustString()
+					//				bres :=bug_dog(s["petId"].(string),s["amount"].(string),seed,code,s["validCode"].(string),configuration)
+					//				res,_ :=simplejson.NewJson([]byte(bres))
+					//				if(res!=nil){
+					//					errorNo :=res.Get("errorNo").MustString()
+					//					if(errorNo=="10002"){
+					//						break
+					//					}
+					//				}
+					//			}
+					//		}
+					//		if errorNo=="10002" {
+					//			//有人抢先下单啦
+					//			fmt.Print(errorMsg)
+					//		}
+					//		if errorNo =="00"{
+					//			//success
+					//			fmt.Print("抢到狗狗啦！！！！！！","\n",s)
+					//		}
+					//	}
+					//}
 
 				}
 
@@ -1296,9 +1323,9 @@ func main(){
 	//初始化属性条件
 	count_raredegree=get_raredegree_count(configuration.BODY_TYPE,configuration.EYES_TYPE,configuration.MOUTH_TYPE,configuration.BODY_COLOR)
 	//打码服务
-	go dama(configuration)
+	//go dama(configuration)
 	//转为火爆打码
-	go huobao_dama(configuration)
+	//go huobao_dama(configuration)
 	//自动刷狗
 	ticker := time.NewTicker(configuration.TIME* time.Millisecond)
 	for _ = range ticker.C {
