@@ -8,7 +8,7 @@ import (
 )
 //查询列表 获取已上架的狗狗id amount
 func GetList(cookie string,pageNo string) string {
-	url := "https://pet-chain.baidu.com/data/user/pet/list"
+	url := "https://pet-chain.duxiaoman.com/data/user/pet/list"
 	var jsonStr = []byte(`{
 		"pageNo":`+pageNo+`,
 		"pageSize":10,
@@ -37,7 +37,7 @@ func GetList(cookie string,pageNo string) string {
 }
 //上架
 func Sale(petid string,amount string,cookie string) string {
-	url := "https://pet-chain.baidu.com/data/market/sale/shelf/create"
+	url := "https://pet-chain.duxiaoman.com/data/market/sale/shelf/create"
 	var jsonStr = []byte(`
 	{
 		"petId":`+petid+`,
@@ -66,7 +66,7 @@ func Sale(petid string,amount string,cookie string) string {
 
 //下架狗狗
 func Unsale(petid string,cookie string) string {
-	url := "https://pet-chain.baidu.com/data/market/unsalePet"
+	url := "https://pet-chain.duxiaoman.com/data/market/unsalePet"
 	var jsonStr = []byte(`
 	{
 		"petId":`+petid+`,
