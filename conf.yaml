@@ -1,7 +1,9 @@
+
 #---------------系统公共配置———————————————————————————————————————————————
 
 #百度账号的cookie,支持多帐号，默认第一个为主账号
 COOKIE: [
+    "BDUSS=S16WDBhRTF6azQ4REhoQ35kQ213cFY2Z2E2d2Z4ZlVJQ3BJMWItMEQycldLdjlkSVFBQUFBJCQAAAAAAAAAAAEAAAD9FSgzcG9wc2xlZWNoYW8AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAANad113Wndddc; STOKEN=c2291bfbe3c478c2aabca16afe81b15e2eb37c9b383ea42949ee9cc185c88317; Hm_lvt_2a9b55018981a1911dd3914ca3f9bcf6=1574657568,1574657667,1574657830,1574658147; Hm_lpvt_2a9b55018981a1911dd3914ca3f9bcf6=1574658771"
 ]
 #免费试用打码
 KEY: e6c53b3b31225ad3473568477b977464
@@ -18,9 +20,9 @@ PAGE: 1
 #每页刷狗数,最大为10，超过百度接口失败
 PAGE_SIZE: 10
 #qq邮箱地址，购买成功后的订单推送
-QQ_EMAIL:
+QQ_EMAIL: 979071224@qq.com
 #qq发件密码（不是你得qq密码，请到邮箱-设置-账户，下点击生成授权码，把授权码复制到这里）
-QQ_AUTH_PWD:
+QQ_AUTH_PWD: hwkazvirzwgcbcef
 #---------------系统公共配置———————————————————————————————————————————————
 
 
