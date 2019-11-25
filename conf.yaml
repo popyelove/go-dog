@@ -1,4 +1,3 @@
-
 #---------------系统公共配置———————————————————————————————————————————————
 
 #百度账号的cookie,支持多帐号，默认第一个为主账号
@@ -19,9 +18,9 @@ PAGE: 1
 #每页刷狗数,最大为10，超过百度接口失败
 PAGE_SIZE: 10
 #qq邮箱地址，购买成功后的订单推送
-QQ_EMAIL: 979071224@qq.com
+QQ_EMAIL:
 #qq发件密码（不是你得qq密码，请到邮箱-设置-账户，下点击生成授权码，把授权码复制到这里）
-QQ_AUTH_PWD: hmxlshlrqiedbahg
+QQ_AUTH_PWD:
 #---------------系统公共配置———————————————————————————————————————————————
 
 
@@ -48,7 +47,7 @@ CHUANSHUO_SWITCH: 1
 #0代传说0分钟价格
 CHUANSHUO0_8DOG_0_PRICE: 5000000
 #0代传说24价格
-CHUANSHUO0_8DOG_24_PRICE:5000000
+CHUANSHUO0_8DOG_24_PRICE: 5000000
 #0代传说2天价格
 CHUANSHUO0_8DOG_2_PRICE: 5000000
 #大于0代传说价格
@@ -196,7 +195,7 @@ ZHUOYUE0_0SPECIAL_PRICE: 2000
 #稀有总开关
 XIYOU_SWITCH: 1
 #0代稀有0分钟价格
-XIYOU0_1DOG_0_PRICE: 150
+XIYOU0_1DOG_0_PRICE: 150000
 #稀有狗生日号
 XIYOU_BIRTHDAY_PRICE: 10000
 #稀有靓号价格
