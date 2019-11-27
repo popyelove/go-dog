@@ -407,7 +407,7 @@ func xiyou_dog(dog map[string]interface{}, configuration st.Configuration) bool 
 	id, _ := jsoniter.MarshalToString(dog["id"])
 	_, dogtype := get_dog_rareDegree(dog["petId"].(string), configuration)
 	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()
-	if rareDegree == "1" && generation == "0" && amount <= configuration.XIYOU0_1DOG_0_PRICE {
+	if rareDegree == "1" && generation == "0" && amount <= configuration.XIYOU0_1DOG_0_PRICE && timeLeft == "0分钟" {
 
 		return true
 	}
