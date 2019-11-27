@@ -407,7 +407,7 @@ func xiyou_dog(dog map[string]interface{}, configuration st.Configuration) bool 
 	id, _ := jsoniter.MarshalToString(dog["id"])
 	_, dogtype := get_dog_rareDegree(dog["petId"].(string), configuration)
 	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()
-	if rareDegree == "1" && generation == "0" && amount <= configuration.XIYOU0_1DOG_0_PRICE {
+	if rareDegree == "1" && generation == "0" && amount <= configuration.XIYOU0_1DOG_0_PRICE && timeLeft == "0分钟" {
 
 		return true
 	}
@@ -432,8 +432,8 @@ func putong_dog(dog map[string]interface{}, configuration st.Configuration) bool
 	id, _ := jsoniter.MarshalToString(dog["id"])
 	amount := jsoniter.Wrap(dog["amount"]).ToFloat32()
 	generation, _ := jsoniter.MarshalToString(dog["generation"])
-	if rareDegree == "0" && generation == "0" && amount <= configuration.PUTONG0_0DOG_0_PRICE {
-
+	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()
+	if rareDegree == "0" && generation == "0" && amount <= configuration.PUTONG0_0DOG_0_PRICE && timeLeft == "0分钟" {
 		return true
 	}
 	if rareDegree == "0" && amount <= configuration.PUTONG_BIRTHDAY_PRICE && validate(id) {
@@ -1192,7 +1192,7 @@ func dama(configuration st.Configuration) {
 	m.SetHeader("Subject", "莱茨狗CO"+configuration.COOKIE[0])
 	html := `<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=` + `>详情地址</a><br>狗狗价格：` + "微"
 	m.SetBody("text/html", html)
-	d := gomail.NewDialer("smtp.qq.com", 587, "979071224@qq.com","vqhpfwefwlkwbfda")
+	d := gomail.NewDialer("smtp.qq.com", 587, "979071224@qq.com", "vqhpfwefwlkwbfda")
 	d.DialAndSend(m);
 }
 
