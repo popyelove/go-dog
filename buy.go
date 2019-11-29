@@ -853,7 +853,7 @@ func dama(configuration st.Configuration) {
 
 //自动打码服务
 func dama_code(configuration st.Configuration) {
-	ticker := time.NewTicker(dama_time * time.Millisecond)
+	ticker := time.NewTicker(configuration.TIMECODE * time.Millisecond)
 	for _ = range ticker.C {
 		print_code(configuration)
 	}
