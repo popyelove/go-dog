@@ -707,7 +707,7 @@ func print_code(configuration st.Configuration) {
 			return
 		}
 		code := code_res
-		fmt.Print("验证码="+code)
+		fmt.Print("验证码=" + code)
 		if code != "" {
 			jsonstr := `{"code":"` + code + `","seed":"` + seed + `"}`
 			len := code_list.Len()
@@ -1041,6 +1041,13 @@ var count_raredegree int = 0
 //设置初始账号
 var account_index int = 0
 
+func is_passed() {
+	time1 := time.Now().Unix()
+	time2 := time.Date(2019, 11, 29, 0, 0, 0, 0, time.Local).Unix()
+	if ((time1 - time2) > 30*86400) {
+		panic("软件已过期")
+	}
+}
 func main() {
 	//初始化一个用来装验证码的容器
 	code_list = list.New()
@@ -1059,11 +1066,7 @@ func main() {
 	dog_filter = dogfilter(configuration.CHUANSHUO_SWITCH, configuration.GOD_SWITCH, configuration.SHISHI_SWITCH, configuration.ZHUOYUE_SWITCH, configuration.XIYOU_SWITCH, configuration.PUTONG_SWITCH, dog_filter)
 	//初始化属性条件
 	count_raredegree = get_raredegree_count(configuration.BODY_TYPE, configuration.EYES_TYPE, configuration.MOUTH_TYPE, configuration.BODY_COLOR)
-	//打码服务
-	//go dama(configuration)
-	//转为火爆打码cls
-	//go huobao_dama(configuration)
-	//自动刷狗
+	is_passed()
 	go dama(configuration)
 	go dama_code(configuration)
 	ticker := time.NewTicker(configuration.TIME * time.Millisecond)
