@@ -707,7 +707,7 @@ func print_code(configuration st.Configuration) {
 			return
 		}
 		code := code_res
-		fmt.Print("验证码="+code, "====>seed="+seed, "\n")
+		fmt.Print("验证码="+code)
 		if code != "" {
 			jsonstr := `{"code":"` + code + `","seed":"` + seed + `"}`
 			len := code_list.Len()
