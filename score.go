@@ -56,6 +56,12 @@ func dog_lists(cookie string,account int)  {
 		fmt.Print("\n\n")
 	}
 }
+func getinfo(cookie string,account int)  {
+	info:=tool.GetInfo(cookie)
+	js,_:= simplejson.NewJson([]byte(info))
+	data:=js.Get("data").MustMap()
+	fmt.Print("账户==",account,"      username==",data["userName"],"      amout==",data["amount"])
+}
 var PAGE_SIZE=10
 func main() {
 	var config string
@@ -72,5 +78,6 @@ func main() {
 	cookies:=configuration.COOKIE
 	for i:=0;i<len(cookies);i++{
 		dog_lists(cookies[i],i)
+		getinfo(cookies[i],i)
 	}
 }

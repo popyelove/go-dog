@@ -6,6 +6,32 @@ import (
 	"fmt"
 	"time"
 )
+//获取个人详情
+func GetInfo(cookie string) string {
+	url := "https://pet-chain.duxiaoman.com/data/user/get"
+	var jsonStr = []byte(`{
+	"appId":1,
+	"nounce":null,
+	"phoneType":"ios",
+	"requestId":1575190291281,
+	"timeStamp":null,
+	"token":null,
+	"tpl":""
+		}`)
+	req,_:= http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Cookie",cookie)
+	client := &http.Client{}
+	resp,_:= client.Do(req)
+	if resp !=nil{
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+		return string(body)
+	}
+	fmt.Println(time.Now())
+	fmt.Print("\n")
+	return ""
+}
 //查询列表 获取已上架的狗狗id amount
 func GetList(cookie string,pageNo string) string {
 	url := "https://pet-chain.duxiaoman.com/data/user/pet/list"
