@@ -41,6 +41,23 @@ func http_post(url string, jsonStr []byte, configuration st.Configuration, ch ch
 	}
 	return
 }
+func http_open_post(url string, jsonStr []byte, configuration st.Configuration, ch chan string) {
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return
+	}
+	if resp != nil {
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+		ch <- string(body)
+	} else {
+		ch <- ""
+	}
+	return
+}
 
 //获取狗的列表
 func dog_list(configuration st.Configuration) string {
@@ -68,7 +85,7 @@ func dog_list(configuration st.Configuration) string {
     }
 	`)
 	ch_run := make(chan string)
-	go http_post(url, jsonStr, configuration, ch_run)
+	go http_open_post(url, jsonStr, configuration, ch_run)
 	select {
 	case res := <-ch_run:
 		if (res != "") {
