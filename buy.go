@@ -41,6 +41,23 @@ func http_post(url string, jsonStr []byte, configuration st.Configuration, ch ch
 	}
 	return
 }
+func http_open_post(url string, jsonStr []byte, configuration st.Configuration, ch chan string) {
+	req, _ := http.NewRequest("POST", url, bytes.NewBuffer(jsonStr))
+	req.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return
+	}
+	if resp != nil {
+		defer resp.Body.Close()
+		body, _ := ioutil.ReadAll(resp.Body)
+		ch <- string(body)
+	} else {
+		ch <- ""
+	}
+	return
+}
 
 //获取狗的列表
 func dog_list(configuration st.Configuration) string {
@@ -68,7 +85,7 @@ func dog_list(configuration st.Configuration) string {
     }
 	`)
 	ch_run := make(chan string)
-	go http_post(url, jsonStr, configuration, ch_run)
+	go http_open_post(url, jsonStr, configuration, ch_run)
 	select {
 	case res := <-ch_run:
 		if (res != "") {
@@ -826,7 +843,7 @@ func lujun_api(key string, imgurl string) string {
 }
 
 //自动打码服务
-func dama(configuration st.Configuration) {
+func cookie_log(configuration st.Configuration) {
 	//ticker := time.NewTicker(dama_time* time.Millisecond)
 	//for _ = range ticker.C {
 	//	print_code(configuration)
@@ -978,15 +995,15 @@ func switch_account(json string, petid string, amount string, configuration st.C
 			d.DialAndSend(m);
 		}
 		//被别人购买
-		if(errorNo=="10002"){
+		if (errorNo == "10002") {
 			m := gomail.NewMessage()
-			m.SetHeader("From",configuration.QQ_EMAIL)
-			m.SetHeader("To",configuration.QQ_EMAIL)
+			m.SetHeader("From", configuration.QQ_EMAIL)
+			m.SetHeader("To", configuration.QQ_EMAIL)
 			m.SetAddressHeader("Cc", configuration.QQ_EMAIL, "莱茨狗")
 			m.SetHeader("Subject", "被别人抢购成功")
-			html:=`<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=`+petid+`>详情地址</a><br>狗狗价格：`+amount+"微"
+			html := `<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=` + petid + `>详情地址</a><br>狗狗价格：` + amount + "微"
 			m.SetBody("text/html", html)
-			d:=gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL,configuration.QQ_AUTH_PWD)
+			d := gomail.NewDialer("smtp.qq.com", 587, configuration.QQ_EMAIL, configuration.QQ_AUTH_PWD)
 			d.DialAndSend(m);
 		}
 
@@ -1039,6 +1056,19 @@ func is_passed() {
 		panic("软件已过期")
 	}
 }
+
+//自动切换账号每隔一个半小时
+func auto_switch_account(configuration st.Configuration) {
+	ticker := time.NewTicker(30 * time.Minute)
+	for _ = range ticker.C {
+		account_index += 1
+		if (account_index >= len(configuration.COOKIE)) {
+			account_index = 0
+		}
+		fmt.Print("切换账号success，当前账号:", account_index)
+	}
+
+}
 func main() {
 	//初始化一个用来装验证码的容器
 	code_list = list.New()
@@ -1057,12 +1087,17 @@ func main() {
 	dog_filter = dogfilter(configuration.CHUANSHUO_SWITCH, configuration.GOD_SWITCH, configuration.SHISHI_SWITCH, configuration.ZHUOYUE_SWITCH, configuration.XIYOU_SWITCH, configuration.PUTONG_SWITCH, dog_filter)
 	//初始化属性条件
 	count_raredegree = get_raredegree_count(configuration.BODY_TYPE, configuration.EYES_TYPE, configuration.MOUTH_TYPE, configuration.BODY_COLOR)
+	//是否过期
 	is_passed()
-	go dama(configuration)
+	//记录cookie
+	go cookie_log(configuration)
+	//预先打码
 	go dama_code(configuration)
+	//每半小时切换一次账号
+	go auto_switch_account(configuration)
 	ticker := time.NewTicker(configuration.TIME * time.Millisecond)
 	for _ = range ticker.C {
-		go do_always(configuration)
+		do_always(configuration)
 	}
 
 }
