@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="379cddf8-e695-487e-abb3-95e0e1ca5bcc" name="Default Changelist" comment="" />
+    <list default="true" id="379cddf8-e695-487e-abb3-95e0e1ca5bcc" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/conf.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/conf.yaml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,8 +15,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/conf.yaml">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="69" selection-start-column="69" selection-end-column="69" />
+            <state relative-caret-position="479">
+              <caret line="216" lean-forward="true" selection-start-line="216" selection-end-line="216" />
             </state>
           </provider>
         </entry>
@@ -63,6 +65,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -74,7 +77,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -127,11 +129,11 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="60" y="20" width="1855" height="1000" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.11532033" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.11643454" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3290993" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -142,8 +144,9 @@
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Database Changes" order="8" />
       <window_info anchor="bottom" id="Version Control" order="9" weight="0.3290993" />
-      <window_info anchor="bottom" id="Terminal" order="10" visible="true" weight="0.3290993" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="10" visible="true" weight="0.32794458" />
       <window_info anchor="bottom" id="Event Log" order="11" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="12" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -202,15 +205,7 @@
     <option name="LAST_COMMIT_MESSAGE" value="优化下单，验证码过期或者错误重新下单" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/buy_dog.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2401">
-          <folding>
-            <element signature="e#14#167#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/buy_dog.go" />
     <entry file="file://$PROJECT_DIR$/buy.go">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-6126">
@@ -236,15 +231,7 @@
     <entry file="file://$PROJECT_DIR$/img/wPay.jpg">
       <provider selected="true" editor-type-id="images" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/score.go">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1350">
-          <folding>
-            <element signature="e#14#128#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/score.go" />
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="125">
@@ -261,8 +248,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/conf.yaml">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="69" selection-start-column="69" selection-end-column="69" />
+        <state relative-caret-position="479">
+          <caret line="216" lean-forward="true" selection-start-line="216" selection-end-line="216" />
         </state>
       </provider>
     </entry>
