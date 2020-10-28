@@ -15,6 +15,13 @@
 <p>3：双击 buy_windows32.exe或者buy_windows64.exe文件 启动运行刷狗服务</p>
 <p>4：用鼠标吧conf.yaml文件拖入程序窗口内回车开始刷够</p>
 
+### 使用效果
+<div style="float:left;">
+    <img src="https://pic1.zhimg.com/80/v2-94fe22a64d73b30f3bbb4467e65f5c35_720w.jpg" />&nbsp;
+    <img src="https://pic4.zhimg.com/v2-bbe4c1604832d42f2306cae8a20b7ce9_r.jpg" />
+    <img src="https://pic3.zhimg.com/80/v2-1bcd620b3e98a16b6a1f8985236a8735_720w.jpg" />
+</div>
+
 ### 打赏支持
 <p>打赏支持作者持续开发完善</p>
 微信&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
