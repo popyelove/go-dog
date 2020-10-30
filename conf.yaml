@@ -13,9 +13,9 @@ TIMECODE: 20000
 #自动上下架时间间隔单位分钟
 SELL_TIME: 10
 #获取狗的列表规则 推荐配置这两种 AMOUNT_ASC（价格最小的）和 CREATETIME_DESC（最新发布的狗）
-SORT_TYPE: CREATETIME_DESC
+SORT_TYPE: AMOUNT_ASC
 #刷新页数，扫描页数
-PAGE: 2
+PAGE: 1
 #每页刷狗数,最大为10，超过百度接口失败
 PAGE_SIZE: 10
 #qq邮箱地址，购买成功后的订单推送
@@ -184,6 +184,8 @@ ZHUEYUE_BIRTHDAY_PRICE: 10000
 ZHUEYUE_GOOD_NUMBER_PRICE: 1000
 #卓越满足设置特有属性狗价格
 ZHUOYUE0_0SPECIAL_PRICE: 100
+#大于0代卓越狗
+ZHUOYUE_OLDER0_PRICE: 30
 #---------------卓越配置----------------------------------------------
 
 
@@ -200,6 +202,8 @@ XIYOU_BIRTHDAY_PRICE: 10000
 XIYOU_GOOD_NUMBER_PRICE: 1000
 #满足设置特有属性狗价格
 XIYOU0_0SPECIAL_PRICE: 100
+#大于0稀有狗狗
+XIYOU_OLDER0_DOG_PRICE: 30
 #---------------稀有配置----------------------------------------------
 
 
@@ -213,4 +217,6 @@ PUTONG0_0DOG_0_PRICE: 300
 PUTONG_BIRTHDAY_PRICE: 10000
 #普通狗靓号价格
 PUTONG_GOOD_NUMBER_PRICE: 10000
+#大于0带的普通够
+PUTONG_OLDER_DOG_PRICE: 30
 #---------------普通配置----------------------------------------------

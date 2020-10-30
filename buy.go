@@ -419,6 +419,10 @@ func zhuoyue_dog(dog map[string]interface{}, configuration st.Configuration) boo
 
 		return true
 	}
+	//大于0代卓越狗
+	if rareDegree == "2" && generation != "0" && amount <= configuration.ZHUOYUE_OLDER0_PRICE {
+		return true
+	}
 	return false
 }
 
@@ -446,6 +450,10 @@ func xiyou_dog(dog map[string]interface{}, configuration st.Configuration) bool 
 
 		return true
 	}
+	//大于0代稀有狗
+	if rareDegree == "1" && generation != "0" && amount <= configuration.XIYOU_OLDER0_DOG_PRICE {
+		return true
+	}
 	return false
 }
 
@@ -465,6 +473,9 @@ func putong_dog(dog map[string]interface{}, configuration st.Configuration) bool
 	}
 	if rareDegree == "0" && amount <= configuration.PUTONG_GOOD_NUMBER_PRICE && good_num(id) {
 
+		return true
+	}
+	if rareDegree == "0" && generation != "0" && amount <= configuration.PUTONG_OLDER_DOG_PRICE {
 		return true
 	}
 	return false
@@ -625,6 +636,7 @@ func dog_putong(dogs string, configuration st.Configuration) {
 			s := js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 			if s != nil {
 				if putong_dog(s, configuration) {
+					fmt.Print(s)
 					real_buy(s, configuration)
 				}
 
@@ -669,6 +681,7 @@ func do_always(configuration st.Configuration) {
 		case "1:0":
 			fmt.Print(dog_filter[flag])
 			dog_putong(dogs, configuration)
+		default:
 
 		}
 
@@ -1078,7 +1091,7 @@ func main() {
 	go auto_switch_account(configuration)
 	ticker := time.NewTicker(configuration.TIME * time.Millisecond)
 	for _ = range ticker.C {
-		do_always(configuration)
+		go do_always(configuration)
 	}
 
 }
