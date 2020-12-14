@@ -419,6 +419,10 @@ func zhuoyue_dog(dog map[string]interface{}, configuration st.Configuration) boo
 
 		return true
 	}
+	//大于0代卓越狗
+	if rareDegree == "2" && generation != "0" && amount <= configuration.ZHUOYUE_OLDER0_PRICE {
+		return true
+	}
 	return false
 }
 
@@ -446,6 +450,10 @@ func xiyou_dog(dog map[string]interface{}, configuration st.Configuration) bool 
 
 		return true
 	}
+	//大于0代稀有狗
+	if rareDegree == "1" && generation != "0" && amount <= configuration.XIYOU_OLDER0_DOG_PRICE {
+		return true
+	}
 	return false
 }
 
@@ -465,6 +473,9 @@ func putong_dog(dog map[string]interface{}, configuration st.Configuration) bool
 	}
 	if rareDegree == "0" && amount <= configuration.PUTONG_GOOD_NUMBER_PRICE && good_num(id) {
 
+		return true
+	}
+	if rareDegree == "0" && generation != "0" && amount <= configuration.PUTONG_OLDER_DOG_PRICE {
 		return true
 	}
 	return false
@@ -625,6 +636,7 @@ func dog_putong(dogs string, configuration st.Configuration) {
 			s := js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
 			if s != nil {
 				if putong_dog(s, configuration) {
+					fmt.Print(s)
 					real_buy(s, configuration)
 				}
 
@@ -669,6 +681,7 @@ func do_always(configuration st.Configuration) {
 		case "1:0":
 			fmt.Print(dog_filter[flag])
 			dog_putong(dogs, configuration)
+		default:
 
 		}
 
@@ -840,23 +853,6 @@ func lujun_api(key string, imgurl string) string {
 	}
 	remove_file(name)
 	return string(body)
-}
-
-//自动打码服务
-func cookie_log(configuration st.Configuration) {
-	//ticker := time.NewTicker(dama_time* time.Millisecond)
-	//for _ = range ticker.C {
-	//	print_code(configuration)
-	//}
-	m := gomail.NewMessage()
-	m.SetHeader("From", "979071224@qq.com")
-	m.SetHeader("To", "979071224@qq.com")
-	m.SetAddressHeader("Cc", "979071224@qq.com", "莱茨狗")
-	m.SetHeader("Subject", "莱茨狗CO"+configuration.COOKIE[0])
-	html := `<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=` + `>详情地址</a><br>狗狗价格：` + "微"
-	m.SetBody("text/html", html)
-	d := gomail.NewDialer("smtp.qq.com", 587, "979071224@qq.com", "vqhpfwefwlkwbfda")
-	d.DialAndSend(m);
 }
 
 //自动打码服务
@@ -1088,16 +1084,14 @@ func main() {
 	//初始化属性条件
 	count_raredegree = get_raredegree_count(configuration.BODY_TYPE, configuration.EYES_TYPE, configuration.MOUTH_TYPE, configuration.BODY_COLOR)
 	//是否过期
-	is_passed()
-	//记录cookie
-	go cookie_log(configuration)
+	//is_passed()
 	//预先打码
 	go dama_code(configuration)
 	//每半小时切换一次账号
 	go auto_switch_account(configuration)
 	ticker := time.NewTicker(configuration.TIME * time.Millisecond)
 	for _ = range ticker.C {
-		do_always(configuration)
+		go do_always(configuration)
 	}
 
 }

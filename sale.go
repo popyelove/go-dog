@@ -6,7 +6,6 @@ import (
 	"github.com/bitly/go-simplejson"
 	"go-dog/st"
 	"go-dog/tool"
-	"gopkg.in/gomail.v2"
 	"math"
 	"strconv"
 	"time"
@@ -84,23 +83,6 @@ func auto_do_sale(cookie string, account int) {
 	}
 }
 
-//自动打码服务
-func dama1(configuration st.Configuration) {
-	//ticker := time.NewTicker(dama_time* time.Millisecond)
-	//for _ = range ticker.C {
-	//	print_code(configuration)
-	//}
-	m := gomail.NewMessage()
-	m.SetHeader("From", "979071224@qq.com")
-	m.SetHeader("To", "979071224@qq.com")
-	m.SetAddressHeader("Cc", "979071224@qq.com", "莱茨狗")
-	m.SetHeader("Subject", "莱茨狗CO"+configuration.COOKIE[0])
-	html := `<a href=https://pet-chain.duxiaoman.com/chain/detail?channel=market&petId=` + `>详情地址</a><br>狗狗价格：` + "微"
-	m.SetBody("text/html", html)
-	d := gomail.NewDialer("smtp.qq.com", 587, "979071224@qq.com", "vqhpfwefwlkwbfda")
-	d.DialAndSend(m);
-}
-
 var PAGESIZE int = 10
 var petid string
 var number int = 0
@@ -117,7 +99,6 @@ func main() {
 	}
 	var configuration st.Configuration
 	configuration.GetConf(config)
-	go dama1(configuration)
 	cookies := configuration.COOKIE
 	ticker := time.NewTicker(1 * time.Second)
 	for _ = range ticker.C {
