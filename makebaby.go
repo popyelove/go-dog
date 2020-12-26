@@ -21,6 +21,7 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"github.com/astaxie/beego/logs"
 )
 
 func http_post(url string, jsonStr []byte, configuration st.Configuration, ch chan string) {
@@ -65,7 +66,7 @@ func dog_list(configuration st.Configuration) string {
 		index_dog = 0;
 	}
 	//Durl := "https://pet-chain.duxiaoman.com/data/market/queryPetsOnSale"
-	url := "https://pet-chain.duxiaoman.com/data/market/queryPetsOnSale"
+	url := "https://pet-chain.duxiaoman.com/data/market/breed/pets"
 	var jsonStr = []byte(`
 	{
 		"pageNo":` + strconv.Itoa(index_page) + `,
@@ -111,35 +112,9 @@ func bug_dog(petId string, amount string, seed string, code string, validCode st
 		RequestId string `json:"requestId"`
 		Appid     string `json:"appId"`
 		Tpl       string `json:"tpl"`
-	}
-	json_tiaojian := tiaojian{Petid: petId, Amount: amount, Seed: seed, Captcha: code, ValidCode: validCode, RequestId: "1520241678619", Appid: "1", Tpl: ""}
-	url := "https://pet-chain.duxiaoman.com/data/txn/sale/create"
-	jsonStr, _ := json.Marshal(json_tiaojian)
-	ch_run := make(chan string)
-	go http_post(url, jsonStr, configuration, ch_run)
-	select {
-	case res := <-ch_run:
-		go switch_account(res, petId, amount, configuration)
-		return res
-	case <-time.After(buy_dog_timeout * time.Second):
-		fmt.Println("交易火爆中，请稍后再试。。。！")
-		return ""
-	}
-	return ""
-}
-func bugbaby_dog(petId string, amount string, seed string, code string, validCode string, configuration st.Configuration) string {
-	type tiaojian struct {
-		Petid     string `json:"petId"`
-		Amount    string `json:"amount"`
-		Seed      string `json:"seed"`
-		Captcha   string `json:"captcha"`
-		ValidCode string `json:"validCode"`
-		RequestId string `json:"requestId"`
-		Appid     string `json:"appId"`
-		Tpl       string `json:"tpl"`
 		SenderPetId string `json:"senderPetId"`
 	}
-	json_tiaojian := tiaojian{Petid: petId, Amount: amount, Seed: seed, Captcha: code, ValidCode: validCode, RequestId: "1520241678619", Appid: "1", Tpl: "",SenderPetId:configuration.MAKE_BABY_PETID}
+	json_tiaojian := tiaojian{Petid: petId, Amount: amount, Seed: "", Captcha: code, ValidCode: validCode, RequestId: "1520241678619", Appid: "1", Tpl: "",SenderPetId:"4383094081382980615"}
 	url := "https://pet-chain.duxiaoman.com/data/txn/breed/create"
 	jsonStr, _ := json.Marshal(json_tiaojian)
 	ch_run := make(chan string)
@@ -154,6 +129,7 @@ func bugbaby_dog(petId string, amount string, seed string, code string, validCod
 	}
 	return ""
 }
+
 //获取狗的稀有属性
 func get_dog_rareDegree(petid string, configuration st.Configuration) (int, int) {
 	url := "https://pet-chain.duxiaoman.com/data/pet/queryPetById"
@@ -340,29 +316,6 @@ func shenhua_dog(dog map[string]interface{}, configuration st.Configuration) boo
 	return false
 }
 
-//神话狗
-func shenhuababy_dog(dog map[string]interface{}, configuration st.Configuration) bool {
-	rareDegree, _ := jsoniter.MarshalToString(dog["rareDegree"]) //稀有度
-	amount := jsoniter.Wrap(dog["amount"]).ToFloat32()           //价额
-	//timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()                     //休息时间
-	//generation, _ := jsoniter.MarshalToString(dog["generation"])                     //代数
-	rareDegrees, _ := get_dog_rareDegree(dog["petId"].(string), configuration) //属性稀有个数
-	if (rareDegrees == 6 && rareDegree == "4" && configuration.GOD_6DOG_SWITCH == 1) {
-		//六稀神话
-		if amount <= configuration.GOD_6DOG_BABY_PRICE {
-			return true
-		}
-	}
-	if (rareDegrees == 7 && rareDegree == "4" && configuration.GOD_7DOG_SWITCH == 1) {
-		//七夕神话
-		if amount <= configuration.GOD_7DOG_BABY_PRICE {
-			return true
-		}
-	}
-
-	return false
-}
-
 //史诗狗
 func shishi_dog(dog map[string]interface{}, configuration st.Configuration) bool {
 	rareDegree, _ := jsoniter.MarshalToString(dog["rareDegree"])
@@ -509,24 +462,27 @@ func xiyou_dog(dog map[string]interface{}, configuration st.Configuration) bool 
 //普通狗
 func putong_dog(dog map[string]interface{}, configuration st.Configuration) bool {
 	rareDegree, _ := jsoniter.MarshalToString(dog["rareDegree"])
-	id, _ := jsoniter.MarshalToString(dog["id"])
+	//id, _ := jsoniter.MarshalToString(dog["id"])
 	amount := jsoniter.Wrap(dog["amount"]).ToFloat32()
-	generation, _ := jsoniter.MarshalToString(dog["generation"])
-	timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()
-	if rareDegree == "0" && generation == "0" && amount <= configuration.PUTONG0_0DOG_0_PRICE && timeLeft == "0分钟" {
+	//generation, _ := jsoniter.MarshalToString(dog["generation"])
+	//timeLeft := jsoniter.Wrap(dog["coolingInterval"]).ToString()
+	//if rareDegree == "0" && generation == "0" && amount <= configuration.PUTONG0_0DOG_0_PRICE && timeLeft == "0分钟" {
+	//	return true
+	//}
+	if rareDegree == "0"  && amount <= configuration.PUTONG0_0DOG_0_PRICE  {
 		return true
 	}
-	if rareDegree == "0" && amount <= configuration.PUTONG_BIRTHDAY_PRICE && validate(id) {
-
-		return true
-	}
-	if rareDegree == "0" && amount <= configuration.PUTONG_GOOD_NUMBER_PRICE && good_num(id) {
-
-		return true
-	}
-	if rareDegree == "0" && generation != "0" && amount <= configuration.PUTONG_OLDER_DOG_PRICE {
-		return true
-	}
+	//if rareDegree == "0" && amount <= configuration.PUTONG_BIRTHDAY_PRICE && validate(id) {
+	//
+	//	return true
+	//}
+	//if rareDegree == "0" && amount <= configuration.PUTONG_GOOD_NUMBER_PRICE && good_num(id) {
+	//
+	//	return true
+	//}
+	//if rareDegree == "0" && generation != "0" && amount <= configuration.PUTONG_OLDER_DOG_PRICE {
+	//	return true
+	//}
 	return false
 }
 
@@ -571,28 +527,10 @@ func dog_shenhua(dogs string, configuration st.Configuration) {
 	js, _ := simplejson.NewJson([]byte(dogs))
 	if js != nil {
 		for i := 0; i < configuration.PAGE_SIZE; i++ {
-			s := js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
+			s := js.Get("data").Get("pets4Breed").GetIndex(i).MustMap()
 			if s != nil {
 				if shenhua_dog(s, configuration) {
 					real_buy(s, configuration)
-				}
-
-			}
-
-		}
-
-	}
-}
-
-//
-func dogbaby_shenhua(dogs string, configuration st.Configuration) {
-	js, _ := simplejson.NewJson([]byte(dogs))
-	if js != nil {
-		for i := 0; i < configuration.PAGE_SIZE; i++ {
-			s := js.Get("data").Get("pets4Breed").GetIndex(i).MustMap()
-			if s != nil {
-				if shenhuababy_dog(s, configuration) {
-					realbaby_buy(s, configuration)
 				}
 
 			}
@@ -662,6 +600,8 @@ func real_buy(s map[string]interface{}, configuration st.Configuration) {
 		seed := json.Get("seed").MustString()
 		code := json.Get("code").MustString()
 		bres := bug_dog(s["petId"].(string), s["amount"].(string), seed, code, s["validCode"].(string), configuration)
+		logs.Info(bres)
+		os.Exit(111);
 		res, _ := simplejson.NewJson([]byte(bres))
 		if res != nil {
 			errorNo := res.Get("errorNo").MustString()
@@ -695,54 +635,14 @@ func real_buy(s map[string]interface{}, configuration st.Configuration) {
 	}
 }
 
-func realbaby_buy(s map[string]interface{}, configuration st.Configuration) {
-	codes := get_code()
-	json, _ := simplejson.NewJson([]byte(codes))
-	if json != nil {
-		seed := json.Get("seed").MustString()
-		code := json.Get("code").MustString()
-		bres := bugbaby_dog(s["petId"].(string), s["amount"].(string), seed, code, s["validCode"].(string), configuration)
-		res, _ := simplejson.NewJson([]byte(bres))
-		if res != nil {
-			errorNo := res.Get("errorNo").MustString()
-			//errorMsg := res.Get("errorMsg").MustString()
-			if (errorNo == "100" || errorNo == "101") {
-				codes := get_code()
-				json, _ := simplejson.NewJson([]byte(codes))
-				if json != nil {
-					seed := json.Get("seed").MustString()
-					code := json.Get("code").MustString()
-					bug_dog(s["petId"].(string), s["amount"].(string), seed, code, s["validCode"].(string), configuration)
-				}
-			}
-			if errorNo == "08" {
-				//交易火爆，区块链处理繁忙，请稍后再试
-				codes := get_code()
-				json, _ := simplejson.NewJson([]byte(codes))
-				seed := json.Get("seed").MustString()
-				code := json.Get("code").MustString()
-				bug_dog(s["petId"].(string), s["amount"].(string), seed, code, s["validCode"].(string), configuration)
-			}
-			if errorNo == "10002" {
-				//有人抢先下单啦
-				fmt.Print("***********************被别人抢走了*****************")
-			}
-			if errorNo == "00" {
-				//success
-				fmt.Print("************************抢到狗狗啦！！！！！！！！！！", "\n", s)
-			}
-		}
-	}
-}
 //普通
 func dog_putong(dogs string, configuration st.Configuration) {
 	js, _ := simplejson.NewJson([]byte(dogs))
 	if js != nil {
 		for i := 0; i < configuration.PAGE_SIZE; i++ {
-			s := js.Get("data").Get("petsOnSale").GetIndex(i).MustMap()
+			s := js.Get("data").Get("pets4Breed").GetIndex(i).MustMap()
 			if s != nil {
 				if putong_dog(s, configuration) {
-					fmt.Print(s)
 					real_buy(s, configuration)
 				}
 
@@ -1151,8 +1051,6 @@ var count_raredegree int = 0
 //设置初始账号
 var account_index int = 0
 
-var make_baby string = "1"
-
 func is_passed() {
 	time1 := time.Now().Unix()
 	time2 := time.Date(2019, 11, 29, 0, 0, 0, 0, time.Local).Unix()
@@ -1170,57 +1068,6 @@ func auto_switch_account(configuration st.Configuration) {
 			account_index = 0
 		}
 		fmt.Print("切换账号success，当前账号:", account_index)
-	}
-
-}
-
-//繁殖狗狗列表
-func dogbaby_list(configuration st.Configuration) string {
-	url := "https://pet-chain.duxiaoman.com/data/market/breed/pets"
-	var jsonStr = []byte(`
-	{
-		"pageNo":` + strconv.Itoa(index_page) + `,
-		"pageSize":` + strconv.Itoa(configuration.PAGE_SIZE) + `,
-		"querySortType":"` + configuration.SORT_TYPE + `",
-		"petIds":[],
-		"lastAmount":"",
-		"lastRareDegree":"",
-		"filterCondition":"{"1:4"}",
-		"appId":1,
-		"tpl":"",
-		"type":null,
-		"requestId":1522231859931,
-		"timeStamp":null,
-		"nounce":null,
-		"token":null
-    }
-	`)
-	ch_run := make(chan string)
-	go http_open_post(url, jsonStr, configuration, ch_run)
-	select {
-	case res := <-ch_run:
-		if (res != "") {
-			fmt.Print("抢狗进行中...", time.Now())
-			fmt.Print("\n")
-		}
-		return res
-	case <-time.After(dog_list_timeout * time.Second):
-		fmt.Println("拉取狗狗列表接口超时,请检查刷狗频率参数是否过小。。。。\n")
-		return ""
-	}
-	return ""
-}
-
-//循环刷狗函数
-func do_makebabys(configuration st.Configuration) {
-	dogs := dogbaby_list(configuration)
-	if dogs != "" {
-		if (index_page >= configuration.PAGE) {
-			index_page = 1
-		} else {
-			index_page += 1
-		}
-		dogbaby_shenhua(dogs, configuration)
 	}
 
 }
@@ -1245,16 +1092,12 @@ func main() {
 	//是否过期
 	//is_passed()
 	//预先打码
-
 	go dama_code(configuration)
 	//每半小时切换一次账号
 	go auto_switch_account(configuration)
 	ticker := time.NewTicker(configuration.TIME * time.Millisecond)
 	for _ = range ticker.C {
 		go do_always(configuration)
-		automakebaby := configuration.AUTO_MAKE_BABY
-		if automakebaby == "1" && make_baby == "1" {
-			go do_makebabys(configuration)
-		}
 	}
+
 }

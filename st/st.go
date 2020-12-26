@@ -8,20 +8,22 @@ import (
 )
 
 type Configuration struct {
-	COOKIE      []string      `yaml:"COOKIE"`
-	KEY         string        `yaml:"KEY"`
-	TIME        time.Duration `yaml:"TIME"`
-	TIMECODE    time.Duration `yaml:"TIMECODE"`
-	SELL_TIME   time.Duration `yaml:"SELL_TIME"`
-	PAGE        int           `yaml:"PAGE"`
-	PAGE_SIZE   int           `yaml:"PAGE_SIZE"`
-	SORT_TYPE   string        `yaml:"SORT_TYPE"`
-	BODY_TYPE   []string      `yaml:"BODY_TYPE"`
-	EYES_TYPE   []string      `yaml:"EYES_TYPE"`
-	MOUTH_TYPE  []string      `yaml:"MOUTH_TYPE"`
-	BODY_COLOR  []string      `yaml:"BODY_COLOR"`
-	QQ_EMAIL    string        `yaml:"QQ_EMAIL"`
-	QQ_AUTH_PWD string        `yaml:"QQ_AUTH_PWD"`
+	COOKIE          []string      `yaml:"COOKIE"`
+	KEY             string        `yaml:"KEY"`
+	TIME            time.Duration `yaml:"TIME"`
+	TIMECODE        time.Duration `yaml:"TIMECODE"`
+	SELL_TIME       time.Duration `yaml:"SELL_TIME"`
+	PAGE            int           `yaml:"PAGE"`
+	PAGE_SIZE       int           `yaml:"PAGE_SIZE"`
+	SORT_TYPE       string        `yaml:"SORT_TYPE"`
+	BODY_TYPE       []string      `yaml:"BODY_TYPE"`
+	EYES_TYPE       []string      `yaml:"EYES_TYPE"`
+	MOUTH_TYPE      []string      `yaml:"MOUTH_TYPE"`
+	BODY_COLOR      []string      `yaml:"BODY_COLOR"`
+	QQ_EMAIL        string        `yaml:"QQ_EMAIL"`
+	QQ_AUTH_PWD     string        `yaml:"QQ_AUTH_PWD"`
+	AUTO_MAKE_BABY  string        `yaml:"AUTO_MAKE_BABY"`
+	MAKE_BABY_PETID string        `yaml:"MAKE_BABY_PETID"`
 
 	CHUANSHUO_SWITCH         int     `yaml:"CHUANSHUO_SWITCH"`         //传说总开关
 	CHUANSHUO0_8DOG_0_PRICE  float32 `yaml:"CHUANSHUO0_8DOG_0_PRICE"`  //传说00价格
@@ -30,6 +32,7 @@ type Configuration struct {
 	CHUANSHUO_8DOG_OLD_PRICE float32 `yaml:"CHUANSHUO_8DOG_OLD_PRICE"` //大于0代传说价格
 
 	GOD_SWITCH             int     `yaml:"GOD_SWITCH"`
+	GOD_6DOG_BABY_PRICE    float32 `yaml:"GOD_6DOG_BABY_PRICE"`
 	GOD_6DOG_SWITCH        int     `yaml:"GOD_6DOG_SWITCH"`    //6稀有神话开关
 	GOD0_6DOG_0_PRICE      float32 `yaml:"GOD0_6DOG_0_PRICE"`  //0代神话0分钟价格
 	GOD0_6DOG_24_PRICE     float32 `yaml:"GOD0_6DOG_24_PRICE"` //0代神话24小时价格
@@ -47,7 +50,8 @@ type Configuration struct {
 	GOD_6DOG_OLD1_PRICE         float32 `yaml:"GOD_6DOG_OLD1_PRICE"`
 	GOD_6DOG_OLD1_SPECIAL_PRICE float32 `yaml:"GOD_6DOG_OLD1_SPECIAL_PRICE"`
 
-	GOD_7DOG_SWITCH        int     `yaml:"GOD_7DOG_SWITCH"`    //7稀有神话开关
+	GOD_7DOG_SWITCH        int     `yaml:"GOD_7DOG_SWITCH"` //7稀有神话开关
+	GOD_7DOG_BABY_PRICE    float32 `yaml:"GOD_7DOG_BABY_PRICE"`
 	GOD0_7DOG_0_PRICE      float32 `yaml:"GOD0_7DOG_0_PRICE"`  //0代七稀神话0分钟
 	GOD0_7DOG_24_PRICE     float32 `yaml:"GOD0_7DOG_24_PRICE"` //0代七稀神话24小时
 	GOD0_7DOG_2_PRICE      float32 `yaml:"GOD0_7DOG_2_PRICE"`  //0代七稀神话2天
