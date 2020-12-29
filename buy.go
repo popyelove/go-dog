@@ -1205,7 +1205,6 @@ func dogbaby_list(configuration st.Configuration) string {
 		if (res != "") {
 			fmt.Print("\n")
 			fmt.Print("繁殖进行中...", time.Now())
-
 		}
 		return res
 	case <-time.After(dog_list_timeout * time.Second):
