@@ -129,17 +129,17 @@ func bug_dog(petId string, amount string, seed string, code string, validCode st
 }
 func bugbaby_dog(petId string, amount string, seed string, code string, validCode string, configuration st.Configuration) string {
 	type tiaojian struct {
-		Petid     string `json:"petId"`
-		Amount    string `json:"amount"`
-		Seed      string `json:"seed"`
-		Captcha   string `json:"captcha"`
-		ValidCode string `json:"validCode"`
-		RequestId string `json:"requestId"`
-		Appid     string `json:"appId"`
-		Tpl       string `json:"tpl"`
+		Petid       string `json:"petId"`
+		Amount      string `json:"amount"`
+		Seed        string `json:"seed"`
+		Captcha     string `json:"captcha"`
+		ValidCode   string `json:"validCode"`
+		RequestId   string `json:"requestId"`
+		Appid       string `json:"appId"`
+		Tpl         string `json:"tpl"`
 		SenderPetId string `json:"senderPetId"`
 	}
-	json_tiaojian := tiaojian{Petid: petId, Amount: amount, Seed: seed, Captcha: code, ValidCode: validCode, RequestId: "1520241678619", Appid: "1", Tpl: "",SenderPetId:configuration.MAKE_BABY_PETID}
+	json_tiaojian := tiaojian{Petid: petId, Amount: amount, Seed: seed, Captcha: code, ValidCode: validCode, RequestId: "1520241678619", Appid: "1", Tpl: "", SenderPetId: configuration.MAKE_BABY_PETID}
 	url := "https://pet-chain.duxiaoman.com/data/txn/breed/create"
 	jsonStr, _ := json.Marshal(json_tiaojian)
 	ch_run := make(chan string)
@@ -154,6 +154,7 @@ func bugbaby_dog(petId string, amount string, seed string, code string, validCod
 	}
 	return ""
 }
+
 //获取狗的稀有属性
 func get_dog_rareDegree(petid string, configuration st.Configuration) (int, int) {
 	url := "https://pet-chain.duxiaoman.com/data/pet/queryPetById"
@@ -728,12 +729,14 @@ func realbaby_buy(s map[string]interface{}, configuration st.Configuration) {
 				fmt.Print("***********************被别人抢走了*****************")
 			}
 			if errorNo == "00" {
+				make_baby = "0"
 				//success
 				fmt.Print("************************抢到狗狗啦！！！！！！！！！！", "\n", s)
 			}
 		}
 	}
 }
+
 //普通
 func dog_putong(dogs string, configuration st.Configuration) {
 	js, _ := simplejson.NewJson([]byte(dogs))
@@ -1200,8 +1203,9 @@ func dogbaby_list(configuration st.Configuration) string {
 	select {
 	case res := <-ch_run:
 		if (res != "") {
-			fmt.Print("抢狗进行中...", time.Now())
 			fmt.Print("\n")
+			fmt.Print("繁殖进行中...", time.Now())
+
 		}
 		return res
 	case <-time.After(dog_list_timeout * time.Second):
@@ -1253,7 +1257,7 @@ func main() {
 	for _ = range ticker.C {
 		go do_always(configuration)
 		automakebaby := configuration.AUTO_MAKE_BABY
-		if automakebaby == "1" && make_baby == "1" {
+		if automakebaby == "1" && make_baby == "1" && account_index == 0 {
 			go do_makebabys(configuration)
 		}
 	}
